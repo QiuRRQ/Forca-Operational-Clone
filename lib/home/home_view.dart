@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './home_view_model.dart';
 import 'package:forca_so/create_s_o/create_s_o.dart';
+import 'package:forca_so/detail_s_o/detail_s_o.dart';
 
 class HomeView extends HomeViewModel {
 
@@ -136,7 +137,9 @@ class HomeView extends HomeViewModel {
                   Container(
                     height: 30.0,
                     child: OutlineButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (c)=>DetailSO()));
+                      },
                       child: Text(
                         "Detail",
                         style: TextStyle(
@@ -148,10 +151,13 @@ class HomeView extends HomeViewModel {
                   ),
                   Row(
                     children: <Widget>[
-                      Container(
+
+                      status<3?Container(
                         height: 30.0,
                         child: OutlineButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (c)=>CreateSO()));
+                          },
                           child: Text(
                             "Edit",
                             style: TextStyle(
@@ -160,7 +166,7 @@ class HomeView extends HomeViewModel {
                                 color: Colors.black),
                           ),
                         ),
-                      ),
+                      ):Container(),
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
                       ),

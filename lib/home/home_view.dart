@@ -235,6 +235,45 @@ class HomeView extends HomeViewModel {
         },
         child: Icon(Icons.add),
       ),
+      drawer: Drawer(
+          child: ListView(
+            children: <Widget>[
+              DrawerHeader(
+                child: Container(
+                  child: Center(
+                    child: Column(mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Image.network('https://sisi.id/wp-content/uploads/2016/11/Logo-SISI-800x481-e1478515725941.png',height: 80,),
+                        Text("Cong Fandi",style: TextStyle(fontFamily: "Title"),),
+                        Text("congfandi@gmail.com",style: TextStyle(fontFamily: "Title"),),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Setting',style: TextStyle(fontFamily: "Title",fontSize: 14.0),),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info),
+                title: Text('About App',style: TextStyle(fontFamily: "Title",fontSize: 14.0),),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Logout',style: TextStyle(fontFamily: "Title",fontSize: 14.0),),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          )),
       body: Container(
           margin: EdgeInsets.only(right: 8.0, left: 8.0),
           child: ListView.builder(itemBuilder: (c, i) => _item())),

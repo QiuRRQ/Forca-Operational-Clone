@@ -5,7 +5,7 @@ class WidgetSO {
   static lineItem(BuildContext context, Line line, ValueChanged<Line> detail,
       ValueChanged<Line> edit, ValueChanged<Line> delete) {
     return Container(
-      height: 130,
+      height: 140,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
@@ -159,7 +159,9 @@ class WidgetSO {
     showModalBottomSheet(
       context: context,
       builder: (c) => Container(
+        padding: EdgeInsets.only(bottom: 20.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(left: 16.0),
@@ -656,7 +658,7 @@ class WidgetSO {
         context: context,
         builder: (c) {
           return Container(
-            height: 250.0,
+            height: 270.0,
             child: Column(
               children: <Widget>[
                 Container(

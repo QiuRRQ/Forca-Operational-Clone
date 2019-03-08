@@ -4,6 +4,7 @@ const String APP_NAME = "Forca SO";
 const String APP_VERSION_NAME = "Alpha 1.0.0";
 const String APP_VERSION_CODE = "1";
 const String LOGO = 'assets/images/logo_forca.png';
+const String DOC_NUMBER = "Doc Number";
 
 const TITLE_STYLE = TextStyle(
     color: Colors.black,

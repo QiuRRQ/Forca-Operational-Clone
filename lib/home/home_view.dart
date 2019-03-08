@@ -62,7 +62,7 @@ class HomeView extends HomeViewModel {
       height: 130.0,
       child: Card(
         child: Container(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(7.0),
           child: Column(
             children: <Widget>[
               Row(

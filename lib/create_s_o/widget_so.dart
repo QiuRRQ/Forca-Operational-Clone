@@ -5,7 +5,7 @@ class WidgetSO {
   static lineItem(BuildContext context, Line line, ValueChanged<Line> detail,
       ValueChanged<Line> edit, ValueChanged<Line> delete) {
     return Container(
-      height: 130,
+      height: 135,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),

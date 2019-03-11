@@ -308,8 +308,8 @@ class CreateSOView extends CreateSOViewModel {
               : Expanded(
                   child: ListView.builder(
                       itemCount: poLines.length,
-                      itemBuilder: (c, i) =>
-                          WidgetSO.lineItem(context, poLines[i], (detailLine) {
+                      itemBuilder: (context, index) =>
+                          WidgetSO.lineItem(context, poLines[index], (detailLine) {
                             WidgetSO.detailLine(context, detailLine);
                           }, (editLine) {
                             WidgetSO.editLine(context, (editedLine){

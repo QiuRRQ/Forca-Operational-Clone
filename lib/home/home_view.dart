@@ -31,7 +31,9 @@ class HomeView extends HomeViewModel {
                     ),
                   ],
                 ),
-                Padding(padding: EdgeInsets.only(top: 8.0),),
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -40,10 +42,13 @@ class HomeView extends HomeViewModel {
                       width: MediaQuery.of(context).size.width / 2 - 40,
                       child: Card(
                         child: InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (c)=>InventoryMove()));
-                          },
-                          child: Center(child: Text("Inventory Move"))),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (c) => InventoryMove()));
+                            },
+                            child: Center(child: Text("Inventory Move"))),
                       ),
                     ),
                     Container(
@@ -55,7 +60,9 @@ class HomeView extends HomeViewModel {
                     ),
                   ],
                 ),
-                Padding(padding: EdgeInsets.only(top: 8.0),),
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -88,18 +95,9 @@ class HomeView extends HomeViewModel {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Forca SO",
+            "Forca Operational",
             style: TextStyle(fontFamily: "Title"),
           ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {},
-              child: Text(
-                "Status",
-                style: TextStyle(fontFamily: "Title", color: Colors.white),
-              ),
-            )
-          ],
         ),
         drawer: Drawer(
             child: ListView(

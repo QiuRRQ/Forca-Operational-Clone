@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import './sales_order_view_model.dart';
-import 'package:forca_so/create_s_o/create_s_o.dart';
-import 'package:forca_so/detail_s_o/detail_s_o.dart';
-  
+import 'detail_s_o/detail_s_o.dart';
+import 'create_s_o/create_s_o.dart';
+
 class SalesOrderView extends SalesOrderViewModel {
-     _filter() {
+  _filter() {
     showModalBottomSheet(
         context: context,
         builder: (c) {
@@ -13,7 +13,7 @@ class SalesOrderView extends SalesOrderViewModel {
             child: ListView.builder(
               itemBuilder: (c, i) => i == 0
                   ? Container(
-                width: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(bottom: 20.0),
                       height: 50.0,
                       color: Colors.blue,
@@ -21,7 +21,11 @@ class SalesOrderView extends SalesOrderViewModel {
                         child: Text(
                           "Select Status",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontFamily: "Title", fontSize: 17.0,color: Colors.white,fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontFamily: "Title",
+                              fontSize: 17.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     )
@@ -31,7 +35,7 @@ class SalesOrderView extends SalesOrderViewModel {
                         onTap: () {
                           Navigator.pop(context);
                           setState(() {
-                            status  = i;
+                            status = i;
                           });
                         },
                         child: Column(
@@ -137,7 +141,8 @@ class SalesOrderView extends SalesOrderViewModel {
                     height: 30.0,
                     child: OutlineButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (c)=>DetailSO()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (c) => DetailSO()));
                       },
                       child: Text(
                         "Detail",
@@ -150,22 +155,26 @@ class SalesOrderView extends SalesOrderViewModel {
                   ),
                   Row(
                     children: <Widget>[
-
-                      status<3?Container(
-                        height: 30.0,
-                        child: OutlineButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (c)=>CreateSO()));
-                          },
-                          child: Text(
-                            "Edit",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 13.0,
-                                color: Colors.black),
-                          ),
-                        ),
-                      ):Container(),
+                      status < 3
+                          ? Container(
+                              height: 30.0,
+                              child: OutlineButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (c) => CreateSO()));
+                                },
+                                child: Text(
+                                  "Edit",
+                                  style: TextStyle(
+                                      fontFamily: "Title",
+                                      fontSize: 13.0,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
                       ),
@@ -176,22 +185,26 @@ class SalesOrderView extends SalesOrderViewModel {
                           disabledColor: status == 1
                               ? Colors.yellow
                               : status == 2
-                              ? Colors.blue
-                              : status == 3
-                              ? Colors.green
-                              : status == 4
-                              ? Colors.orange
-                              : status == 5 ? Colors.red : Colors.grey,
+                                  ? Colors.blue
+                                  : status == 3
+                                      ? Colors.green
+                                      : status == 4
+                                          ? Colors.orange
+                                          : status == 5
+                                              ? Colors.red
+                                              : Colors.grey,
                           child: Text(
                             status == 1
                                 ? "Drafted"
                                 : status == 2
-                                ? "In Progress"
-                                : status == 3
-                                ? "Completed"
-                                : status == 4
-                                ? "Reversed"
-                                : status == 5 ? "Invalid" : "Closed",
+                                    ? "In Progress"
+                                    : status == 3
+                                        ? "Completed"
+                                        : status == 4
+                                            ? "Reversed"
+                                            : status == 5
+                                                ? "Invalid"
+                                                : "Closed",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 13.0,
@@ -209,6 +222,7 @@ class SalesOrderView extends SalesOrderViewModel {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,7 +243,8 @@ class SalesOrderView extends SalesOrderViewModel {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (c)=>CreateSO()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (c) => CreateSO()));
         },
         child: Icon(Icons.add),
       ),

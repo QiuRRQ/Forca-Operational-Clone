@@ -7,7 +7,6 @@ import 'package:forca_so/about_app/about_app.dart';
 import './menu.dart';
 
 class HomeView extends HomeViewModel {
-  
   List<HomeMenu> menus = List();
 
   _menu() {
@@ -16,24 +15,31 @@ class HomeView extends HomeViewModel {
         children: <Widget>[
           _header(),
           Expanded(
-            child: GridView.builder(
+            child: ListView.builder(
+              itemBuilder: (c, i) => _menuItem(menus[i]),
               itemCount: menus.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              itemBuilder: (c,i)=>_menuItem(menus[i]),
             ),
+//            GridView.builder(
+//              itemCount: menus.length,
+//              gridDelegate:
+//                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+//              itemBuilder: (c, i) => _menuItem(menus[i]),
+//            ),
           ),
         ],
       ),
     );
   }
 
-  _addMenu(){
+  _addMenu() {
     menus.add(HomeMenu("Sales Order", Icons.unarchive, SalesOrder()));
-    menus.add(HomeMenu("Material Receipt", Icons.view_agenda, MaterialReciept()));
-    menus.add(HomeMenu("Inventory Move", Icons.vertical_align_top, InventoryMove()));
-    menus.add(HomeMenu("Setting", Icons.settings, InventoryMove()));
-    menus.add(HomeMenu("About App", Icons.info, AboutApp()));
-    menus.add(HomeMenu("Logout", Icons.exit_to_app, InventoryMove()));
+    menus.add(
+        HomeMenu("Material Receipt", Icons.view_agenda, MaterialReciept()));
+    menus.add(
+        HomeMenu("Inventory Move", Icons.vertical_align_top, InventoryMove()));
+//    menus.add(HomeMenu("Setting", Icons.settings, InventoryMove()));
+//    menus.add(HomeMenu("About App", Icons.info, AboutApp()));
+//    menus.add(HomeMenu("Logout", Icons.exit_to_app, InventoryMove()));
   }
 
   _header() {
@@ -47,43 +53,92 @@ class HomeView extends HomeViewModel {
 
   _menuItem(HomeMenu menu) {
     return Container(
-      margin: EdgeInsets.all(8.0),
-      height: MediaQuery.of(context).size.width / 2 - 20,
-      width: MediaQuery.of(context).size.width / 2 - 20,
+      color: Colors.white,
+      margin: EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
+      height: 70.0,
       child: InkWell(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (c)=>menu.navigator));
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (c) => menu.navigator));
         },
         child: Card(
-          child: Center(
-              child: Column(
-            mainAxisSize: MainAxisSize.min,
+          clipBehavior: Clip.antiAlias,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+          elevation: 4.0,
+          child: Row(
+
             children: <Widget>[
-              Icon(
-                menu.icon,
-                size: 40.0,
+              Container(
+                width: 4.0,
+                color: Colors.blue,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 8.0),
-              ),
-              Text(menu.title,style: TextStyle(fontFamily: "Title",fontSize: 15.0),),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                width: MediaQuery.of(context).size.width-28,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      menu.title,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        VerticalDivider(),
+                        IconButton(
+                            icon: Icon(
+                              Icons.note_add,
+                              color: Colors.blue[300],
+                            ),
+                            onPressed: () {}),
+                        VerticalDivider(),
+                        IconButton(
+                            icon: Icon(Icons.remove_red_eye,color: Colors.blue[600],), onPressed: () {}),
+                      ],
+                    )
+                  ],
+                ),
+              )
             ],
-          )),
+          ),
+
+//          Center(
+//              child: Column(
+//            mainAxisSize: MainAxisSize.min,
+//            children: <Widget>[
+//              Icon(
+//                menu.icon,
+//                size: 40.0,
+//              ),
+//              Padding(
+//                padding: EdgeInsets.only(top: 8.0),
+//              ),
+//              Text(
+//                menu.title,
+//                style: TextStyle(fontFamily: "Title", fontSize: 15.0),
+//              ),
+//            ],
+//          )),
         ),
       ),
     );
   }
 
-@override
+  @override
   void initState() {
-   _addMenu();
+    _addMenu();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             "Forca Operational",
@@ -100,7 +155,7 @@ class HomeView extends HomeViewModel {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Image.network(
-                        'https://sisi.id/wp-content/uploads/2016/11/Logo-SISI-800x481-e1478515725941.png',
+                        'https://sisi.id/wp-content/uploads/6016/11/Logo-SISI-800x481-e1478515725941.png',
                         height: 80,
                       ),
                       Text(
@@ -134,7 +189,8 @@ class HomeView extends HomeViewModel {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (c)=>AboutApp()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (c) => AboutApp()));
               },
             ),
             ListTile(

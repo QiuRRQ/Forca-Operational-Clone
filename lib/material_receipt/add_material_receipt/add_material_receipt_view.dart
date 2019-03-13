@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import './create_s_o_view_model.dart';
+import './add_material_receipt_view_model.dart';
 import 'package:forca_so/utils/string.dart';
-
-//import 'package:forca_so/models/po_line/line.dart';
-import 'widget_so.dart';
-
-class CreateSOView extends CreateSOViewModel {
-  _body() {
+class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
+   _body() {
     return Container(
       margin: EdgeInsets.all(16.0),
       child: Column(
@@ -120,7 +116,7 @@ class CreateSOView extends CreateSOViewModel {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "SO Ref",
+                            "Order Ref",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -159,7 +155,7 @@ class CreateSOView extends CreateSOViewModel {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Sale Rep",
+                            "Movement Date",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -172,97 +168,7 @@ class CreateSOView extends CreateSOViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Sale Rep',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Price List",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Pricelist',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Payment Rule",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Payment Rule',
+                                  'Select Date',
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -288,38 +194,79 @@ class CreateSOView extends CreateSOViewModel {
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 20)),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Description",
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width:
+                      MediaQuery.of(context).size.width / 2 - 70,
+                      child: Text(
+                        'Input description of Receipt',
+                        style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.expand_more),
+                        onPressed: () {}),
+                  ],
+                ),
+                Container(
+                  height: 1.0,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 20)),
           Text(
-            "SO Line",
+            "Receipt Line",
             style: TextStyle(
                 fontFamily: "Title",
                 fontSize: 15.0,
                 fontWeight: FontWeight.bold),
           ),
-          poLines.isEmpty
+          lines.isEmpty
               ? Container(
                   height: 100.0,
                   child: Center(
                     child: Text(
-                      "PO Line is empty\nPress + to add PO Line",
+                      "Receipt Line is empty\nPress + to add Receipt Line",
                       style: TextStyle(fontFamily: "Title"),
                       textAlign: TextAlign.center,
                     ),
                   ))
               : Expanded(
-                  child: ListView.builder(
-                      itemCount: poLines.length,
-                      itemBuilder: (context, index) =>
-                          WidgetSO.lineItem(context, poLines[index], (detailLine) {
-                            WidgetSO.detailLine(context, detailLine);
-                          }, (editLine) {
-                            WidgetSO.editLine(context, (editedLine){
-                              Navigator.pop(context);
-                            });
-                          }, (deleteLine) {
-                            setState(() {
-                              poLines.remove(deleteLine);
-                            });
-                          })),
+                  child: Container()
+                  // ListView.builder(
+                  //     itemCount: lines.length,
+                  //     itemBuilder: (context, index) =>
+                  //         WidgetSO.lineItem(context, lines[index], (detailLine) {
+                  //           WidgetSO.detailLine(context, detailLine);
+                  //         }, (editLine) {
+                  //           WidgetSO.editLine(context, (editedLine){
+                  //             Navigator.pop(context);
+                  //           });
+                  //         }, (deleteLine) {
+                  //           setState(() {
+                  //             lines.remove(deleteLine);
+                  //           });
+                  //         })),
                 ),
         ],
       ),
@@ -331,7 +278,7 @@ class CreateSOView extends CreateSOViewModel {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Create SO",
+          "Create M Receipt",
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
@@ -347,14 +294,14 @@ class CreateSOView extends CreateSOViewModel {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          WidgetSO.addLine(context, (line) {
-            setState(() {
-              Navigator.pop(context);
-              poLines.add(line);
-            });
-          });
+          // WidgetSO.addLine(context, (line) {
+          //   setState(() {
+          //     Navigator.pop(context);
+          //     lines.add(line);
+          //   });
+          // });
         },
-        tooltip: "Add PO Line",
+        tooltip: "Add Receipt Line",
         child: Icon(Icons.add),
       ),
       body: _body(),

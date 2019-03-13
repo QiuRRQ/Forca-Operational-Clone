@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './detail_s_o_view_model.dart';
 import 'package:forca_so/utils/string.dart';
-import 'package:forca_so/create_s_o/widget_so.dart';
+
 class DetailSOView extends DetailSOViewModel {
   _body() {
     return Container(
@@ -174,7 +174,7 @@ class DetailSOView extends DetailSOViewModel {
            fontWeight: FontWeight.bold
          )),
          Container(
-           height: 135,
+           height: 140,
            child: Card(
              child: Container(padding: EdgeInsets.all(8.0),
              child: Column(
@@ -188,8 +188,7 @@ class DetailSOView extends DetailSOViewModel {
                          "Semen Gresik 5Kg",
                          style: TextStyle(
                            fontFamily: "Title",
-                           fontSize: 14.0,
-                           fontWeight: FontWeight.bold
+                           fontSize: 15.0
                          ),
                          overflow: TextOverflow.ellipsis,
                        ),
@@ -199,8 +198,8 @@ class DetailSOView extends DetailSOViewModel {
                        child: Text(
                            "Rp.50.000",
                        style: TextStyle(
-                         fontFamily: "Title",
-                         fontSize: 14.0,
+                         fontFamily: "Subtitle",
+                         fontSize: 15.0,
                          fontWeight: FontWeight.bold
                        ),
                          textAlign: TextAlign.end,
@@ -218,8 +217,7 @@ class DetailSOView extends DetailSOViewModel {
                            "QTY",
                        style: TextStyle(
                          fontFamily: "Title",
-                         fontSize: 14.0,
-                         fontWeight: FontWeight.bold
+                         fontSize: 15.0
                        ),
                        overflow: TextOverflow.ellipsis),
                      ),
@@ -228,8 +226,8 @@ class DetailSOView extends DetailSOViewModel {
                        child: Text(
                          "10",
                          style: TextStyle(
-                           fontFamily: "Title",
-                           fontSize: 14.0,
+                           fontFamily: "Subtitle",
+                           fontSize: 15.0,
                            fontWeight: FontWeight.bold
                          ),
                          textAlign: TextAlign.end,
@@ -248,8 +246,7 @@ class DetailSOView extends DetailSOViewModel {
                            "Discount",
                        style: TextStyle(
                          fontFamily: "Title",
-                         fontSize: 14.0,
-                         fontWeight: FontWeight.bold
+                         fontSize: 15.0
                        ),
                        overflow: TextOverflow.ellipsis),
                      ),
@@ -258,8 +255,8 @@ class DetailSOView extends DetailSOViewModel {
                        child: Text(
                            "10.000",
                        style: TextStyle(
-                         fontFamily: "Title",
-                         fontSize: 14.0,
+                         fontFamily: "Subtitle",
+                         fontSize: 15.0,
                          fontWeight: FontWeight.bold
                        ),textAlign: TextAlign.end,
                        overflow: TextOverflow.ellipsis,),
@@ -273,140 +270,7 @@ class DetailSOView extends DetailSOViewModel {
                        height: 30.0,
                        child: OutlineButton(
                            onPressed: (){
-                             //TODO: untuk handle press detail
-                             showModalBottomSheet(context: context,
-                                 builder: (context){
-                               return Container(
-                                 height: 270.0,
-                                 child: Column(
-                                   children: <Widget>[
-                                     Container(
-                                       color: Colors.blue,
-                                       height: 40.0,
-                                       child:Center(
-                                       child: Text(
-                                           "Detail Line",
-                                       style: TextStyle(
-                                         color: Colors.white,
-                                         fontFamily: "Title",
-                                         fontSize: 17.0,
-                                         fontWeight: FontWeight.bold),
-                                       ),
-                                     ),),
-                                     Container(
-                                       margin: EdgeInsets.all(16.0),
-                                       child: Column(
-                                         children: <Widget>[
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: <Widget>[
-                                               Text(
-                                                   "Product",
-                                               style: TextStyle(
-                                                 fontFamily: "Title"
-                                               ),
-                                               ),Text("Semen Gresik 5Kg",
-                                               style: TextStyle(
-                                                 fontFamily: "Title",
-                                                 color: Colors.black,
-                                                 fontWeight: FontWeight.bold),)
-                                             ],
-                                           ),
-                                           Padding(padding: EdgeInsets.only(top: 10.0)),
-                                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: <Widget>[
-                                               Text("Price",
-                                               style: TextStyle(
-                                                 fontFamily: "Title"
-                                               ),),
-                                               Text("Rp.50.000",
-                                               style: TextStyle(
-                                                 fontFamily: "Title",
-                                                 color: Colors.black,
-                                                 fontWeight: FontWeight.bold
-                                               ),)
-                                             ],
-                                           ),Padding(padding: EdgeInsets.only(top: 10.0)),
-                                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                           children: <Widget>[
-                                             Text("QTY",
-                                             style: TextStyle(
-                                               fontFamily: "Title"
-                                             ),),
-                                             Text("10",
-                                             style: TextStyle(
-                                               fontFamily: "Title",
-                                               color: Colors.black,
-                                               fontWeight: FontWeight.bold
-                                             ),)
-                                           ],),
-                                           Padding(padding: EdgeInsets.only(top: 10.0)),
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: <Widget>[
-                                               Text("Discount",
-                                               style: TextStyle(
-                                                 fontFamily: "Title"
-                                               ),),
-                                               Text("10.000",
-                                               style: TextStyle(
-                                                 fontFamily: "Title",
-                                                 color: Colors.black,
-                                                 fontWeight: FontWeight.bold
-                                               ),)
-                                             ],
-                                           ),Padding(padding: EdgeInsets.only(top: 10.0)),
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: <Widget>[
-                                               Text("UOM",
-                                                 style: TextStyle(
-                                                     fontFamily: "Title"
-                                                 ),),
-                                               Text("SAK",
-                                                 style: TextStyle(
-                                                     fontFamily: "Title",
-                                                     color: Colors.black,
-                                                     fontWeight: FontWeight.bold
-                                                 ),)
-                                             ],
-                                           ),Padding(padding: EdgeInsets.only(top: 10.0)),
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: <Widget>[
-                                               Text("TAX",
-                                                 style: TextStyle(
-                                                     fontFamily: "Title"
-                                                 ),),
-                                               Text("10.000",
-                                                 style: TextStyle(
-                                                     fontFamily: "Title",
-                                                     color: Colors.black,
-                                                     fontWeight: FontWeight.bold
-                                                 ),)
-                                             ],
-                                           ),Padding(padding: EdgeInsets.only(top: 10.0)),
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: <Widget>[
-                                               Text("Total",
-                                                 style: TextStyle(
-                                                     fontFamily: "Title"
-                                                 ),),
-                                               Text("Rp.500.000",
-                                                 style: TextStyle(
-                                                     fontFamily: "Title",
-                                                     color: Colors.black,
-                                                     fontWeight: FontWeight.bold
-                                                 ),)
-                                             ],
-                                           )
-                                         ],
-                                       ),
-                                     )
-                                   ],
-                                 ),
-                               );});
+                             _detail();
                            },child: Text(
                          "Detail",
                          style: TextStyle(fontFamily: "Title"),
@@ -422,6 +286,143 @@ class DetailSOView extends DetailSOViewModel {
       ),
     );
   }
+
+   _detail() {
+     showModalBottomSheet(context: context,
+         builder: (context){
+           return Container(
+             height: 270.0,
+             child: Column(
+               children: <Widget>[
+                 Container(
+                   color: Colors.blue,
+                   height: 40.0,
+                   child:Center(
+                     child: Text(
+                       "Detail Line",
+                       style: TextStyle(
+                           color: Colors.white,
+                           fontFamily: "Title",
+                           fontSize: 17.0,
+                           fontWeight: FontWeight.bold),
+                     ),
+                   ),),
+                 Container(
+                   margin: EdgeInsets.all(16.0),
+                   child: Column(
+                     children: <Widget>[
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text(
+                             "Product",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),
+                           ),Text("Semen Gresik 5Kg",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold),)
+                         ],
+                       ),
+                       Padding(padding: EdgeInsets.only(top: 10.0)),
+                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text("Price",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),),
+                           Text("Rp.50.000",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold
+                             ),)
+                         ],
+                       ),Padding(padding: EdgeInsets.only(top: 10.0)),
+                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text("QTY",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),),
+                           Text("10",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold
+                             ),)
+                         ],),
+                       Padding(padding: EdgeInsets.only(top: 10.0)),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text("Discount",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),),
+                           Text("10.000",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold
+                             ),)
+                         ],
+                       ),Padding(padding: EdgeInsets.only(top: 10.0)),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text("UOM",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),),
+                           Text("SAK",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold
+                             ),)
+                         ],
+                       ),Padding(padding: EdgeInsets.only(top: 10.0)),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text("TAX",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),),
+                           Text("10.000",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold
+                             ),)
+                         ],
+                       ),Padding(padding: EdgeInsets.only(top: 10.0)),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Text("Total",
+                             style: TextStyle(
+                                 fontFamily: "Title"
+                             ),),
+                           Text("Rp.500.000",
+                             style: TextStyle(
+                                 fontFamily: "Title",
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.bold
+                             ),)
+                         ],
+                       )
+                     ],
+                   ),
+                 )
+               ],
+             ),
+           );});
+
+   }
 
   @override
   Widget build(BuildContext context) {

@@ -9,6 +9,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
         builder: (context){
       return Container(
 
+
       );
         });
   }

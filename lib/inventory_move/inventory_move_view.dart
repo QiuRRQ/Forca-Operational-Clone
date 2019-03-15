@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './inventory_move_view_model.dart';
-import 'package:forca_so/create_i_m/create_i_m.dart';
+import 'package:forca_so/inventory_move//create_i_m/create_i_m.dart';
   
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter(){

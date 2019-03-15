@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './sales_order_view_model.dart';
 import 'detail_s_o/detail_s_o.dart';
 import 'create_s_o/create_s_o.dart';
+import 'package:forca_so/utils/document_status.dart';
 
 class SalesOrderView extends SalesOrderViewModel {
   _filter() {
@@ -182,27 +183,17 @@ class SalesOrderView extends SalesOrderViewModel {
                         height: 30.0,
                         child: RaisedButton(
                           onPressed: null,
-                          disabledColor: status == 1
-                              ? Colors.yellow
-                              : status == 2
-                                  ? Colors.blue
-                                  : status == 3
-                                      ? Colors.green
-                                      : status == 4
-                                          ? Colors.orange
-                                          : status == 5
-                                              ? Colors.red
-                                              : Colors.grey,
+                          disabledColor: DocumentStatusColor().getColor(status),
                           child: Text(
-                            status == 1
+                            status == DocumentStatus.DRAFTED
                                 ? "Drafted"
-                                : status == 2
+                                : status == DocumentStatus.INPROGRESS
                                     ? "In Progress"
-                                    : status == 3
+                                    : status == DocumentStatus.COMPLETED
                                         ? "Completed"
-                                        : status == 4
+                                        : status == DocumentStatus.RESERVED
                                             ? "Reversed"
-                                            : status == 5
+                                            : status == DocumentStatus.INVALID
                                                 ? "Invalid"
                                                 : "Closed",
                             style: TextStyle(

@@ -36,7 +36,15 @@ class SalesOrderView extends SalesOrderViewModel {
                         onTap: () {
                           Navigator.pop(context);
                           setState(() {
-                            status = i;
+                            documentStatus = i == 1
+                                ? DocumentStatus.DRAFTED
+                                : i == 2
+                                ? DocumentStatus.INPROGRESS
+                                : i == 3
+                                ? DocumentStatus.COMPLETED
+                                : i == 4
+                                ? DocumentStatus.RESERVED
+                                : i == 5 ? DocumentStatus.INVALID : DocumentStatus.CLOSED;
                           });
                         },
                         child: Column(
@@ -44,12 +52,12 @@ class SalesOrderView extends SalesOrderViewModel {
                             Text(i == 1
                                 ? "Drafted"
                                 : i == 2
-                                    ? "In Progress"
-                                    : i == 3
-                                        ? "Completed"
-                                        : i == 4
-                                            ? "Reversed"
-                                            : i == 5 ? "Invalid" : "Closed"),
+                                ? "Inprogress"
+                                : i == 3
+                                ? "Completed"
+                                : i == 4
+                                ? "Reserved"
+                                : i == 5 ? "Invalid" : "Closed"),
                             Divider()
                           ],
                         ),
@@ -156,7 +164,7 @@ class SalesOrderView extends SalesOrderViewModel {
                   ),
                   Row(
                     children: <Widget>[
-                      status < 3
+                      documentStatus == DocumentStatus.DRAFTED
                           ? Container(
                               height: 30.0,
                               child: OutlineButton(
@@ -183,19 +191,8 @@ class SalesOrderView extends SalesOrderViewModel {
                         height: 30.0,
                         child: RaisedButton(
                           onPressed: null,
-                          disabledColor: DocumentStatusColor().getColor(status),
-                          child: Text(
-                            status == DocumentStatus.DRAFTED
-                                ? "Drafted"
-                                : status == DocumentStatus.INPROGRESS
-                                    ? "In Progress"
-                                    : status == DocumentStatus.COMPLETED
-                                        ? "Completed"
-                                        : status == DocumentStatus.RESERVED
-                                            ? "Reversed"
-                                            : status == DocumentStatus.INVALID
-                                                ? "Invalid"
-                                                : "Closed",
+                          disabledColor: DocumentStatusColor().getColor(documentStatus),
+                          child: Text(Status(documentStatus).getName(),
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 13.0,

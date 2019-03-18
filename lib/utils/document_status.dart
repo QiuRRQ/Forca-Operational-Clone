@@ -52,3 +52,47 @@ class DocumentStatusColor {
       }
   }
 }
+
+class Status {
+  final DocumentStatus status;
+
+  Status(this.status);
+
+  getName() {
+    switch (status) {
+      case DocumentStatus.DRAFTED:
+        return "Drafted";
+        break;
+      case DocumentStatus.INPROGRESS:
+        return "Inprogress";
+        break;
+      case DocumentStatus.COMPLETED:
+        return "Completed";
+        break;
+      case DocumentStatus.RESERVED:
+        return "Reserved";
+        break;
+      case DocumentStatus.INVALID:
+        return "Invalid";
+        break;
+      case DocumentStatus.CLOSED:
+        return "Closed";
+        break;
+      case DocumentStatus.APPROVED:
+        return "Approved";
+        break;
+      case DocumentStatus.NOTAPPROVED:
+        return "Not Approved";
+        break;
+      case DocumentStatus.VOIDED:
+        return "Voided";
+        break;
+      case DocumentStatus.WAITINGCONFIRMATION:
+        return "Waiting Confirmation";
+        break;
+      case DocumentStatus.WAITINGPAYMENT:
+        return "Waiting Payment";
+        break;
+    }
+  }
+}

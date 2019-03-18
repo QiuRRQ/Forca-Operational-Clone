@@ -1,24 +1,78 @@
 import 'package:flutter/material.dart';
 import './inventory_move_view_model.dart';
-import 'package:forca_so/create_i_m/create_i_m.dart';
+import 'package:forca_so/inventory_move//create_i_m/create_i_m.dart';
+import 'package:forca_so/utils/document_status.dart';
   
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter(){
-    //TODO : filter document
-    showModalBottomSheet(context: context,
-        builder: (context){
-      return Container(
-
-
-      );
+    showModalBottomSheet(
+        context: context,
+        builder: (c) {
+          return Container(
+            height: 300.0,
+            child: ListView.builder(
+              itemBuilder: (c, i) => i == 0
+                  ? Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(bottom: 20.0),
+                height: 50.0,
+                color: Colors.blue,
+                child: Center(
+                  child: Text(
+                    "Select Status",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "Title",
+                        fontSize: 17.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+                  : Container(
+                margin: EdgeInsets.only(right: 16.0, left: 16.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      documentStatus = i == 1
+                          ? DocumentStatus.DRAFTED
+                          : i == 2
+                          ? DocumentStatus.INPROGRESS
+                          : i == 3
+                          ? DocumentStatus.COMPLETED
+                          : i == 4
+                          ? DocumentStatus.RESERVED
+                          : i == 5 ? DocumentStatus.INVALID : DocumentStatus.CLOSED;
+                    });
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      Text(i == 1
+                          ? "Drafted"
+                          : i == 2
+                          ? "In Progress"
+                          : i == 3
+                          ? "Completed"
+                          : i == 4
+                          ? "Reversed"
+                          : i == 5 ? "Invalid" : "Closed"),
+                      Divider()
+                    ],
+                  ),
+                ),
+              ),
+              itemCount: 7,
+            ),
+          );
         });
   }
   _item(){
     return Container(
-      height: 140.0,
+      height: 130.0,
       child: Card(
         child: Container(
-          padding: EdgeInsets.all(7.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Row(
@@ -43,7 +97,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                     ),
                   )
                 ],
-              ),Padding(padding: EdgeInsets.only(top: 20.0)),
+              ),Padding(padding: EdgeInsets.only(top: 8.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -65,8 +119,9 @@ class InventoryMoveView extends InventoryMoveViewModel {
                   ),
                 ],
               ),
-            Padding(padding: EdgeInsets.only(top: 30.0)),
+            Padding(padding: EdgeInsets.only(top: 16.0)),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   height: 30.0,
@@ -79,7 +134,34 @@ class InventoryMoveView extends InventoryMoveViewModel {
                     color: Colors.black
                   ),
                   ),),
-                )
+                ),
+                Row(children: <Widget>[
+                  documentStatus == DocumentStatus.DRAFTED?
+                  Container(
+                    height: 30.0,
+                    child: OutlineButton(onPressed: (){
+                      //TODO create Inventory Move
+//                        Navigator.push(context, MaterialPageRoute(builder:
+//                        null));
+                    }, child: Text(
+                      "Edit",
+                      style: TextStyle(fontFamily: "Title",
+                          fontSize: 13.0,
+                          color: Colors.black),
+                    ),
+                    ),
+                  )
+                      : Container(), Padding(padding: EdgeInsets.only(right: 16.0)),
+                Container(
+                  height: 30.0,
+                    child: RaisedButton(onPressed: null ,disabledColor: DocumentStatusColor().getColor(documentStatus),
+                    child: Text(Status(documentStatus).getName(),
+                      style :TextStyle(
+                        fontSize: 13.0,
+                        fontFamily: "Title",
+                        color: Colors.white
+                      ) ,),),
+                )],)
               ],
             )
             ],

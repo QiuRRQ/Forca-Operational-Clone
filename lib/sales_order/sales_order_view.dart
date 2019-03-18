@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './sales_order_view_model.dart';
 import 'detail_s_o/detail_s_o.dart';
 import 'create_s_o/create_s_o.dart';
+import 'package:forca_so/utils/document_status.dart';
 
 class SalesOrderView extends SalesOrderViewModel {
   _filter() {
@@ -35,7 +36,15 @@ class SalesOrderView extends SalesOrderViewModel {
                         onTap: () {
                           Navigator.pop(context);
                           setState(() {
-                            status = i;
+                            documentStatus = i == 1
+                                ? DocumentStatus.DRAFTED
+                                : i == 2
+                                ? DocumentStatus.INPROGRESS
+                                : i == 3
+                                ? DocumentStatus.COMPLETED
+                                : i == 4
+                                ? DocumentStatus.RESERVED
+                                : i == 5 ? DocumentStatus.INVALID : DocumentStatus.CLOSED;
                           });
                         },
                         child: Column(
@@ -43,12 +52,12 @@ class SalesOrderView extends SalesOrderViewModel {
                             Text(i == 1
                                 ? "Drafted"
                                 : i == 2
-                                    ? "In Progress"
-                                    : i == 3
-                                        ? "Completed"
-                                        : i == 4
-                                            ? "Reversed"
-                                            : i == 5 ? "Invalid" : "Closed"),
+                                ? "Inprogress"
+                                : i == 3
+                                ? "Completed"
+                                : i == 4
+                                ? "Reserved"
+                                : i == 5 ? "Invalid" : "Closed"),
                             Divider()
                           ],
                         ),
@@ -155,7 +164,7 @@ class SalesOrderView extends SalesOrderViewModel {
                   ),
                   Row(
                     children: <Widget>[
-                      status < 3
+                      documentStatus == DocumentStatus.DRAFTED
                           ? Container(
                               height: 30.0,
                               child: OutlineButton(
@@ -182,29 +191,8 @@ class SalesOrderView extends SalesOrderViewModel {
                         height: 30.0,
                         child: RaisedButton(
                           onPressed: null,
-                          disabledColor: status == 1
-                              ? Colors.yellow
-                              : status == 2
-                                  ? Colors.blue
-                                  : status == 3
-                                      ? Colors.green
-                                      : status == 4
-                                          ? Colors.orange
-                                          : status == 5
-                                              ? Colors.red
-                                              : Colors.grey,
-                          child: Text(
-                            status == 1
-                                ? "Drafted"
-                                : status == 2
-                                    ? "In Progress"
-                                    : status == 3
-                                        ? "Completed"
-                                        : status == 4
-                                            ? "Reversed"
-                                            : status == 5
-                                                ? "Invalid"
-                                                : "Closed",
+                          disabledColor: DocumentStatusColor().getColor(documentStatus),
+                          child: Text(Status(documentStatus).getName(),
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 13.0,

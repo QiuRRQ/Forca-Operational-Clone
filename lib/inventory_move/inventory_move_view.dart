@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './inventory_move_view_model.dart';
 import 'package:forca_so/inventory_move//create_i_m/create_i_m.dart';
+import 'package:forca_so/utils/document_status.dart';
   
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter(){
@@ -34,7 +35,15 @@ class InventoryMoveView extends InventoryMoveViewModel {
                   onTap: () {
                     Navigator.pop(context);
                     setState(() {
-                      status = i;
+                      documentStatus = i == 1
+                          ? DocumentStatus.DRAFTED
+                          : i == 2
+                          ? DocumentStatus.INPROGRESS
+                          : i == 3
+                          ? DocumentStatus.COMPLETED
+                          : i == 4
+                          ? DocumentStatus.RESERVED
+                          : i == 5 ? DocumentStatus.INVALID : DocumentStatus.CLOSED;
                     });
                   },
                   child: Column(
@@ -60,10 +69,10 @@ class InventoryMoveView extends InventoryMoveViewModel {
   }
   _item(){
     return Container(
-      height: 140.0,
+      height: 130.0,
       child: Card(
         child: Container(
-          padding: EdgeInsets.all(7.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Row(
@@ -88,7 +97,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                     ),
                   )
                 ],
-              ),Padding(padding: EdgeInsets.only(top: 20.0)),
+              ),Padding(padding: EdgeInsets.only(top: 8.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -110,7 +119,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                   ),
                 ],
               ),
-            Padding(padding: EdgeInsets.only(top: 30.0)),
+            Padding(padding: EdgeInsets.only(top: 16.0)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -127,7 +136,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                   ),),
                 ),
                 Row(children: <Widget>[
-                  status < 3 ?
+                  documentStatus == DocumentStatus.DRAFTED?
                   Container(
                     height: 30.0,
                     child: OutlineButton(onPressed: (){
@@ -145,29 +154,9 @@ class InventoryMoveView extends InventoryMoveViewModel {
                       : Container(), Padding(padding: EdgeInsets.only(right: 16.0)),
                 Container(
                   height: 30.0,
-                    child: RaisedButton(onPressed: null ,disabledColor: status == 1 ?
-                      Colors.yellow :
-                    status == 2
-                        ? Colors.blue
-                        : status == 3
-                        ? Colors.green
-                        : status == 4
-                        ? Colors.orange
-                        : status == 5
-                        ? Colors.red
-                        : Colors.grey,
-                    child: Text(status == 1
-                        ? "Drafted"
-                        : status == 2
-                        ? "In Progress"
-                        : status == 3
-                        ? "Completed"
-                        : status == 4
-                        ? "Reversed"
-                        : status == 5
-                        ? "Invalid"
-                        : "Closed",
-                      style:TextStyle(
+                    child: RaisedButton(onPressed: null ,disabledColor: DocumentStatusColor().getColor(documentStatus),
+                    child: Text(Status(documentStatus).getName(),
+                      style :TextStyle(
                         fontSize: 13.0,
                         fontFamily: "Title",
                         color: Colors.white

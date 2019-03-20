@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/utils/string.dart';
 import './create_i_m_view_model.dart';
+import 'widget_i_m_line.dart';
 
 class CreateIMView extends CreateIMViewModel{
   _body(){
@@ -200,8 +201,10 @@ class CreateIMView extends CreateIMViewModel{
                 fontFamily: "Title",
                 fontSize: 15.0,
                 fontWeight: FontWeight.bold),
-          ), Container(
-              height: 100.0,
+          ),
+          imLine.isEmpty ?
+          Container(
+              height: 130.0,
               child: Center(
                 child: Text(
                   "IM Line is empty\nPress + to add IM Line",
@@ -209,6 +212,11 @@ class CreateIMView extends CreateIMViewModel{
                   textAlign: TextAlign.center,
                 ),
               ))
+              : Expanded(
+            child: ListView.builder(itemCount: imLine.length,
+                itemBuilder: (context, index) =>
+            WidgetIMLine.lineItem(context, imLine[index])),
+          )
         ],
       ),
     );
@@ -240,6 +248,18 @@ class CreateIMView extends CreateIMViewModel{
           )
         ],
       ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            WidgetIMLine.addLine(context, (line) {
+              setState(() {
+                Navigator.pop(context);
+                imLine.add(line);
+              });
+            });
+          },
+          tooltip: "Add IM Line",
+          child: Icon(Icons.add),
+        ),
       body: _body(),
     );
   }

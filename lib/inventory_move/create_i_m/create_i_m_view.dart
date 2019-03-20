@@ -195,6 +195,20 @@ class CreateIMView extends CreateIMViewModel{
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 20.0)),
+          Text("IM Line",
+            style: TextStyle(
+                fontFamily: "Title",
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold),
+          ), Container(
+              height: 100.0,
+              child: Center(
+                child: Text(
+                  "IM Line is empty\nPress + to add IM Line",
+                  style: TextStyle(fontFamily: "Title"),
+                  textAlign: TextAlign.center,
+                ),
+              ))
         ],
       ),
     );

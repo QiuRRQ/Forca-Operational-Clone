@@ -215,7 +215,17 @@ class CreateIMView extends CreateIMViewModel{
               : Expanded(
             child: ListView.builder(itemCount: imLine.length,
                 itemBuilder: (context, index) =>
-            WidgetIMLine.lineItem(context, imLine[index])),
+            WidgetIMLine.lineItem(context, imLine[index],(detailLine){
+              WidgetIMLine.detailLine(context, detailLine);
+            },(editLine){
+              WidgetIMLine.editLine(context, (editLine){
+                Navigator.pop(context);
+              });
+            },(deleteLine){
+              setState(() {
+                imLine.remove(deleteLine);
+              });
+            })),
           )
         ],
       ),

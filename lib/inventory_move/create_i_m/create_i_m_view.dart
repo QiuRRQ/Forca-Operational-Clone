@@ -28,7 +28,7 @@ class CreateIMView extends CreateIMViewModel{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Product",
+                            "Doc Number",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -41,7 +41,7 @@ class CreateIMView extends CreateIMViewModel{
                                 width:
                                 MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Product',
+                                  'Select Doc number',
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -67,7 +67,7 @@ class CreateIMView extends CreateIMViewModel{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Locator From",
+                            "Movement Date",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -80,97 +80,7 @@ class CreateIMView extends CreateIMViewModel{
                                 width:
                                 MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Locator From',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Location To",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Location To',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Movement Qty",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Movement Qty',
+                                  'Select Movement Date',
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -196,7 +106,7 @@ class CreateIMView extends CreateIMViewModel{
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 20.0)),
-          Text("IM Line",
+          Text("Inventory Move Line",
             style: TextStyle(
                 fontFamily: "Title",
                 fontSize: 15.0,
@@ -207,7 +117,7 @@ class CreateIMView extends CreateIMViewModel{
               height: 130.0,
               child: Center(
                 child: Text(
-                  "IM Line is empty\nPress + to add IM Line",
+                  "Inventory Move Line is empty\nPress + to add Inventory Move Line",
                   style: TextStyle(fontFamily: "Title"),
                   textAlign: TextAlign.center,
                 ),

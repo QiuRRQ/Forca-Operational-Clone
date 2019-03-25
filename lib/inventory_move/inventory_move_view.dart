@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './inventory_move_view_model.dart';
 import 'package:forca_so/inventory_move//create_i_m/create_i_m.dart';
 import 'package:forca_so/utils/document_status.dart';
+import 'detail_i_m/detail_i_m.dart';
   
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter(){
@@ -126,7 +127,8 @@ class InventoryMoveView extends InventoryMoveViewModel {
                 Container(
                   height: 30.0,
                   child: OutlineButton(onPressed: (){
-                    //TODO detail Inventory Move
+                    Navigator.push(context, MaterialPageRoute(builder: (c)
+                    => DetailIM()));
                   }, child: Text(
                     "Detail",style: TextStyle(
                     fontFamily: "Title",

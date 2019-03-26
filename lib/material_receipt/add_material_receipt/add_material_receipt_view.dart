@@ -129,7 +129,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select SO Ref',
+                                  'Select Order Ref',
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -206,29 +206,14 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                       fontSize: 15.0,
                       fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width:
-                      MediaQuery.of(context).size.width / 2 - 70,
-                      child: Text(
-                        'Input description of Receipt',
-                        style: TextStyle(
-                          fontFamily: "Title",
-                          fontSize: 14.0,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.expand_more),
-                        onPressed: () {}),
-                  ],
-                ),
-                Container(
-                  height: 1.0,
-                  color: Colors.grey[600],
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Input description of Material Receipt'
+                  ),
+                  style: TextStyle(
+                    fontFamily: "Title",
+                    fontSize: 14.0,
+                  ),
                 ),
               ],
             ),

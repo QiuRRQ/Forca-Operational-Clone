@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/utils/document_status.dart';
+import 'detail_receipt/detail_receipt.dart';
 
 class MaterialReceiptWidget {
   item(context, status) {
     return Container(
-      margin: EdgeInsets.only(top: 8.0,right: 8.0,left: 8.0),
+      margin: EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
       height: 140.0,
       child: Card(
         child: Container(
@@ -15,7 +16,7 @@ class MaterialReceiptWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Doc Number",
+                    "1234567890",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -23,7 +24,7 @@ class MaterialReceiptWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "133456",
+                    "19/04/2019",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -84,8 +85,8 @@ class MaterialReceiptWidget {
                     height: 30.0,
                     child: OutlineButton(
                       onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (c) {}));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (c) => DetailReceipt()));
                       },
                       child: Text(
                         "Detail",

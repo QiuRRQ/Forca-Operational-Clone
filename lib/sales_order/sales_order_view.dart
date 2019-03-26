@@ -228,7 +228,7 @@ class SalesOrderView extends SalesOrderViewModel {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Forca SO",
+          "Sales Order",
           style: TextStyle(fontFamily: "Title"),
         ),
         actions: <Widget>[

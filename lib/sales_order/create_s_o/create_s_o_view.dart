@@ -288,6 +288,31 @@ class CreateSOView extends CreateSOViewModel {
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 20)),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Description",
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Input description of Material Receipt'
+                  ),
+                  style: TextStyle(
+                    fontFamily: "Title",
+                    fontSize: 14.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 20)),
           Text(
             "SO Line",
             style: TextStyle(
@@ -300,7 +325,7 @@ class CreateSOView extends CreateSOViewModel {
                   height: 100.0,
                   child: Center(
                     child: Text(
-                      "PO Line is empty\nPress + to add PO Line",
+                      "SO Line is empty\nPress + to add SO Line",
                       style: TextStyle(fontFamily: "Title"),
                       textAlign: TextAlign.center,
                     ),

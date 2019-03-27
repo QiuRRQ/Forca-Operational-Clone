@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/about_app_screen/about_app_screen.dart';
+import 'package:forca_so/inventory_move_screen/inventory_move_screen.dart';
 import './home_view_model.dart';
-import 'package:forca_so/inventory_move/inventory_move.dart';
 import 'package:forca_so/sales_order/sales_order.dart';
 import 'package:forca_so/material_receipt/material_reciept.dart';
-import 'package:forca_so/about_app/about_app.dart';
 import './menu.dart';
 
 class HomeView extends HomeViewModel {
@@ -36,7 +36,7 @@ class HomeView extends HomeViewModel {
     menus.add(
         HomeMenu("Material Receipt", Icons.view_agenda, MaterialReciept()));
     menus.add(
-        HomeMenu("Inventory Move", Icons.vertical_align_top, InventoryMove()));
+        HomeMenu("Inventory Move", Icons.vertical_align_top, InventoryMoveScreen()));
 //    menus.add(HomeMenu("Setting", Icons.settings, InventoryMove()));
 //    menus.add(HomeMenu("About App", Icons.info, AboutApp()));
 //    menus.add(HomeMenu("Logout", Icons.exit_to_app, InventoryMove()));
@@ -190,7 +190,7 @@ class HomeView extends HomeViewModel {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (c) => AboutApp()));
+                    context, MaterialPageRoute(builder: (c) => AboutAppScreen()));
               },
             ),
             ListTile(

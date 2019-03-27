@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:forca_so/splash/splash.dart';
+import 'package:forca_so/splash/splash_screen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Splash(),
+      home: SplashScreen(),
     );
   }
 }

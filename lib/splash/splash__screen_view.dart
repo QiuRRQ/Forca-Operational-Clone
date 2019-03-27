@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './splash_view_model.dart';
 import 'package:forca_so/utils/string.dart';
-class SplashView extends SplashViewModel {
+class SplashScreenView extends SplashViewModel {
     
   @override
   Widget build(BuildContext context) {

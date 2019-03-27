@@ -1,0 +1,1 @@
+const LOGO_FORCA = 'assets/images/logo_forca.png';

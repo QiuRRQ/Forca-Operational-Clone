@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import './splash_view.dart';
+import './splash_screen_view.dart';
 
 class SplashScreen extends StatefulWidget {
   
   @override
-  SplashView createState() => new SplashView();
+  SplashScreenView createState() => new SplashScreenView();
 }
   

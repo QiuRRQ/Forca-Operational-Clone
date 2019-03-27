@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './splash_view_model.dart';
+import './splash_screen_view_model.dart';
 import 'package:forca_so/utils/string.dart';
 class SplashScreenView extends SplashViewModel {
     

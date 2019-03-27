@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './create_s_o_view.dart';
 
-class CreateSO extends StatefulWidget {
+class CreateSOScreen extends StatefulWidget {
   
   @override
   CreateSOView createState() => new CreateSOView();

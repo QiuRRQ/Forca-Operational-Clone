@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import './material_reciept.dart';
+import './material_reciept_screen.dart';
 
-abstract class MaterialRecieptViewModel extends State<MaterialReciept> {
+abstract class MaterialRecieptViewModel extends State<MaterialRecieptScreen> {
   // Add your state and logic here
   List<String> materialReceipts = List();
   setData(){

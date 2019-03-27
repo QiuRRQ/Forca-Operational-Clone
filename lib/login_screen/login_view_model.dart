@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import './login.dart';
+import './login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:forca_so/home/home.dart';
+import 'package:forca_so/home_screen/home_screen.dart';
 
-abstract class LoginViewModel extends State<Login> {
+abstract class LoginViewModel extends State<LoginScreen> {
   // Add your state and logic here
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -29,7 +29,7 @@ abstract class LoginViewModel extends State<Login> {
       if (jsonDecode(response.body)["codestatus"] == "S") {
         print("Sukses coyy");
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => Home()));
+            context, MaterialPageRoute(builder: (c) => HomeScreen()));
       } else {
         error(jsonDecode(response.body)["message"]);
       }

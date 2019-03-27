@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/about_app_screen/about_app_screen.dart';
 import 'package:forca_so/inventory_move_screen/inventory_move_screen.dart';
 import './home_view_model.dart';
-import 'package:forca_so/sales_order/sales_order.dart';
-import 'package:forca_so/material_receipt/material_reciept.dart';
 import './menu.dart';
+import 'package:forca_so/sales_order_screen/sales_order_screen.dart';
+import 'package:forca_so/material_receipt_screen/material_reciept_screen.dart';
 
 class HomeView extends HomeViewModel {
   List<HomeMenu> menus = List();
@@ -32,9 +32,9 @@ class HomeView extends HomeViewModel {
   }
 
   _addMenu() {
-    menus.add(HomeMenu("Sales Order", Icons.unarchive, SalesOrder()));
+    menus.add(HomeMenu("Sales Order", Icons.unarchive, SalesOrderScreen()));
     menus.add(
-        HomeMenu("Material Receipt", Icons.view_agenda, MaterialReciept()));
+        HomeMenu("Material Receipt", Icons.view_agenda, MaterialRecieptScreen()));
     menus.add(
         HomeMenu("Inventory Move", Icons.vertical_align_top, InventoryMoveScreen()));
 //    menus.add(HomeMenu("Setting", Icons.settings, InventoryMove()));

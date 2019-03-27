@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:forca_so/inventory_move/create_i_m/create_i_m_screen.dart';
+import 'package:forca_so/inventory_move_screen/create_i_m_screen/create_i_m_screen.dart';
 import './inventory_move_view_model.dart';
 import 'package:forca_so/utils/document_status.dart';
   

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './inventory_move_view.dart';
 
-class InventoryMove extends StatefulWidget {
+class InventoryMoveScreen extends StatefulWidget {
   
   @override
   InventoryMoveView createState() => new InventoryMoveView();

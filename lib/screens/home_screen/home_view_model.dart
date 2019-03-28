@@ -20,7 +20,7 @@ abstract class HomeViewModel extends State<HomeScreen> {
     menus.add(HomeMenu(
         "PD","Forca Performance Dashboard", Icons.multiline_chart, InventoryMoveScreen()));
     menus.add(HomeMenu(
-        "INFO","Forca App Info", Icons.info, InventoryMoveScreen()));
+        "INFO","Forca Application Information", Icons.info, InventoryMoveScreen()));
   }
   @override
   void initState() {

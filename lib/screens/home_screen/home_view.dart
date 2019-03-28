@@ -26,13 +26,13 @@ class HomeView extends HomeViewModel {
             ],
           ),
           Padding(padding: EdgeInsets.only(top: 8),),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _menuItem(menus[4]),
-              _menuItem(menus[5]),
-            ],
-          )
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//            children: <Widget>[
+//              _menuItem(menus[4]),
+//              _menuItem(menus[5]),
+//            ],
+//          )
         ],
       ),
     );

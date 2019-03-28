@@ -17,11 +17,12 @@ abstract class HomeViewModel extends State<HomeScreen> {
     menus.add(HomeMenu(
         "IM","Inventory Move", Icons.vertical_align_top, InventoryMoveScreen()));
     menus.add(HomeMenu(
-        "APPROVAL","Forca Approval", Icons.assignment_turned_in, InventoryMoveScreen()));
-    menus.add(HomeMenu(
-        "PD","Forca Performance Dashboard", Icons.multiline_chart, InventoryMoveScreen()));
-    menus.add(HomeMenu(
         "INFO","Forca Application Information", Icons.info, AboutAppScreen()));
+//    menus.add(HomeMenu(
+//        "APPROVAL","Forca Approval", Icons.assignment_turned_in, InventoryMoveScreen()));
+//    menus.add(HomeMenu(
+//        "PD","Forca Performance Dashboard", Icons.multiline_chart, InventoryMoveScreen()));
+
   }
   @override
   void initState() {

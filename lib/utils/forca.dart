@@ -6,7 +6,7 @@ class Forca {
   static const int APP_VERSION_CODE = 1;
   static const String FORCA_LOGO = "";
 
-  static forcaTitle(text, {size, color, align, weight}) {
+  static forcaTitle(text, {size, color, align, weight,textoverflow}) {
     return Text(
       text,
       style: TextStyle(
@@ -15,6 +15,7 @@ class Forca {
           fontSize: size == null ? 12.0 : size,
           fontFamily: "Title"),
       textAlign: align == null ? TextAlign.start : align,
+      overflow: textoverflow == null ? TextOverflow.fade :textoverflow,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:forca_so/splash/splash_screen.dart';
+import 'package:forca_so/screens/splash_screen/splash_screen.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

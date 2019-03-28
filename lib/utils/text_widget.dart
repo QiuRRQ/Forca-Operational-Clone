@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-title(text, {size, color, align, weight}) {
+forcaTitle(text, {size, color, align, weight}) {
   return Text(
     text,
     style: TextStyle(
@@ -12,14 +12,14 @@ title(text, {size, color, align, weight}) {
   );
 }
 
-subTitle(text, {size, color, align, weight}) {
+forcaSubtitle(text, {size, color, align, weight}) {
   return Text(
     text,
     style: TextStyle(
         color: color == null ? Colors.grey : color,
         fontWeight: weight == null ? FontWeight.normal : weight,
         fontSize: size == null ? 12.0 : size,
-        fontFamily: "subtitle"),
+        fontFamily: "Subtitle"),
     textAlign: align == null ? TextAlign.start : align,
   );
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/create_i_m_screen.dart';
 import 'package:forca_so/screens/inventory_move_screen/inventory_move_view_model.dart';
 import 'package:forca_so/utils/document_status.dart';
+import 'package:forca_so/screens/inventory_move_screen/detail_i_m_screen/detail_i_m_screen.dart';
   
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter(){
@@ -127,6 +128,9 @@ class InventoryMoveView extends InventoryMoveViewModel {
                   height: 30.0,
                   child: OutlineButton(onPressed: (){
                     //TODO detail Inventory Move
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (c) => DetailIMScreen()));
+
                   }, child: Text(
                     "Detail",style: TextStyle(
                     fontFamily: "Title",
@@ -141,8 +145,6 @@ class InventoryMoveView extends InventoryMoveViewModel {
                     height: 30.0,
                     child: OutlineButton(onPressed: (){
                       //TODO create Inventory Move
-//                        Navigator.push(context, MaterialPageRoute(builder:
-//                        null));
                     }, child: Text(
                       "Edit",
                       style: TextStyle(fontFamily: "Title",

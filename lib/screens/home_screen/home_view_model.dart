@@ -4,6 +4,7 @@ import 'package:forca_so/screens/inventory_move_screen/inventory_move_screen.dar
 import 'package:forca_so/screens/sales_order_screen/sales_order_screen.dart';
 import 'package:forca_so/screens/material_receipt_screen/material_reciept_screen.dart';
 import 'package:forca_so/screens/home_screen/menu.dart';
+import 'package:forca_so/screens/about_app_screen/about_app_screen.dart';
 
 abstract class HomeViewModel extends State<HomeScreen> {
   // Add your state and logic here
@@ -20,7 +21,7 @@ abstract class HomeViewModel extends State<HomeScreen> {
     menus.add(HomeMenu(
         "PD","Forca Performance Dashboard", Icons.multiline_chart, InventoryMoveScreen()));
     menus.add(HomeMenu(
-        "INFO","Forca Application Information", Icons.info, InventoryMoveScreen()));
+        "INFO","Forca Application Information", Icons.info, AboutAppScreen()));
   }
   @override
   void initState() {

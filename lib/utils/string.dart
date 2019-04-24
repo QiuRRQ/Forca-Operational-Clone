@@ -6,6 +6,16 @@ const String APP_VERSION_CODE = "1";
 const String LOGO = 'assets/images/logo_forca.png';
 const String DOC_NUMBER = "Doc Number";
 
+//database
+const USER = "USER";
+const BASE_URL = "BASE_IRL";
+
+
+//API
+const LOGIN = "/api/ws/authentication/v1/login";
+
+
+
 const TITLE_STYLE = TextStyle(
     color: Colors.black,
 

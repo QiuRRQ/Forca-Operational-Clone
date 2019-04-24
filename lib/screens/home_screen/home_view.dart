@@ -3,6 +3,7 @@ import 'package:forca_so/screens/about_app_screen/about_app_screen.dart';
 import 'package:forca_so/screens/home_screen/home_view_model.dart';
 import 'package:forca_so/screens/home_screen/menu.dart';
 import 'package:forca_so/utils/text_widget.dart';
+import 'package:forca_so/utils/my_dialog.dart';
 
 class HomeView extends HomeViewModel {
   _menu() {
@@ -17,7 +18,9 @@ class HomeView extends HomeViewModel {
               _menuItem(menus[1]),
             ],
           ),
-          Padding(padding: EdgeInsets.only(top: 8),),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -25,7 +28,9 @@ class HomeView extends HomeViewModel {
               _menuItem(menus[3]),
             ],
           ),
-          Padding(padding: EdgeInsets.only(top: 8),),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+          ),
 //          Row(
 //            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //            children: <Widget>[
@@ -49,8 +54,16 @@ class HomeView extends HomeViewModel {
 
   _menuItem(HomeMenu menu) {
     return InkWell(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (c) => menu.navigator)),
+      onTap: () {
+        if (menu.title == "IM" || menu.title == "MR") {
+          MyDialog(context, "INFO", "Coming Soon", Status.WARNING).build(() {
+            Navigator.pop(context);
+          });
+        } else {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (c) => menu.navigator));
+        }
+      },
       child: Card(
         child: Container(
           width: (MediaQuery.of(context).size.width / 2) - 20,
@@ -71,6 +84,7 @@ class HomeView extends HomeViewModel {
               Icon(
                 menu.icon,
                 size: 50.0,
+                color: Colors.blue,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 20),

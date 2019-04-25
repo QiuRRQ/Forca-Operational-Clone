@@ -169,7 +169,7 @@ class WidgetSO {
                   color: Colors.blue,
                   child: Center(
                     child: Text(
-                      "Add PO Line",
+                      "Add SO Line",
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: "Title",

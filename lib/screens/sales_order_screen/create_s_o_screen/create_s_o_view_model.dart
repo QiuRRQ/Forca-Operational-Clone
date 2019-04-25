@@ -14,7 +14,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   Warehouse warehouse;
   BPartner bPartner;
 
-  addLine(Line line) {
+  _addLine(Line line) {
     setState(() {
       poLines.add(line);
     });

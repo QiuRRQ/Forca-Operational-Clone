@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/models/payment_rule/payment_rule.dart';
+import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_screen.dart';
 import 'package:forca_so/models/po_line/line.dart';
 import 'package:forca_so/master/master_presenter.dart';
@@ -8,6 +10,7 @@ import 'package:forca_so/utils/select_master.dart';
 import 'package:forca_so/models/warehouse/warehouse.dart';
 import 'package:forca_so/models/bpartner/bpartner.dart';
 import 'package:forca_so/models/product/product.dart';
+import 'package:forca_so/models/sale_rep/sale_rep.dart';
 
 abstract class CreateSOViewModel extends State<CreateSOScreen> {
   // Add your state and logic here
@@ -16,6 +19,9 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   Warehouse warehouse;
   BPartner bPartner;
   Product product;
+  SaleRep saleRep;
+  PaymentRule paymentRule;
+  PriceList priceList;
 
   _addLine(Line line) {
     setState(() {
@@ -54,7 +60,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     await reqProduct().then((products) {
       Navigator.pop(context);
       selectProduct(context, products, (product) {
-        scaffoldKey.currentState.setState(() {
+        setState(() {
           this.product = product;
         });
         Navigator.pop(context);
@@ -62,6 +68,45 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     });
   }
 
+  getSaleResp() async {
+    Loading(context).show();
+    await reqSaleRep().then((saleReps) {
+      Navigator.pop(context);
+      selectSaleRep(context, saleReps, (saleRep) {
+        setState(() {
+          this.saleRep = saleRep;
+        });
+        Navigator.pop(context);
+      });
+    });
+  }
+
+  getPaymentRule() async {
+    Loading(context).show();
+    await reqPaymentRule().then((paymentRules) {
+      Navigator.pop(context);
+      selectPaymentRule(context, paymentRules, (paymentRule) {
+        setState(() {
+          this.paymentRule = paymentRule;
+        });
+        Navigator.pop(context);
+      });
+    });
+  }
+
+  getPriceList() async {
+    Loading(context).show();
+    await reqPriceList().then((priceLists) {
+      Navigator.pop(context);
+      selectPriceList(context, priceLists, (priceList) {
+        setState(() {
+          this.priceList = priceList;
+        });
+        Navigator.pop(context);
+      });
+    });
+  }
+  
   @override
   void initState() {
     super.initState();

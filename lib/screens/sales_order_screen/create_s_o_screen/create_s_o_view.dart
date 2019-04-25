@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/models/po_line/line.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_view_model.dart';
 import 'package:forca_so/utils/string.dart';
-
-//import 'package:forca_so/models/po_line/line.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/widget_so.dart';
 
 class CreateSOView extends CreateSOViewModel {
@@ -118,92 +116,43 @@ class CreateSOView extends CreateSOViewModel {
           ),
           Container(
             margin: EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "SO Ref",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Sale Rep",
+                    style: TextStyle(
+                        fontFamily: "Title",
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          saleRep == null ? 'Select Sale Rep' : saleRep.name,
+                          style: TextStyle(
+                            fontFamily: "Title",
+                            fontSize: 14.0,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select SO Ref',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Sale Rep",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Sale Rep',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                      IconButton(
+                          icon: Icon(Icons.expand_more),
+                          onPressed: () {
+                            getSaleResp();
+                          }),
+                    ],
+                  ),
+                  Container(
+                    height: 1.0,
+                    color: Colors.grey[600],
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
@@ -232,7 +181,9 @@ class CreateSOView extends CreateSOViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Pricelist',
+                                  priceList == null
+                                      ? 'Select Pricelist'
+                                      : priceList.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -242,7 +193,9 @@ class CreateSOView extends CreateSOViewModel {
                               ),
                               IconButton(
                                   icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    getPriceList();
+                                  }),
                             ],
                           ),
                           Container(
@@ -271,7 +224,9 @@ class CreateSOView extends CreateSOViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Payment Rule',
+                                  paymentRule == null
+                                      ? 'Select Payment Rule'
+                                      : paymentRule.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -281,7 +236,9 @@ class CreateSOView extends CreateSOViewModel {
                               ),
                               IconButton(
                                   icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    getPaymentRule();
+                                  }),
                             ],
                           ),
                           Container(
@@ -1184,6 +1141,7 @@ class CreateSOView extends CreateSOViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(

@@ -8,12 +8,14 @@ const String DOC_NUMBER = "Doc Number";
 
 //database
 const USER = "USER";
-const BASE_URL = "BASE_IRL";
+const BASE_URL = "BASE_URL";
 
 
 //API
 const LOGIN = "/api/ws/authentication/v1/login";
-
+const LIST_SO = "/api/ws/transaction/v1/getOrderList";
+const LIST_WAREHOUSE = "/api/ws/master/v1/getWarehouse";
+const LIST_BPARTNER = "/api/ws/master/v1/getBPartner";
 
 
 const TITLE_STYLE = TextStyle(

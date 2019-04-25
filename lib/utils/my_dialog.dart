@@ -75,7 +75,7 @@ class Loading {
 
   Loading(this.context);
 
-  build() {
+  show() {
     showDialog(
       context: context,
       barrierDismissible: false,

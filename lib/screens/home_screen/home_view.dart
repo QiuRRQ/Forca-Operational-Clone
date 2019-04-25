@@ -159,9 +159,7 @@ class HomeView extends HomeViewModel {
                 'Logout',
                 style: TextStyle(fontFamily: "Title", fontSize: 14.0),
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => logout(),
             ),
           ],
         )),

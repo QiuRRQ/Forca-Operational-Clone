@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_view_model.dart';
 import 'package:forca_so/utils/string.dart';
-
 //import 'package:forca_so/models/po_line/line.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/widget_so.dart';
 
@@ -43,7 +42,9 @@ class CreateSOView extends CreateSOViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Wwarehouse',
+                                  warehouse == null
+                                      ? 'Select Wwarehouse'
+                                      : warehouse.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -53,7 +54,9 @@ class CreateSOView extends CreateSOViewModel {
                               ),
                               IconButton(
                                   icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    getWarehouse();
+                                  }),
                             ],
                           ),
                           Container(
@@ -82,7 +85,7 @@ class CreateSOView extends CreateSOViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select BPartner',
+                                  bPartner==null?'Select BPartner':bPartner.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -92,7 +95,9 @@ class CreateSOView extends CreateSOViewModel {
                               ),
                               IconButton(
                                   icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    getBpartner();
+                                  }),
                             ],
                           ),
                           Container(
@@ -302,8 +307,7 @@ class CreateSOView extends CreateSOViewModel {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                      hintText: 'Input description of Material Receipt'
-                  ),
+                      hintText: 'Input description of Material Receipt'),
                   style: TextStyle(
                     fontFamily: "Title",
                     fontSize: 14.0,
@@ -333,11 +337,11 @@ class CreateSOView extends CreateSOViewModel {
               : Expanded(
                   child: ListView.builder(
                       itemCount: poLines.length,
-                      itemBuilder: (context, index) =>
-                          WidgetSO.lineItem(context, poLines[index], (detailLine) {
+                      itemBuilder: (context, index) => WidgetSO.lineItem(
+                              context, poLines[index], (detailLine) {
                             WidgetSO.detailLine(context, detailLine);
                           }, (editLine) {
-                            WidgetSO.editLine(context, (editedLine){
+                            WidgetSO.editLine(context, (editedLine) {
                               Navigator.pop(context);
                             });
                           }, (deleteLine) {

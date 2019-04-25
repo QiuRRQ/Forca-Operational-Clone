@@ -14,39 +14,39 @@ enum  DocumentStatus {
 }
 
 class DocumentStatusColor {
-  getColor(status){
-      switch (status) {
-        case DocumentStatus.DRAFTED:
+  getColor(String status){
+      switch (status.toUpperCase()) {
+        case "DRAFTED":
             return Colors.yellow;
           break;
-        case DocumentStatus.INPROGRESS:
+        case "INPROGRESS":
           return Colors.blue;
           break;
-          case DocumentStatus.COMPLETED:
+          case "COMPLETED":
           return Colors.green;
           break;
-          case DocumentStatus.RESERVED:
+          case "RESERVED":
           return Colors.orange;
           break;
-          case DocumentStatus.INVALID:
+          case "INVALID":
           return Colors.red;
           break;
-          case DocumentStatus.CLOSED:
+          case "CLOSED":
           return Colors.grey;
           break;
-          case DocumentStatus.APPROVED:
+          case "APPROVED":
             return Colors.green[600];
           break;
-          case DocumentStatus.NOTAPPROVED:
+          case "NOTAPPROVED":
           return Colors.red[600];
           break;
-          case DocumentStatus.VOIDED:
+          case "VOIDED":
           return Colors.red[300];
           break;
-          case DocumentStatus.WAITINGCONFIRMATION:
+          case "WAITINGCONFIRMATION":
           return Colors.orange[300];
           break;
-          case DocumentStatus.WAITINGPAYMENT:
+          case "WAITINGPAYMENT":
           return Colors.yellow[600];
           break;
       }

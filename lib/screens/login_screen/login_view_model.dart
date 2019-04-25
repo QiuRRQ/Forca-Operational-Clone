@@ -50,7 +50,7 @@ abstract class LoginViewModel extends State<LoginScreen> {
   }
 
   loginProcess(String baseUrl) async {
-    Loading(context).build();
+    Loading(context).show();
     String url = "$baseUrl$LOGIN";
     print(url);
     var response = await http.post(url, body: {

@@ -3,6 +3,8 @@ import 'package:forca_so/screens/sales_order_screen/sales_order_view_model.dart'
 import 'package:forca_so/screens/sales_order_screen/detail_s_o_screen/detail_s_o_screen.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
+import 'package:forca_so/models/sales_order/sales_order.dart';
+import 'package:forca_so/utils/forca_assets.dart';
 
 class SalesOrderView extends SalesOrderViewModel {
   _filter() {
@@ -39,12 +41,15 @@ class SalesOrderView extends SalesOrderViewModel {
                             documentStatus = i == 1
                                 ? DocumentStatus.DRAFTED
                                 : i == 2
-                                ? DocumentStatus.INPROGRESS
-                                : i == 3
-                                ? DocumentStatus.COMPLETED
-                                : i == 4
-                                ? DocumentStatus.RESERVED
-                                : i == 5 ? DocumentStatus.INVALID : DocumentStatus.CLOSED;
+                                    ? DocumentStatus.INPROGRESS
+                                    : i == 3
+                                        ? DocumentStatus.COMPLETED
+                                        : i == 4
+                                            ? DocumentStatus.RESERVED
+                                            : i == 5
+                                                ? DocumentStatus.INVALID
+                                                : DocumentStatus.CLOSED;
+                            getSOList();
                           });
                         },
                         child: Column(
@@ -52,12 +57,12 @@ class SalesOrderView extends SalesOrderViewModel {
                             Text(i == 1
                                 ? "Drafted"
                                 : i == 2
-                                ? "Inprogress"
-                                : i == 3
-                                ? "Completed"
-                                : i == 4
-                                ? "Reserved"
-                                : i == 5 ? "Invalid" : "Closed"),
+                                    ? "Inprogress"
+                                    : i == 3
+                                        ? "Completed"
+                                        : i == 4
+                                            ? "Reserved"
+                                            : i == 5 ? "Invalid" : "Closed"),
                             Divider()
                           ],
                         ),
@@ -69,7 +74,7 @@ class SalesOrderView extends SalesOrderViewModel {
         });
   }
 
-  _item() {
+  _item(SalesOrder so) {
     return Container(
       height: 140.0,
       child: Card(
@@ -89,7 +94,7 @@ class SalesOrderView extends SalesOrderViewModel {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "133456",
+                    "${so.documentNO}",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -111,7 +116,7 @@ class SalesOrderView extends SalesOrderViewModel {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "Rp. 300.000.00",
+                    "${so.grandTotal}",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -133,7 +138,7 @@ class SalesOrderView extends SalesOrderViewModel {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "PT. Cong Fandi",
+                    "${so.name}",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -150,8 +155,10 @@ class SalesOrderView extends SalesOrderViewModel {
                     height: 30.0,
                     child: OutlineButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (c) => DetailSOScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (c) => DetailSOScreen()));
                       },
                       child: Text(
                         "Detail",
@@ -164,7 +171,7 @@ class SalesOrderView extends SalesOrderViewModel {
                   ),
                   Row(
                     children: <Widget>[
-                      documentStatus == DocumentStatus.DRAFTED
+                      so.status == "Drafted"
                           ? Container(
                               height: 30.0,
                               child: OutlineButton(
@@ -191,8 +198,10 @@ class SalesOrderView extends SalesOrderViewModel {
                         height: 30.0,
                         child: RaisedButton(
                           onPressed: null,
-                          disabledColor: DocumentStatusColor().getColor(documentStatus),
-                          child: Text(Status(documentStatus).getName(),
+                          disabledColor:
+                              DocumentStatusColor().getColor(so.status),
+                          child: Text(
+                            so.status,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 13.0,
@@ -211,34 +220,64 @@ class SalesOrderView extends SalesOrderViewModel {
     );
   }
 
+  _loading() {
+    return Container(
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  _noData() {
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            forcaText("No Document", fontSize: 17.0, color: Colors.grey),
+            forcaText("Press '+' to add new document",
+                fontSize: 12.0, color: Colors.grey),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _data() {
+    return ListView.builder(
+      itemBuilder: (c, i) => _item(listSO[i]),
+      itemCount: listSO.length,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Sales Order",
-          style: TextStyle(fontFamily: "Title"),
+        appBar: AppBar(
+          title: Text(
+            "Sales Order",
+            style: TextStyle(fontFamily: "Title"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () => _filter(),
+              child: Text(
+                "Status",
+                style: TextStyle(fontFamily: "Title", color: Colors.white),
+              ),
+            )
+          ],
         ),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => _filter(),
-            child: Text(
-              "Status",
-              style: TextStyle(fontFamily: "Title", color: Colors.white),
-            ),
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (c) => CreateSOScreen()));
-        },
-        child: Icon(Icons.add),
-      ),
-      body: Container(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (c) => CreateSOScreen()));
+          },
+          child: Icon(Icons.add),
+        ),
+        body: Container(
           margin: EdgeInsets.only(right: 8.0, left: 8.0),
-          child: ListView.builder(itemBuilder: (c, i) => _item())),
-    );
+          child: isReq ? _loading() : listSO.isEmpty ? _noData() : _data(),
+        ));
   }
 }

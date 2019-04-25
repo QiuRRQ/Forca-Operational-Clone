@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:forca_so/models/warehouse/warehouse_response.dart';
 import 'package:forca_so/models/bpartner/bpartner_reponse.dart';
 import 'package:forca_so/models/bpartner/bpartner.dart';
+import 'package:forca_so/models/product/product_response.dart';
+import 'package:forca_so/models/product/product.dart';
 
 Future<List<Warehouse>> reqWarehouse() async {
   List<Warehouse> warehouses = List();
@@ -40,4 +42,20 @@ Future<List<BPartner>> reqBPartner() async {
     }
   }
   return bPartners;
+}
+
+Future<List<Product>> reqProduct() async {
+  List<Product> products = List();
+  var ref = await SharedPreferences.getInstance();
+  var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
+  var url = "${ref.getString(BASE_URL)}$LIST_PRODUCT";
+  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map res = jsonDecode(response.body);
+    if (res["codestatus"] == "S") {
+      return ProductResponse.fromJsonMap(res).products;
+    }
+  }
+  return products;
 }

@@ -154,12 +154,7 @@ class SalesOrderView extends SalesOrderViewModel {
                   Container(
                     height: 30.0,
                     child: OutlineButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (c) => DetailSOScreen()));
-                      },
+                      onPressed: () => getDetail(so),
                       child: Text(
                         "Detail",
                         style: TextStyle(

@@ -157,7 +157,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                 Container(
                   height: 30.0,
                     child: RaisedButton(onPressed: null ,disabledColor: DocumentStatusColor().getColor(""),
-                    child: Text(Status(documentStatus).getName(),
+                    child: Text(StatusDocument(documentStatus).getName(),
                       style :TextStyle(
                         fontSize: 13.0,
                         fontFamily: "Title",

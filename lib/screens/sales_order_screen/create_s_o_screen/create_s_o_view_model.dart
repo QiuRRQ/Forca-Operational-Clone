@@ -7,12 +7,15 @@ import 'package:forca_so/utils/select_master.dart';
 
 import 'package:forca_so/models/warehouse/warehouse.dart';
 import 'package:forca_so/models/bpartner/bpartner.dart';
+import 'package:forca_so/models/product/product.dart';
 
 abstract class CreateSOViewModel extends State<CreateSOScreen> {
   // Add your state and logic here
   List<Line> poLines = List();
+  GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;
+  Product product;
 
   _addLine(Line line) {
     setState(() {
@@ -37,12 +40,30 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     Loading(context).show();
     await reqBPartner().then((bPartners) {
       Navigator.pop(context);
-      selectBPartner(context, bPartners, (bPartner){
+      selectBPartner(context, bPartners, (bPartner) {
         setState(() {
           this.bPartner = bPartner;
         });
         Navigator.pop(context);
       });
     });
+  }
+
+  getProduct() async {
+    Loading(context).show();
+    await reqProduct().then((products) {
+      Navigator.pop(context);
+      selectProduct(context, products, (product) {
+        scaffoldKey.currentState.setState(() {
+          this.product = product;
+        });
+        Navigator.pop(context);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 }

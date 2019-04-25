@@ -16,6 +16,8 @@ const LOGIN = "/api/ws/authentication/v1/login";
 const LIST_SO = "/api/ws/transaction/v1/getOrderList";
 const LIST_WAREHOUSE = "/api/ws/master/v1/getWarehouse";
 const LIST_BPARTNER = "/api/ws/master/v1/getBPartner";
+const LIST_PRODUCT = "/api/ws/master/v1/getProduct";
+const DETAIL_SO = "/api/ws/transaction/v1/getOrder";
 
 
 const TITLE_STYLE = TextStyle(

@@ -53,10 +53,10 @@ class DocumentStatusColor {
   }
 }
 
-class Status {
+class StatusDocument {
   final DocumentStatus status;
 
-  Status(this.status);
+  StatusDocument(this.status);
 
   getName() {
     switch (status) {

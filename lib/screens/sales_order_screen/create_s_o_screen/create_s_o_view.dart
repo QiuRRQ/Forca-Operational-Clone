@@ -512,7 +512,7 @@ class CreateSOView extends CreateSOViewModel {
     );
   }
 
-  _addLine(BuildContext context, ValueChanged<Line> addLine) {
+  _addLine(ValueChanged<Line> addLine) {
     showModalBottomSheet(
       context: context,
       builder: (c) => Container(
@@ -559,7 +559,9 @@ class CreateSOView extends CreateSOViewModel {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Select Product',
+                                      product == null
+                                          ? 'Select Product'
+                                          : product.name,
                                       style: TextStyle(
                                         fontFamily: "Title",
                                         fontSize: 14.0,
@@ -567,7 +569,9 @@ class CreateSOView extends CreateSOViewModel {
                                     ),
                                     IconButton(
                                         icon: Icon(Icons.expand_more),
-                                        onPressed: () {}),
+                                        onPressed: () {
+                                          getProduct();
+                                        }),
                                   ],
                                 ),
                                 Container(
@@ -1180,6 +1184,7 @@ class CreateSOView extends CreateSOViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Create SO",
@@ -1198,7 +1203,7 @@ class CreateSOView extends CreateSOViewModel {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _addLine(context, (line) {
+          _addLine((line) {
             setState(() {
               Navigator.pop(context);
               poLines.add(line);

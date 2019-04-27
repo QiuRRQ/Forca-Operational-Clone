@@ -27,11 +27,17 @@ forcaText(String title,
   );
 }
 
-forcaButton(Text title, ValueChanged onPressed(), {color}) {
-  return RaisedButton(
-    color: color == null ? Colors.blue : color,
-    onPressed: () => onPressed(),
-    child: title,
+forcaButton(Text title, ValueChanged onPressed(),
+    {color, height, width, margin, padding}) {
+  return Container(
+    width: width,
+    height: height,
+    margin: margin,
+    padding: padding,
+    child: RaisedButton(
+      color: color == null ? Colors.blue : color,
+      onPressed: () => onPressed(),
+      child: title,
+    ),
   );
 }
-

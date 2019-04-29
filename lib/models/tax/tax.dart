@@ -23,6 +23,7 @@ class Tax {
   String regionName;
   String taxIndicator;
 
+  Tax();
 	Tax.fromJsonMap(Map<String, dynamic> map): 
 		taxID = map["c_tax_id"],
 		clientID = map["ad_client_id"],

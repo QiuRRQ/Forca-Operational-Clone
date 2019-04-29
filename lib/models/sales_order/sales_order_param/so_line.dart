@@ -1,10 +1,13 @@
 class SoLine {
   int discount;
   int productID;
+  String productName;
   int taxID;
+  String taxName;
   int qty;
   int price;
   int uomID;
+  String uomName;
 
   SoLine(
       {this.discount,

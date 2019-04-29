@@ -9,6 +9,7 @@ class Uom {
   String stdPrecision;
   String costingPrecision;
 
+  Uom();
 	Uom.fromJsonMap(Map<String, dynamic> map): 
 		uomSymbol = map["uomsymbol"],
 		clientName = map["client_name"],

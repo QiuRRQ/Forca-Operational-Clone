@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
-import 'create_line.dart';
 
 class CreateSOView extends CreateSOViewModel {
   _body() {
     return Container(
-      margin: EdgeInsets.only(top: 0.0, right: 16.0, left: 16.0),
       child: ListView(
         children: <Widget>[
-          forcaLogo(height: 90.0),
           Container(
             margin: EdgeInsets.only(top: 16.0),
             child: Column(
@@ -247,39 +245,210 @@ class CreateSOView extends CreateSOViewModel {
               ],
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: 20)),
+//          Padding(padding: EdgeInsets.only(top: 20)),
+//          Container(
+//            width: MediaQuery.of(context).size.width,
+//            child: Column(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: <Widget>[
+//                Text(
+//                  "Description",
+//                  style: TextStyle(
+//                      fontFamily: "Title",
+//                      fontSize: 15.0,
+//                      fontWeight: FontWeight.bold),
+//                ),
+//                TextField(
+//                  controller: descriptionController,
+//                  decoration: InputDecoration(
+//                      hintText: 'Input description of Material Receipt'),
+//                  style: TextStyle(
+//                    fontFamily: "Title",
+//                    fontSize: 14.0,
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
           Container(
+            margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Description",
-                  style: TextStyle(
-                      fontFamily: "Title",
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Input description of Material Receipt'),
-                  style: TextStyle(
-                    fontFamily: "Title",
-                    fontSize: 14.0,
+            child: forcaText("SO Line",
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+                align: TextAlign.center),
+          ),
+          soParams.lines.isEmpty
+              ? Center(
+                  child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    forcaText("SO Line is Empty", fontSize: 17.0),
+                    forcaText("Press '+' to add line", fontSize: 12.0),
+                  ],
+                ))
+              : Container(
+                  height: 1000,
+                  child: ListView.builder(
+                    itemBuilder: (c, i) => _lineItem(soParams.lines[i]),
+                    itemCount: soParams.lines.length,
                   ),
                 ),
-              ],
-            ),
-          ),
-          forcaButton(forcaText("NEXT", color: Colors.white), () {
-            Navigator.push(context, MaterialPageRoute(builder: (c) {
-              return CreateLine();
-            }));
-          },
-              color: Colors.blue,
-              height: 50.0,
-              margin: EdgeInsets.only(top: 20.0)),
         ],
+      ),
+    );
+  }
+
+  _lineItem(SoLine line) {
+    return Container(
+      height: 135,
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      "Product",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      line.productName,
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      "Price",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      line.price.toString(),
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      "QTY",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      line.qty.toString(),
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    height: 30.0,
+                    child: OutlineButton(
+                      onPressed: () {
+//                        detail(line);
+                      },
+                      child: Text(
+                        "Detail",
+                        style: TextStyle(fontFamily: "Title"),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 75.0,
+                        height: 30.0,
+                        child: OutlineButton(
+                          onPressed: () {
+//                            edit(line);
+                          },
+                          child: Text(
+                            "Edit",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 10.0)),
+                      Container(
+                        width: 75.0,
+                        height: 30.0,
+                        child: RaisedButton(
+                          color: Colors.red,
+                          onPressed: () {
+                            setState(() {
+                              soParams.lines.remove(line);
+                            });
+                          },
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(
+                                fontFamily: "Title", color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -295,8 +464,35 @@ class CreateSOView extends CreateSOViewModel {
           "Create SO",
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.add,
+                size: 30.0,
+              ),
+              onPressed: () => getMasterLine())
+        ],
       ),
-      body: _body(),
+      body: Container(
+        margin: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 9,
+              child: _body(),
+            ),
+            Expanded(
+              flex: 1,
+              child: forcaButton(
+                  forcaText("Create SO", color: Colors.white), () => createSO(),
+                  color: Colors.blue,
+                  height: 50.0,
+                  width: 200.0,
+                  margin: EdgeInsets.only(top: 20.0)),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

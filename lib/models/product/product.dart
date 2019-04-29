@@ -1,47 +1,47 @@
-
 class Product {
+  String productID;
+  String categoryID;
+  String value;
+  String uomID;
+  String tacCategoryID;
+  int locatorID;
+  String uomSymbol;
+  String volume;
+  String isSold;
+  String name;
+  String clientID;
+  String description;
 
-  final String m_product_id;
-  final String m_product_category_id;
-  final String value;
-  final String c_uom_id;
-  final String c_taxcategory_id;
-  final int m_locator_id;
-  final String uomsymbol;
-  final String volume;
-  final String issold;
-  final String name;
-  final String ad_client_id;
-  final String description;
+  Product();
 
-	Product.fromJsonMap(Map<String, dynamic> map): 
-		m_product_id = map["m_product_id"],
-		m_product_category_id = map["m_product_category_id"],
-		value = map["value"],
-		c_uom_id = map["c_uom_id"],
-		c_taxcategory_id = map["c_taxcategory_id"],
-		m_locator_id = map["m_locator_id"],
-		uomsymbol = map["uomsymbol"],
-		volume = map["volume"],
-		issold = map["issold"],
-		name = map["name"],
-		ad_client_id = map["ad_client_id"],
-		description = map["description"];
+  Product.fromJsonMap(Map<String, dynamic> map)
+      : productID = map["m_product_id"],
+        categoryID = map["m_product_category_id"],
+        value = map["value"],
+        uomID = map["c_uom_id"],
+        tacCategoryID = map["c_taxcategory_id"],
+        locatorID = map["m_locator_id"],
+        uomSymbol = map["uomsymbol"],
+        volume = map["volume"],
+        isSold = map["issold"],
+        name = map["name"],
+        clientID = map["ad_client_id"],
+        description = map["description"];
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['m_product_id'] = m_product_id;
-		data['m_product_category_id'] = m_product_category_id;
-		data['value'] = value;
-		data['c_uom_id'] = c_uom_id;
-		data['c_taxcategory_id'] = c_taxcategory_id;
-		data['m_locator_id'] = m_locator_id;
-		data['uomsymbol'] = uomsymbol;
-		data['volume'] = volume;
-		data['issold'] = issold;
-		data['name'] = name;
-		data['ad_client_id'] = ad_client_id;
-		data['description'] = description;
-		return data;
-	}
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = new Map<String, dynamic>();
+    data['m_product_id'] = productID;
+    data['m_product_category_id'] = categoryID;
+    data['value'] = value;
+    data['c_uom_id'] = uomID;
+    data['c_taxcategory_id'] = tacCategoryID;
+    data['m_locator_id'] = locatorID;
+    data['uomsymbol'] = uomSymbol;
+    data['volume'] = volume;
+    data['issold'] = isSold;
+    data['name'] = name;
+    data['ad_client_id'] = clientID;
+    data['description'] = description;
+    return data;
+  }
 }

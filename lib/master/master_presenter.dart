@@ -3,6 +3,10 @@ import 'dart:convert';
 
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/price_list/price_list_response.dart';
+import 'package:forca_so/models/tax/tax.dart';
+import 'package:forca_so/models/tax/tax_response.dart';
+import 'package:forca_so/models/uom/uom.dart';
+import 'package:forca_so/models/uom/uom_response.dart';
 import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/models/warehouse/warehouse.dart';
 import 'package:http/http.dart' as http;
@@ -113,3 +117,36 @@ Future<List<PriceList>> reqPriceList() async {
   }
   return priceList;
 }
+
+Future<List<Uom>> reqUom() async {
+  List<Uom> uomList = List();
+  var ref = await SharedPreferences.getInstance();
+  var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
+  var url = "${ref.getString(BASE_URL)}$LIST_UOM";
+  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map res = jsonDecode(response.body);
+    if (res["codestatus"] == "S") {
+      return UomResponse.fromJsonMap(res).listUom;
+    }
+  }
+  return uomList;
+}
+
+Future<List<Tax>> reqTax() async {
+  List<Tax> taxList = List();
+  var ref = await SharedPreferences.getInstance();
+  var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
+  var url = "${ref.getString(BASE_URL)}$LIST_TAX";
+  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map res = jsonDecode(response.body);
+    if (res["codestatus"] == "S") {
+      return TaxResponse.fromJsonMap(res).lisTax;
+    }
+  }
+  return taxList;
+}
+

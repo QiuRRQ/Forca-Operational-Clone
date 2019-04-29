@@ -16,10 +16,13 @@ const LIST_SO = "/api/ws/transaction/v1/getOrderList";
 const LIST_WAREHOUSE = "/api/ws/master/v1/getWarehouse";
 const LIST_BPARTNER = "/api/ws/master/v1/getBPartner";
 const LIST_PRODUCT = "/api/ws/master/v1/getProduct";
+const LIST_UOM = "/api/ws/master/v1/getUom";
+const LIST_TAX = "/api/ws/master/v1/getTax";
 const DETAIL_SO = "/api/ws/transaction/v1/getOrder";
 const LIST_SALES_REP = "/api/ws/master/v1/getUser";
 const LIST_PAYMENT_RULE = "/api/ws/master/v1/getPaymentRule";
 const LIST_PRICE_LIST = "/api/ws/master/v1/getPricelist";
+const CREATE_ORDER = "/api/ws/transaction/v1/setOrder";
 
 const TITLE_STYLE =
     TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);

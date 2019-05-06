@@ -17,7 +17,7 @@ class DocumentStatusColor {
   getColor(String status){
       switch (status.toUpperCase()) {
         case "DRAFTED":
-            return Colors.yellow;
+            return Colors.yellow[800];
           break;
         case "INPROGRESS":
           return Colors.blue;

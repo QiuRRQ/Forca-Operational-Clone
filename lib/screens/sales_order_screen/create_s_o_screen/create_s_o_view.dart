@@ -21,7 +21,7 @@ class CreateSOView extends CreateSOViewModel {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Warehouse",
+                            "Warehouse *",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -35,7 +35,7 @@ class CreateSOView extends CreateSOViewModel {
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
                                   warehouse == null
-                                      ? 'Select Wwarehouse'
+                                      ? 'Select Warehouse'
                                       : warehouse.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
@@ -64,7 +64,7 @@ class CreateSOView extends CreateSOViewModel {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "BPartner",
+                            "BPartner *",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -113,7 +113,7 @@ class CreateSOView extends CreateSOViewModel {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Sale Rep",
+                    "Sales Rep *",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 15.0,
@@ -124,7 +124,7 @@ class CreateSOView extends CreateSOViewModel {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          saleRep == null ? 'Select Sale Rep' : saleRep.name,
+                          saleRep == null ? 'Select Sales Rep' : saleRep.name,
                           style: TextStyle(
                             fontFamily: "Title",
                             fontSize: 14.0,
@@ -160,7 +160,7 @@ class CreateSOView extends CreateSOViewModel {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Price List",
+                            "Price List *",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,
@@ -203,7 +203,7 @@ class CreateSOView extends CreateSOViewModel {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Payment Rule",
+                            "Payment Rule *",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 fontSize: 15.0,

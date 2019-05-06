@@ -5,6 +5,7 @@ import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:loadmore/loadmore.dart';
 
 class SalesOrderView extends SalesOrderViewModel {
   _filter() {
@@ -12,66 +13,156 @@ class SalesOrderView extends SalesOrderViewModel {
         context: context,
         builder: (c) {
           return Container(
-            height: 300.0,
-            child: ListView.builder(
-              itemBuilder: (c, i) => i == 0
-                  ? Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: 20.0),
-                      height: 50.0,
-                      color: Colors.blue,
-                      child: Center(
-                        child: Text(
-                          "Select Status",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: "Title",
-                              fontSize: 17.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  height: 40.0,
+                  color: Colors.blue,
+                  child: Center(
+                    child: forcaText("Filter",
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                        width: MediaQuery.of(context).size.width,
+                        child: forcaText("Select End Date Document",
+                            align: TextAlign.left),
                       ),
-                    )
-                  : Container(
-                      margin: EdgeInsets.only(right: 16.0, left: 16.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          setState(() {
-                            documentStatus = i == 1
-                                ? DocumentStatus.DRAFTED
-                                : i == 2
-                                    ? DocumentStatus.INPROGRESS
-                                    : i == 3
-                                        ? DocumentStatus.COMPLETED
-                                        : i == 4
-                                            ? DocumentStatus.RESERVED
-                                            : i == 5
-                                                ? DocumentStatus.INVALID
-                                                : DocumentStatus.CLOSED;
-                            getSOList();
-                          });
-                        },
-                        child: Column(
+                      Container(
+                        margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                        width: MediaQuery.of(context).size.width,
+                        child: forcaText("YYYY-MM-DD", align: TextAlign.left),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 8.0, bottom: 16.0),
+                        width: MediaQuery.of(context).size.width,
+                        child: forcaText("Select End Date Document",
+                            align: TextAlign.left),
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(i == 1
-                                ? "Drafted"
-                                : i == 2
-                                    ? "Inprogress"
-                                    : i == 3
-                                        ? "Completed"
-                                        : i == 4
-                                            ? "Reserved"
-                                            : i == 5 ? "Invalid" : "Closed"),
-                            Divider()
+                            forcaText("YYYY-MM-DD",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            IconButton(
+                                icon: Icon(Icons.arrow_drop_down),
+                                onPressed: () {})
                           ],
                         ),
                       ),
-                    ),
-              itemCount: 7,
+                      Divider(),
+                      Container(
+                        margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
+                        width: MediaQuery.of(context).size.width,
+                        child:
+                            forcaText("Document Status", align: TextAlign.left),
+                      ),
+                      Container(
+                        child: DropdownButton<DocumentStatus>(
+                          isExpanded: true,
+                          value: documentStatus,
+                          items: DocumentStatus.values.map((docStatus) {
+                            return DropdownMenuItem<DocumentStatus>(
+                              value: docStatus,
+                              child: forcaText(
+                                  docStatus
+                                      .toString()
+                                      .replaceAll("DocumentStatus.", ""),
+                                  fontSize: 12.0,
+                                  align: TextAlign.center,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            );
+                          }).toList(),
+                          onChanged: (status) {
+                            setState(() {
+                              documentStatus = status;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                forcaButton(
+                    forcaText("Search Document", color: Colors.white), () {},
+                    height: 45.0,
+                    margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                    color: Colors.blue)
+              ],
             ),
           );
         });
+  }
+
+  _listStatus() {
+    return ListView.builder(
+      itemBuilder: (c, i) => i == 0
+          ? Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(bottom: 20.0),
+              height: 50.0,
+              color: Colors.blue,
+              child: Center(
+                child: Text(
+                  "Select Status",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+          : Container(
+              margin: EdgeInsets.only(right: 16.0, left: 16.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    documentStatus = i == 1
+                        ? DocumentStatus.DRAFTED
+                        : i == 2
+                            ? DocumentStatus.INPROGRESS
+                            : i == 3
+                                ? DocumentStatus.COMPLETED
+                                : i == 4
+                                    ? DocumentStatus.RESERVED
+                                    : i == 5
+                                        ? DocumentStatus.INVALID
+                                        : DocumentStatus.CLOSED;
+                    getSOList();
+                  });
+                },
+                child: Column(
+                  children: <Widget>[
+                    Text(i == 1
+                        ? "Drafted"
+                        : i == 2
+                            ? "Inprogress"
+                            : i == 3
+                                ? "Completed"
+                                : i == 4
+                                    ? "Reserved"
+                                    : i == 5 ? "Invalid" : "Closed"),
+                    Divider()
+                  ],
+                ),
+              ),
+            ),
+      itemCount: 7,
+    );
   }
 
   _item(SalesOrder so) {
@@ -239,9 +330,17 @@ class SalesOrderView extends SalesOrderViewModel {
   }
 
   _data() {
-    return ListView.builder(
-      itemBuilder: (c, i) => _item(listSO[i]),
-      itemCount: listSO.length,
+    return LoadMore(
+      isFinish: page >= 2,
+
+      whenEmptyLoad: true,
+      delegate: DefaultLoadMoreDelegate(),
+      textBuilder: DefaultLoadMoreTextBuilder.english,
+      onLoadMore: getSOList,
+      child: ListView.builder(
+        itemBuilder: (c, i) => _item(listSO[i]),
+        itemCount: listSO.length,
+      ),
     );
   }
 
@@ -257,8 +356,12 @@ class SalesOrderView extends SalesOrderViewModel {
             FlatButton(
               onPressed: () => _filter(),
               child: Text(
-                "Status",
-                style: TextStyle(fontFamily: "Title", color: Colors.white),
+                "Filter",
+                style: TextStyle(
+                    fontFamily: "Title",
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17.0),
               ),
             )
           ],

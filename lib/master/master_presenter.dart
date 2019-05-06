@@ -38,12 +38,23 @@ Future<List<Warehouse>> reqWarehouse() async {
   return warehouses;
 }
 
-Future<List<BPartner>> reqBPartner() async {
+Future<List<BPartner>> reqBPartner(
+    {int page, int perPage, String keyWorld}) async {
   List<BPartner> bPartners = List();
+  var myBody = {
+    "page": (page ?? 1).toString(),
+    "perpage": (perPage ?? 25).toString(),
+    "name": keyWorld ?? ""
+  };
+  print("myBOdy ${myBody.toString()}");
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_BPARTNER";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var response = await http.post(
+    url,
+    body: myBody,
+    headers: {"Forca-Token": user.token},
+  ).catchError((err) => print("error ${err.toString()}"));
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
@@ -54,13 +65,15 @@ Future<List<BPartner>> reqBPartner() async {
   return bPartners;
 }
 
-Future<List<Product>> reqProduct() async {
+Future<List<Product>> reqProduct(int priceListID) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRODUCT";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
-  print(response.body);
+  var response = await http.post(url,
+      headers: {"Forca-Token": user.token},
+      body: {"m_pricelist_id": priceListID.toString()});
+  print("product ${response.body}");
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
@@ -76,7 +89,7 @@ Future<List<SaleRep>> reqSaleRep() async {
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_SALES_REP";
   var response = await http.post(url, headers: {"Forca-Token": user.token});
-  print(response.body);
+  print("user : ${response.body}");
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
@@ -149,4 +162,3 @@ Future<List<Tax>> reqTax() async {
   }
   return taxList;
 }
-

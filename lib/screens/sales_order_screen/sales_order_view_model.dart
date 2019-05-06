@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:forca_so/models/sales_order/sales_order_detail/detail_sales_order_response.dart';
@@ -16,9 +17,10 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
   DocumentStatus documentStatus = DocumentStatus.DRAFTED;
   bool isReq = true;
   List<SalesOrder> listSO = List();
+  int page = 1;
 
-  getSOList() async {
-    listSO.clear();
+  Future<bool> getSOList() async {
+    print("reqdata");
     isReq = true;
     var ref = await SharedPreferences.getInstance();
     var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
@@ -26,21 +28,34 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
     var response = await http.post("$url$LIST_SO", body: {
       "issotrx": "Y",
       "status": StatusDocument(documentStatus).getName(),
+      "page": page.toString()
     }, headers: {
       "Forca-Token": usr.token
-    }).catchError((err) {});
+    }).catchError((err) {
+      print("error ${err.toString()}");
+    });
     isReq = false;
-    if (context != null && response.body != null) {
+    if (context != null && response != null) {
       print(response.body);
       if (response.statusCode == 200) {
         Map res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
-          setState(() {
-            listSO.addAll(SalesOrderReponse.fromJsonMap(res).listSO);
-          });
+          var listData = SalesOrderReponse.fromJsonMap(res).listSO;
+          if (listData.isNotEmpty) {
+            setState(() {
+              page++;
+              listSO.addAll(SalesOrderReponse.fromJsonMap(res).listSO);
+            });
+          }
         } else {}
       }
     }
+    return true;
+  }
+
+  setDefault() {
+    listSO.clear();
+    page = 1;
   }
 
   getDetail(SalesOrder salesOrder) async {

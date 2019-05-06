@@ -3,7 +3,7 @@ import 'package:forca_so/models/sales_order/sales_order_detail/c_orderline.dart'
 class DetailSalesOrder {
   final int bPartnerID;
   final String priceList;
-  final double nominal;
+  final String nominal;
   final String partnerName;
   final String warehouse;
   final String salesRepName;

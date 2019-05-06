@@ -44,6 +44,38 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     soParams.isSoTrx = "Y";
   }
 
+  bool isNotEmptyHeader() {
+    if (warehouse == null) {
+      MyDialog(context, "Error", "Warehouse required", Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+      return false;
+    } else if (bPartner == null) {
+      MyDialog(context, "Error", "Business Partner required", Status.ERROR)
+          .build(() {
+        Navigator.pop(context);
+      });
+      return false;
+    } else if (saleRep == null) {
+      MyDialog(context, "Error", "Sales Rep required", Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+      return true;
+    } else if (priceList == null) {
+      MyDialog(context, "Error", "Price List required", Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+      return true;
+    } else if (paymentRule == null) {
+      MyDialog(context, "Error", "Payment Rule required", Status.ERROR)
+          .build(() {
+        Navigator.pop(context);
+      });
+      return true;
+    }
+    return true;
+  }
+
   getWarehouse() async {
     Loading(context).show();
     await reqWarehouse().then((warehouses) {
@@ -76,7 +108,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     List<Uom> listUom = List();
     List<Tax> listTax = List();
 
-    await reqProduct().then((products) {
+    await reqProduct(soParams.priceListID).then((products) {
       listProduct.addAll(products);
     });
     await reqUom().then((uomList) {
@@ -98,7 +130,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
 
   getProduct() async {
     Loading(context).show();
-    await reqProduct().then((products) {
+    await reqProduct(soParams.priceListID).then((products) {
       Navigator.pop(context);
       selectProduct(context, products, (product) {
         setState(() {
@@ -112,6 +144,9 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   getSaleResp() async {
     Loading(context).show();
     await reqSaleRep().then((saleReps) {
+      saleReps.forEach((saleR) {
+        print("sales rep ${saleR.name}");
+      });
       Navigator.pop(context);
       selectSaleRep(context, saleReps, (saleRep) {
         setState(() {
@@ -149,21 +184,36 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   }
 
   createSO() async {
-    setParam();
-    Loading(context).show();
-    var ref = await SharedPreferences.getInstance();
-    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
-    var url = "${ref.getString(BASE_URL)}$CREATE_ORDER";
-    print("parameter ${jsonEncode(soParams)}");
-    var response = await http.post(url, body: jsonEncode(soParams), headers: {
-      "Forca-Token": user.token,
-      "Content-Type": "application/json"
-    }).catchError((err) {
-      print("inibos ${err.toString()}");
-    });
-    Navigator.pop(context);
-    if (response != null) {
-      print("hasil ${response.body}");
+    if (isNotEmptyHeader()) {
+      setParam();
+      Loading(context).show();
+      var ref = await SharedPreferences.getInstance();
+      var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+      var url = "${ref.getString(BASE_URL)}$CREATE_ORDER";
+      print("parameter ${jsonEncode(soParams)}");
+      var response = await http.post(url, body: jsonEncode(soParams), headers: {
+        "Forca-Token": user.token,
+        "Content-Type": "application/json"
+      }).catchError((err) {
+        MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+      });
+      Navigator.pop(context);
+      if (response != null) {
+        print("hasil ${response.body}");
+        var res = jsonDecode(response.body);
+        if (res["codestatus"] == "S") {
+          MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          });
+        } else {
+          MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+            Navigator.pop(context);
+          });
+        }
+      }
     }
   }
 

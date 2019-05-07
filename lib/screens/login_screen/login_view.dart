@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/screens/login_screen/login_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
-import 'package:forca_so/utils/my_dialog.dart';
+import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 
 class LoginView extends LoginViewModel {
   _body() {
@@ -53,17 +53,11 @@ class LoginView extends LoginViewModel {
                     children: <Widget>[
                       FlatButton(
                           onPressed: () => settingUrl(),
+//                          onPressed: _makeError,
                           child: forcaText("Setting",
                               fontSize: 17.0, color: Colors.blue)),
                       FlatButton(
-                          onPressed: () {
-//                            gotoWelcome(context);
-                            MyDialog(context, "TEST", "ini errornya",
-                                    Status.ERROR)
-                                .build(() {
-                              print("test");
-                            });
-                          },
+                          onPressed: _makeError,
                           child: forcaText("How to login?",
                               fontSize: 17.0, color: Colors.blue)),
                     ],
@@ -75,6 +69,12 @@ class LoginView extends LoginViewModel {
         ),
       ),
     );
+  }
+
+  _makeError() {
+    StackTrace stackTrace = StackTrace();
+    FlutterCrashlytics()
+        .reportCrash("test Error", StackTrace.fromString("Aku dapat error"));
   }
 
   @override

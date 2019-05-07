@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "903659553111",
+    "firebase_url": "https://forca-mobile-operational.firebaseio.com",
+    "project_id": "forca-mobile-operational",
+    "storage_bucket": "forca-mobile-operational.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903659553111:android:798d90861cd11fcb",
+        "android_client_info": {
+          "package_name": "id.sisi.operational"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903659553111-et8l5db9pt1rd4epgksmshn2fohkmm4p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.sisi.operational",
+            "certificate_hash": "767f40719a2bc92e3598d97975d08e6239d47504"
+          }
+        },
+        {
+          "client_id": "903659553111-q0tk84qm5lbd06231djeqmjjimt34g4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIvKKOdQUzvo3luKLtdt93LKCTk7rzElA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903659553111-q0tk84qm5lbd06231djeqmjjimt34g4e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

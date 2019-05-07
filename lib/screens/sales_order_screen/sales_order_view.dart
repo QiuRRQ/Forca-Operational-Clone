@@ -6,6 +6,7 @@ import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 import 'package:loadmore/loadmore.dart';
+import 'package:easy_listview/easy_listview.dart';
 
 class SalesOrderView extends SalesOrderViewModel {
   _filter() {
@@ -329,10 +330,24 @@ class SalesOrderView extends SalesOrderViewModel {
     );
   }
 
+  _newData() {
+    return EasyListView(
+      itemCount: listSO.length,
+      itemBuilder: (c, i) => _item(listSO[i]),
+      onLoadMore: loadMore,
+      loadMore: isReq,
+      footerBuilder: (_) => CircularProgressIndicator(),
+    );
+  }
+
+  loadMore() {
+    print("load");
+    isReq = false;
+  }
+
   _data() {
     return LoadMore(
-      isFinish: page >= 2,
-
+      isFinish: isReq,
       whenEmptyLoad: true,
       delegate: DefaultLoadMoreDelegate(),
       textBuilder: DefaultLoadMoreTextBuilder.english,
@@ -375,7 +390,7 @@ class SalesOrderView extends SalesOrderViewModel {
         ),
         body: Container(
           margin: EdgeInsets.only(right: 8.0, left: 8.0),
-          child: isReq ? _loading() : listSO.isEmpty ? _noData() : _data(),
+          child: isReq ? _loading() : listSO.isEmpty ? _noData() : _newData(),
         ));
   }
 }

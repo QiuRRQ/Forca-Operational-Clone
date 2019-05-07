@@ -14,41 +14,85 @@ enum  DocumentStatus {
 }
 
 class DocumentStatusColor {
-  getColor(status){
-      switch (status) {
-        case DocumentStatus.DRAFTED:
-            return Colors.yellow;
+  getColor(String status){
+      switch (status.toUpperCase()) {
+        case "DRAFTED":
+            return Colors.yellow[800];
           break;
-        case DocumentStatus.INPROGRESS:
+        case "INPROGRESS":
           return Colors.blue;
           break;
-          case DocumentStatus.COMPLETED:
+          case "COMPLETED":
           return Colors.green;
           break;
-          case DocumentStatus.RESERVED:
+          case "RESERVED":
           return Colors.orange;
           break;
-          case DocumentStatus.INVALID:
+          case "INVALID":
           return Colors.red;
           break;
-          case DocumentStatus.CLOSED:
+          case "CLOSED":
           return Colors.grey;
           break;
-          case DocumentStatus.APPROVED:
+          case "APPROVED":
             return Colors.green[600];
           break;
-          case DocumentStatus.NOTAPPROVED:
+          case "NOTAPPROVED":
           return Colors.red[600];
           break;
-          case DocumentStatus.VOIDED:
+          case "VOIDED":
           return Colors.red[300];
           break;
-          case DocumentStatus.WAITINGCONFIRMATION:
+          case "WAITINGCONFIRMATION":
           return Colors.orange[300];
           break;
-          case DocumentStatus.WAITINGPAYMENT:
+          case "WAITINGPAYMENT":
           return Colors.yellow[600];
           break;
       }
+  }
+}
+
+class StatusDocument {
+  final DocumentStatus status;
+
+  StatusDocument(this.status);
+
+  getName() {
+    switch (status) {
+      case DocumentStatus.DRAFTED:
+        return "Drafted";
+        break;
+      case DocumentStatus.INPROGRESS:
+        return "Inprogress";
+        break;
+      case DocumentStatus.COMPLETED:
+        return "Completed";
+        break;
+      case DocumentStatus.RESERVED:
+        return "Reserved";
+        break;
+      case DocumentStatus.INVALID:
+        return "Invalid";
+        break;
+      case DocumentStatus.CLOSED:
+        return "Closed";
+        break;
+      case DocumentStatus.APPROVED:
+        return "Approved";
+        break;
+      case DocumentStatus.NOTAPPROVED:
+        return "Not Approved";
+        break;
+      case DocumentStatus.VOIDED:
+        return "Voided";
+        break;
+      case DocumentStatus.WAITINGCONFIRMATION:
+        return "Waiting Confirmation";
+        break;
+      case DocumentStatus.WAITINGPAYMENT:
+        return "Waiting Payment";
+        break;
+    }
   }
 }

@@ -72,7 +72,7 @@ class LoginView extends LoginViewModel {
   }
 
   _makeError() {
-    StackTrace stackTrace = StackTrace();
+//    StackTrace stackTrace = StackTrace();
     FlutterCrashlytics()
         .reportCrash("test Error", StackTrace.fromString("Aku dapat error"));
   }

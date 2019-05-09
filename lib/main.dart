@@ -23,8 +23,6 @@ void main() async {
   runZoned<Future<Null>>(() async {
     runApp(MyApp());
   }, onError: (error, stackTrace) async {
-    // Whenever an error occurs, call the `reportCrash` function. This will send
-    // Dart errors to our dev console or Crashlytics depending on the environment.
     await FlutterCrashlytics().reportCrash(error, stackTrace, forceCrash: false);
   });
 }

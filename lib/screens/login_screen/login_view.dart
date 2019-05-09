@@ -5,6 +5,11 @@ import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 
 class LoginView extends LoginViewModel {
 
+  _makeError() {
+    FlutterCrashlytics()
+        .reportCrash("Error title", StackTrace.fromString("Error message"));
+  }
+
   _body() {
     return Container(
       color: Colors.white,
@@ -75,11 +80,6 @@ class LoginView extends LoginViewModel {
         ),
       ),
     );
-  }
-
-  _makeError() {
-    FlutterCrashlytics()
-        .reportCrash("test Error", StackTrace.fromString("Aku dapat error"));
   }
 
   @override

@@ -18,24 +18,34 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
   bool isReq = true;
   List<SalesOrder> listSO = List();
   int page = 1;
+  String startDate = "Select Date";
+  String endDate = "Select Date";
 
-  Future<bool> getSOList() async {
-    print("reqdata");
+  getSOList() async {
     isReq = true;
     var ref = await SharedPreferences.getInstance();
     var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
     var url = ref.getString(BASE_URL) ?? "";
-    var response = await http.post("$url$LIST_SO", body: {
+    var myBody = {
       "issotrx": "Y",
       "status": StatusDocument(documentStatus).getName(),
       "page": page.toString()
-    }, headers: {
-      "Forca-Token": usr.token
-    }).catchError((err) {
+    };
+    if (startDate != "Select Date" && startDate.isNotEmpty) {
+      myBody.addAll({"datefrom": startDate});
+    }
+    if (endDate != "Select Date" && endDate.isNotEmpty) {
+      myBody.addAll({"dateto": startDate});
+    }
+    print("myBody $myBody");
+    var response = await http.post("$url$LIST_SO",
+        body: myBody, headers: {"Forca-Token": usr.token}).catchError((err) {
       print("error ${err.toString()}");
     });
-    isReq = false;
     if (context != null && response != null) {
+      setState(() {
+        isReq = false;
+      });
       print(response.body);
       if (response.statusCode == 200) {
         Map res = jsonDecode(response.body);
@@ -50,7 +60,6 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
         } else {}
       }
     }
-    return true;
   }
 
   setDefault() {

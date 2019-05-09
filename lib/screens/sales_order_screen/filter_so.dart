@@ -4,22 +4,31 @@ import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 
 class FilterSO extends StatefulWidget {
-  final ValueChanged<DocumentStatus> onSelected;
+  final ValueChanged<FilterParam> onSelected;
+  DocumentStatus documentStatus;
+  String startDate = "Select Date";
+  String endDate = "Select Date";
 
-  FilterSO(this.onSelected);
+  FilterSO(this.documentStatus, this.startDate, this.endDate, this.onSelected);
 
   @override
   _FilterSOState createState() => _FilterSOState(onSelected);
 }
 
 class _FilterSOState extends State<FilterSO> {
-  final ValueChanged<DocumentStatus> onSelected;
+  final ValueChanged<FilterParam> onSelected;
 
   _FilterSOState(this.onSelected);
 
-  DocumentStatus documentStatus = DocumentStatus.COMPLETED;
-  String startDate = "Select Date";
-  String endDate = "Select Date";
+  FilterParam filterParam = FilterParam();
+
+  @override
+  void initState() {
+    filterParam.documentStatus = widget.documentStatus;
+    filterParam.startDate = widget.startDate;
+    filterParam.endDate = widget.endDate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +54,20 @@ class _FilterSOState extends State<FilterSO> {
                 Container(
                   margin: EdgeInsets.only(top: 8.0),
                   width: MediaQuery.of(context).size.width,
-                  child:
-                      forcaText("Date Document", align: TextAlign.left),
+                  child: forcaText("Date Document", align: TextAlign.left),
                 ),
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      forcaText(startDate,
+                      forcaText(filterParam.startDate,
                           color: Colors.black, fontWeight: FontWeight.bold),
                       IconButton(
                           icon: Icon(Icons.arrow_drop_down),
                           onPressed: () {
                             selectDate(context, (date) {
                               setState(() {
-                                startDate = date;
+                                filterParam.startDate = date;
                               });
                             });
                           })
@@ -76,14 +84,14 @@ class _FilterSOState extends State<FilterSO> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      forcaText(endDate,
+                      forcaText(filterParam.endDate,
                           color: Colors.black, fontWeight: FontWeight.bold),
                       IconButton(
                           icon: Icon(Icons.arrow_drop_down),
                           onPressed: () {
                             selectDate(context, (date) {
                               setState(() {
-                                endDate = date;
+                                filterParam.endDate = date;
                               });
                             });
                           })
@@ -99,7 +107,7 @@ class _FilterSOState extends State<FilterSO> {
                 Container(
                   child: DropdownButton<DocumentStatus>(
                     isExpanded: true,
-                    value: documentStatus,
+                    value: filterParam.documentStatus,
                     items: DocumentStatus.values.map((docStatus) {
                       return DropdownMenuItem<DocumentStatus>(
                         value: docStatus,
@@ -115,7 +123,7 @@ class _FilterSOState extends State<FilterSO> {
                     }).toList(),
                     onChanged: (status) {
                       setState(() {
-                        documentStatus = status;
+                        filterParam.documentStatus = status;
                       });
                     },
                   ),
@@ -125,7 +133,7 @@ class _FilterSOState extends State<FilterSO> {
           ),
           forcaButton(forcaText("Search Document", color: Colors.white), () {
             onSelected(
-              documentStatus,
+              filterParam,
             );
           },
               height: 45.0,
@@ -135,4 +143,10 @@ class _FilterSOState extends State<FilterSO> {
       ),
     );
   }
+}
+
+class FilterParam{
+  DocumentStatus documentStatus;
+  String startDate;
+  String endDate;
 }

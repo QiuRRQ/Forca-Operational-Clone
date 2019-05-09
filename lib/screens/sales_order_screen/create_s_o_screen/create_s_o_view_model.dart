@@ -229,8 +229,10 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
 
   @override
   void initState() {
+    var now = DateTime.now();
     soParams.lines = List();
     descriptionController = TextEditingController();
+    soParams.dateOrdered = "${now.year}-${now.month}-${now.day}";
     super.initState();
   }
 }

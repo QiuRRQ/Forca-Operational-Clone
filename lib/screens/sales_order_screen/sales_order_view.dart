@@ -10,8 +10,17 @@ class SalesOrderView extends SalesOrderViewModel {
   _filter() {
     showModalBottomSheet(
         context: context,
-        builder: (c) => FilterSO((ok) {
+        builder: (c) => FilterSO(documentStatus,startDate,endDate,(filterParam) {
               Navigator.pop(context);
+              page = 1;
+              listSO.clear();
+              documentStatus = filterParam.documentStatus;
+              startDate = filterParam.startDate;
+              endDate = filterParam.endDate;
+              setState(() {
+                isReq = true;
+              });
+              getSOList();
             }));
   }
 
@@ -234,7 +243,7 @@ class SalesOrderView extends SalesOrderViewModel {
         ),
         body: Container(
           margin: EdgeInsets.only(right: 8.0, left: 8.0),
-          child: isReq ? _loading() : listSO.isEmpty ? _noData() : _data(),
+          child: isReq && listSO.isEmpty ? _loading() : !isReq && listSO.isEmpty ? _noData() : _data(),
         ));
   }
 }

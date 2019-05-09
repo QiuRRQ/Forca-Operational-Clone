@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/utils/my_dialog.dart';
 
 class CreateSOView extends CreateSOViewModel {
   _body() {
@@ -453,6 +454,8 @@ class CreateSOView extends CreateSOViewModel {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -484,7 +487,15 @@ class CreateSOView extends CreateSOViewModel {
             Expanded(
               flex: 1,
               child: forcaButton(
-                  forcaText("Create SO", color: Colors.white), () => createSO(),
+                  forcaText("Save SO", color: Colors.white), (){
+                    if(soParams.lines.isNotEmpty){
+                      createSO();
+                    }else{
+                      MyDialog(context,"FAILED","Please add line",Status.ERROR).build((){
+                        Navigator.pop(context);
+                      });
+                    }
+              },
                   color: Colors.blue,
                   height: 50.0,
                   width: 200.0,

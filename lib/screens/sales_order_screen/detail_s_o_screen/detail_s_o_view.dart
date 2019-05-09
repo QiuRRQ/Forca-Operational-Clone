@@ -14,10 +14,29 @@ class DetailSOView extends DetailSOViewModel {
       child: ListView(
         children: <Widget>[
           forcaLogo(width: 70.0),
-          Padding(padding: EdgeInsets.only(top: 20.0)),
           Container(
             margin: EdgeInsets.only(top: 16.0),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                "Document Date",
+                style: TextStyle(
+                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              ),
+              Text(
+                salesOrder.dateOrdered,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontFamily: "Subtitle",
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+          Divider(),
+          Padding(padding: EdgeInsets.only(top: 10.0)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

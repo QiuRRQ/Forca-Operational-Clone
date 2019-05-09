@@ -103,7 +103,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   }
 
   getMasterLine() async {
-    if(isNotEmptyHeader()){
+    if (isNotEmptyHeader()) {
       Loading(context).show();
       List<Product> listProduct = List();
       List<Uom> listUom = List();
@@ -122,7 +122,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       Navigator.pop(context);
       if (listProduct.isEmpty) {
         MyDialog(context, "Wrong Price List", "Please select another pricelist",
-            Status.ERROR)
+                Status.ERROR)
             .build(() {
           Navigator.pop(context);
         });
@@ -143,25 +143,12 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       showModalBottomSheet(
           context: context,
           builder: (_) => CreateSOLine(listProduct, listUom, listTax, (line) {
-            setState(() {
-              Navigator.pop(context);
-              soParams.lines.add(line);
-            });
-          }));
+                setState(() {
+                  Navigator.pop(context);
+                  soParams.lines.add(line);
+                });
+              }, priceList));
     }
-  }
-
-  getProduct() async {
-    Loading(context).show();
-    await reqProduct(priceList.priceListID).then((products) {
-      Navigator.pop(context);
-      selectProduct(context, products, (product) {
-        setState(() {
-          this.product = product;
-        });
-        Navigator.pop(context);
-      });
-    });
   }
 
   getSaleResp() async {

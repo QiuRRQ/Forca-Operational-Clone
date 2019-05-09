@@ -65,16 +65,22 @@ Future<List<BPartner>> reqBPartner(
   return bPartners;
 }
 
-Future<List<Product>> reqProduct(String priceListID) async {
+Future<List<Product>> reqProduct(String priceListID,
+    {String keyWord, String page}) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRODUCT";
   var myBody = {"m_pricelist_id": priceListID};
-  var response = await http.post(url,
-      headers: {"Forca-Token": user.token},
-      body: myBody);
-  print("product $myBody");
+  if (keyWord != null) {
+    if (keyWord.isNotEmpty) myBody.addAll({"name": keyWord});
+  }
+  if (page != null) {
+    myBody.addAll({"page": page});
+  }
+  var response =
+      await http.post(url, headers: {"Forca-Token": user.token}, body: myBody);
+  print("product $myBody\n${response.body}");
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {

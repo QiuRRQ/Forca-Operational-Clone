@@ -55,7 +55,6 @@ Future<List<BPartner>> reqBPartner(
     body: myBody,
     headers: {"Forca-Token": user.token},
   ).catchError((err) => print("error ${err.toString()}"));
-  print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {

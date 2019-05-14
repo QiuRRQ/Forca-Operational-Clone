@@ -117,7 +117,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       });
       Navigator.pop(context);
       if (listProduct.isEmpty) {
-        MyDialog(context, "Wrong Price List", "Please select another pricelist",
+        MyDialog(context, "Wrong Price List", "There are no products for the pricelist you selected",
                 Status.ERROR)
             .build(() {
           Navigator.pop(context);

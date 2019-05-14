@@ -27,7 +27,6 @@ class _SelectBPartnerState extends State<SelectBPartner> {
     await reqBPartner(keyWord: keyword.text.toString(), page: page.toString())
         .then((listBp) {
       setState(() {
-        print("jumlah data ${listBp.length} ${listBp[0].toString()}");
         this.bPartners = listBp;
       });
     });

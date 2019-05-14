@@ -55,14 +55,8 @@ class HomeView extends HomeViewModel {
   _menuItem(HomeMenu menu) {
     return InkWell(
       onTap: () {
-        if (menu.title == "IM" || menu.title == "MR") {
-          MyDialog(context, "INFO", "Coming Soon", Status.WARNING).build(() {
-            Navigator.pop(context);
-          });
-        } else {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (c) => menu.navigator));
-        }
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => menu.navigator));
       },
       child: Card(
         child: Container(

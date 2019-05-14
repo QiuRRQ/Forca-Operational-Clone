@@ -61,7 +61,7 @@ class _SelectProductState extends State<SelectProduct> {
           TextFormField(
             controller: keyword,
             decoration: InputDecoration(
-                hintText: "Search BPartner by name",
+                hintText: "Search Product by name",
                 suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {

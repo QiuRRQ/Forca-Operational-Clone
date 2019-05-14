@@ -89,16 +89,12 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     });
   }
 
-  getBPartner() async {
-    Loading(context).show();
-    await reqBPartner().then((bPartners) {
-      Navigator.pop(context);
-      selectBPartner(context, bPartners, (bPartner) {
-        setState(() {
-          this.bPartner = bPartner;
-        });
-        Navigator.pop(context);
+  getBPartner() {
+    selectBPartner(context, (bPartner) {
+      setState(() {
+        this.bPartner = bPartner;
       });
+      Navigator.pop(context);
     });
   }
 

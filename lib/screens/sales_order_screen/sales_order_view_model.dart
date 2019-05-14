@@ -35,7 +35,7 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
       myBody.addAll({"datefrom": startDate});
     }
     if (endDate != "Select Date" && endDate.isNotEmpty) {
-      myBody.addAll({"dateto": startDate});
+      myBody.addAll({"dateto": endDate});
     }
     print("myBody $myBody");
     var response = await http.post("$url$LIST_SO",

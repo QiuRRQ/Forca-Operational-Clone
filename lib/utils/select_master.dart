@@ -50,12 +50,11 @@ selectWarehouse(BuildContext context, List<Warehouse> warehouses,
           ));
 }
 
-selectBPartner(BuildContext context, List<BPartner> bPartners,
-    ValueChanged<BPartner> onSelected) {
+selectBPartner(BuildContext context,ValueChanged<BPartner> onSelected) {
   showDialog(
       context: context,
       builder: (_) => AlertDialog(
-            content: SelectBPartner(bPartners, onSelected),
+            content: SelectBPartner(onSelected),
           ));
 }
 

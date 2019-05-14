@@ -39,12 +39,12 @@ Future<List<Warehouse>> reqWarehouse() async {
 }
 
 Future<List<BPartner>> reqBPartner(
-    {int page, int perPage, String keyWorld}) async {
+    {String page, int perPage, String keyWord}) async {
   List<BPartner> bPartners = List();
   var myBody = {
     "page": (page ?? 1).toString(),
     "perpage": (perPage ?? 25).toString(),
-    "name": keyWorld ?? ""
+    "name": keyWord ?? ""
   };
   print("myBOdy ${myBody.toString()}");
   var ref = await SharedPreferences.getInstance();

@@ -5,30 +5,30 @@ import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/utils/my_dialog.dart';
 
 class SelectBPartner extends StatefulWidget {
-  final List<BPartner> bPartners;
   final ValueChanged<BPartner> onSelected;
 
-  SelectBPartner(this.bPartners, this.onSelected);
+  SelectBPartner(this.onSelected);
 
   @override
-  _SelectBPartnerState createState() =>
-      _SelectBPartnerState(bPartners, onSelected);
+  _SelectBPartnerState createState() => _SelectBPartnerState(onSelected);
 }
 
 class _SelectBPartnerState extends State<SelectBPartner> {
-  List<BPartner> bPartners;
-  TextEditingController keyWorld;
-  int page = 1;
+  List<BPartner> bPartners = List();
   final ValueChanged<BPartner> onSelected;
 
-  _SelectBPartnerState(this.bPartners, this.onSelected);
+  _SelectBPartnerState(this.onSelected);
+
+  TextEditingController keyword;
+  int page = 1;
 
   _getBPartner() async {
     Loading(context).show();
-    await reqBPartner(page: page, keyWorld: keyWorld.text.toString())
-        .then((listBPatner) {
+    await reqBPartner(keyWord: keyword.text.toString(), page: page.toString())
+        .then((listBp) {
       setState(() {
-        this.bPartners = listBPatner;
+        print("jumlah data ${listBp.length} ${listBp[0].toString()}");
+        this.bPartners = listBp;
       });
     });
     Navigator.pop(context);
@@ -36,7 +36,8 @@ class _SelectBPartnerState extends State<SelectBPartner> {
 
   @override
   void initState() {
-    keyWorld = TextEditingController();
+    keyword = TextEditingController();
+    _getBPartner();
     super.initState();
   }
 
@@ -55,31 +56,33 @@ class _SelectBPartnerState extends State<SelectBPartner> {
             ),
           ),
           TextFormField(
-            controller: keyWorld,
+            controller: keyword,
             decoration: InputDecoration(
-                hintText: "Search BPartner by name",
+                hintText: "Search BP by name",
                 suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
+                      page = 1;
+                      bPartners.clear();
                       _getBPartner();
                     })),
           ),
           bPartners.isEmpty
               ? Container(
-            height: 50.0,
-            child: Center(
-              child: forcaText("No more data!"),
-            ),
-          )
+                  height: 50.0,
+                  child: Center(
+                    child: forcaText("No more data!"),
+                  ),
+                )
               : Expanded(
-              child: ListView.builder(
-                itemBuilder: (c, i) => FlatButton(
-                    onPressed: () {
-                      onSelected(bPartners[i]);
-                    },
-                    child: forcaText(bPartners[i].name)),
-                itemCount: bPartners.length,
-              )),
+                  child: ListView.builder(
+                  itemBuilder: (c, i) => FlatButton(
+                      onPressed: () {
+                        onSelected(bPartners[i]);
+                      },
+                      child: forcaText(bPartners[i].name)),
+                  itemCount: bPartners.length,
+                )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -87,13 +90,13 @@ class _SelectBPartnerState extends State<SelectBPartner> {
                   onPressed: page <= 1
                       ? null
                       : () {
-                    if (page - 1 > 0) {
-                      setState(() {
-                        page--;
-                        _getBPartner();
-                      });
-                    }
-                  },
+                          if (page - 1 > 0) {
+                            setState(() {
+                              page--;
+                              _getBPartner();
+                            });
+                          }
+                        },
                   child: forcaText("Previus",
                       color: page <= 1 ? Colors.grey : Colors.black,
                       fontWeight: FontWeight.bold)),
@@ -101,11 +104,11 @@ class _SelectBPartnerState extends State<SelectBPartner> {
                   onPressed: bPartners.isEmpty
                       ? null
                       : () {
-                    setState(() {
-                      page++;
-                      _getBPartner();
-                    });
-                  },
+                          setState(() {
+                            page++;
+                            _getBPartner();
+                          });
+                        },
                   child: forcaText("Next",
                       color: bPartners.isEmpty ? Colors.grey : Colors.black,
                       fontWeight: FontWeight.bold)),

@@ -102,30 +102,28 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     if (isNotEmptyHeader()) {
       Loading(context).show();
       List<Product> listProduct = List();
-      List<Uom> listUom = List();
       List<Tax> listTax = List();
 
       await reqProduct(priceList.priceListID).then((products) {
         listProduct.addAll(products);
+      }).catchError((err) {
+        print(err.toString());
       });
-      await reqUom().then((uomList) {
-        print("data UOM ${uomList.length}");
-        listUom.addAll(uomList);
-      });
+      print("data product ${listProduct.length}");
       await reqTax().then((taxList) {
         listTax.addAll(taxList);
+      }).catchError((err) {
+        print(err.toString());
       });
+      print("data tax ${listTax.length}");
       Navigator.pop(context);
       if (listProduct.isEmpty) {
-        MyDialog(context, "Wrong Price List", "There are no products for the pricelist you selected",
+        MyDialog(
+                context,
+                "Wrong Price List",
+                "There are no products for the pricelist you selected",
                 Status.ERROR)
             .build(() {
-          Navigator.pop(context);
-        });
-        return;
-      }
-      if (listUom.isEmpty) {
-        MyDialog(context, "UOM Empty", "UOM is Empty", Status.ERROR).build(() {
           Navigator.pop(context);
         });
         return;
@@ -138,7 +136,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       }
       showModalBottomSheet(
           context: context,
-          builder: (_) => CreateSOLine(listProduct, listUom, listTax, (line) {
+          builder: (_) => CreateSOLine(listTax, (line) {
                 setState(() {
                   Navigator.pop(context);
                   soParams.lines.add(line);
@@ -150,9 +148,6 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   getSaleResp() async {
     Loading(context).show();
     await reqSaleRep().then((saleReps) {
-      saleReps.forEach((saleR) {
-        print("sales rep ${saleR.name}");
-      });
       Navigator.pop(context);
       selectSaleRep(context, saleReps, (saleRep) {
         setState(() {

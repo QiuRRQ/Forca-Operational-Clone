@@ -65,48 +65,50 @@ Future<List<BPartner>> reqBPartner(
 }
 
 Future<List<Product>> reqProduct(String priceListID,
-    {String keyWord, String page}) async {
+    {String keyWord, String page, String productID}) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRODUCT";
-  var myBody = {"m_pricelist_id": priceListID};
+  var myBody = {"m_pricelist_id": priceListID, "showpricelist": "Y"};
   if (keyWord != null) {
     if (keyWord.isNotEmpty) myBody.addAll({"name": keyWord});
   }
   if (page != null) {
     myBody.addAll({"page": page});
   }
+  if (productID != null) {
+    myBody.addAll({"m_product_id": productID});
+  }
   var response =
       await http.post(url, headers: {"Forca-Token": user.token}, body: myBody);
-  print("product $myBody\n${response.body}");
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
       return ProductResponse.fromJsonMap(res).products;
     }
   }
+  print("${products.length} | product ${response.body}");
   return products;
 }
 
 Future<List<SaleRep>> reqSaleRep() async {
-  List<SaleRep> products = List();
+  List<SaleRep> salesReps = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_SALES_REP";
   var response = await http.post(url, headers: {"Forca-Token": user.token});
-  print("user : ${response.body}");
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
       return SalesRepResponse.fromJsonMap(res).salesReps;
     }
   }
-  return products;
+  return salesReps;
 }
 
 Future<List<PaymentRule>> reqPaymentRule() async {
-  List<PaymentRule> pamentRules = List();
+  List<PaymentRule> paymentRules = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PAYMENT_RULE";
@@ -118,7 +120,7 @@ Future<List<PaymentRule>> reqPaymentRule() async {
       return PaymentRuleResponse.fromJsonMap(res).paymentRule;
     }
   }
-  return pamentRules;
+  return paymentRules;
 }
 
 Future<List<PriceList>> reqPriceList() async {

@@ -44,7 +44,6 @@ class _SOLineState extends State<CreateSOLine> {
     myline.uomName = selectedUom.name;
     myline.price = int.parse(priceController.text.toString());
     myline.qty = int.parse(qtyController.text.toString());
-    myline.discount = int.parse(discountController.text.toString());
   }
 
   @override
@@ -74,6 +73,7 @@ class _SOLineState extends State<CreateSOLine> {
                   listUom.addAll(selectedProduct.uomConversion);
                   uomController.text =
                       listUom.isEmpty ? '' : listUom[0].realName;
+                  selectedUom = listUom.isEmpty ? Uom() : listUom[0];
                   Navigator.pop(context);
                 });
               }),
@@ -102,6 +102,7 @@ class _SOLineState extends State<CreateSOLine> {
                             onTap: () {
                               setState(() {
                                 uomController.text = listUom[i].realName;
+                                selectedUom = listUom[i];
                                 Navigator.pop(context);
                               });
                             },
@@ -327,8 +328,12 @@ class _SOLineState extends State<CreateSOLine> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: RaisedButton(
                       onPressed: () {
-                        setLine();
-                        line(myline);
+                        try {
+                          setLine();
+                          line(myline);
+                        } catch (exception) {
+                          print("eception ${exception.toString()}");
+                        }
                       },
                       child: Text(
                         "Save",

@@ -264,7 +264,7 @@ class DetailSOView extends DetailSOViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.discount,
+                      orderLine.discount ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -385,7 +385,7 @@ class DetailSOView extends DetailSOViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.discount,
+                            line.discount ?? "0",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,

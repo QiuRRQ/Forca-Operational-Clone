@@ -24,7 +24,7 @@ class _SelectBPartnerState extends State<SelectBPartner> {
 
   _getBPartner() async {
     Loading(context).show();
-    await reqBPartner(keyWord: keyword.text.toString(), page: page.toString())
+    await reqBPartner(keyWord: keyword.text.toString(), page: page.toString(),perPage: 10)
         .then((listBp) {
       setState(() {
         this.bPartners = listBp;

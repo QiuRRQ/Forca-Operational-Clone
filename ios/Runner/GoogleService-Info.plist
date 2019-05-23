@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>903659553111-qo560n9tab3e45js294m07m93s3in08o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.903659553111-qo560n9tab3e45js294m07m93s3in08o</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>903659553111-7i0jecc1u2av7f0hdhiuoc774h7sukad.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA2jOxC-8e7hSLoMZmWgBHLk2W3zPDqD_w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>903659553111</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>id.sisi.operational</string>
+	<key>PROJECT_ID</key>
+	<string>forca-mobile-operational</string>
+	<key>STORAGE_BUCKET</key>
+	<string>forca-mobile-operational.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:903659553111:ios:798d90861cd11fcb</string>
+	<key>DATABASE_URL</key>
+	<string>https://forca-mobile-operational.firebaseio.com</string>
+</dict>
+</plist>

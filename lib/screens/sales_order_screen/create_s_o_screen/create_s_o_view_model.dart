@@ -60,18 +60,18 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       MyDialog(context, "Error", "Sales Rep required", Status.ERROR).build(() {
         Navigator.pop(context);
       });
-      return true;
+      return false;
     } else if (priceList == null) {
       MyDialog(context, "Error", "Price List required", Status.ERROR).build(() {
         Navigator.pop(context);
       });
-      return true;
+      return false;
     } else if (paymentRule == null) {
       MyDialog(context, "Error", "Payment Rule required", Status.ERROR)
           .build(() {
         Navigator.pop(context);
       });
-      return true;
+      return false;
     }
     return true;
   }
@@ -89,64 +89,65 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     });
   }
 
-  getBPartner() async {
-    Loading(context).show();
-    await reqBPartner().then((bPartners) {
-      Navigator.pop(context);
-      selectBPartner(context, bPartners, (bPartner) {
-        setState(() {
-          this.bPartner = bPartner;
-        });
-        Navigator.pop(context);
+  getBPartner() {
+    selectBPartner(context, (bPartner) {
+      setState(() {
+        this.bPartner = bPartner;
       });
+      Navigator.pop(context);
     });
   }
 
   getMasterLine() async {
-    Loading(context).show();
-    List<Product> listProduct = List();
-    List<Uom> listUom = List();
-    List<Tax> listTax = List();
+    if (isNotEmptyHeader()) {
+      Loading(context).show();
+      List<Product> listProduct = List();
+      List<Tax> listTax = List();
 
-    await reqProduct(soParams.priceListID).then((products) {
-      listProduct.addAll(products);
-    });
-    await reqUom().then((uomList) {
-      listUom.addAll(uomList);
-    });
-    await reqTax().then((taxList) {
-      listTax.addAll(taxList);
-    });
-    Navigator.pop(context);
-    showModalBottomSheet(
-        context: context,
-        builder: (_) => CreateSOLine(listProduct, listUom, listTax, (line) {
-              setState(() {
-                Navigator.pop(context);
-                soParams.lines.add(line);
-              });
-            }));
-  }
-
-  getProduct() async {
-    Loading(context).show();
-    await reqProduct(soParams.priceListID).then((products) {
-      Navigator.pop(context);
-      selectProduct(context, products, (product) {
-        setState(() {
-          this.product = product;
-        });
-        Navigator.pop(context);
+      await reqProduct(priceList.priceListID).then((products) {
+        listProduct.addAll(products);
+      }).catchError((err) {
+        print(err.toString());
       });
-    });
+      print("data product ${listProduct.length}");
+      await reqTax().then((taxList) {
+        listTax.addAll(taxList);
+      }).catchError((err) {
+        print(err.toString());
+      });
+      print("data tax ${listTax.length}");
+      Navigator.pop(context);
+      if (listProduct.isEmpty) {
+        MyDialog(
+                context,
+                "Wrong Price List",
+                "There are no products for the pricelist you selected",
+                Status.ERROR)
+            .build(() {
+          Navigator.pop(context);
+        });
+        return;
+      }
+      if (listTax.isEmpty) {
+        MyDialog(context, "TAX Empty", "TAX is Empty", Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+        return;
+      }
+      showModalBottomSheet(
+          context: context,
+          builder: (_) => CreateSOLine(listTax, (line) {
+                setState(() {
+                  Navigator.pop(context);
+                  soParams.lines.add(line);
+                });
+              }, priceList));
+    }
   }
 
   getSaleResp() async {
     Loading(context).show();
     await reqSaleRep().then((saleReps) {
-      saleReps.forEach((saleR) {
-        print("sales rep ${saleR.name}");
-      });
       Navigator.pop(context);
       selectSaleRep(context, saleReps, (saleRep) {
         setState(() {
@@ -219,8 +220,10 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
 
   @override
   void initState() {
+    var now = DateTime.now();
     soParams.lines = List();
     descriptionController = TextEditingController();
+    soParams.dateOrdered = "${now.year}-${now.month}-${now.day}";
     super.initState();
   }
 }

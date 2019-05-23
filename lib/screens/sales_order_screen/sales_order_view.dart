@@ -1,169 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/screens/sales_order_screen/filter_so.dart';
 import 'package:forca_so/screens/sales_order_screen/sales_order_view_model.dart';
-import 'package:forca_so/screens/sales_order_screen/detail_s_o_screen/detail_s_o_screen.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/utils/forca_assets.dart';
-import 'package:loadmore/loadmore.dart';
-import 'package:easy_listview/easy_listview.dart';
 
 class SalesOrderView extends SalesOrderViewModel {
   _filter() {
     showModalBottomSheet(
         context: context,
-        builder: (c) {
-          return Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  height: 40.0,
-                  color: Colors.blue,
-                  child: Center(
-                    child: forcaText("Filter",
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.0),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                        width: MediaQuery.of(context).size.width,
-                        child: forcaText("Select End Date Document",
-                            align: TextAlign.left),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
-                        width: MediaQuery.of(context).size.width,
-                        child: forcaText("YYYY-MM-DD", align: TextAlign.left),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 8.0, bottom: 16.0),
-                        width: MediaQuery.of(context).size.width,
-                        child: forcaText("Select End Date Document",
-                            align: TextAlign.left),
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            forcaText("YYYY-MM-DD",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                            IconButton(
-                                icon: Icon(Icons.arrow_drop_down),
-                                onPressed: () {})
-                          ],
-                        ),
-                      ),
-                      Divider(),
-                      Container(
-                        margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
-                        width: MediaQuery.of(context).size.width,
-                        child:
-                            forcaText("Document Status", align: TextAlign.left),
-                      ),
-                      Container(
-                        child: DropdownButton<DocumentStatus>(
-                          isExpanded: true,
-                          value: documentStatus,
-                          items: DocumentStatus.values.map((docStatus) {
-                            return DropdownMenuItem<DocumentStatus>(
-                              value: docStatus,
-                              child: forcaText(
-                                  docStatus
-                                      .toString()
-                                      .replaceAll("DocumentStatus.", ""),
-                                  fontSize: 12.0,
-                                  align: TextAlign.center,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            );
-                          }).toList(),
-                          onChanged: (status) {
-                            setState(() {
-                              documentStatus = status;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                forcaButton(
-                    forcaText("Search Document", color: Colors.white), () {},
-                    height: 45.0,
-                    margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                    color: Colors.blue)
-              ],
-            ),
-          );
-        });
-  }
-
-  _listStatus() {
-    return ListView.builder(
-      itemBuilder: (c, i) => i == 0
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(bottom: 20.0),
-              height: 50.0,
-              color: Colors.blue,
-              child: Center(
-                child: Text(
-                  "Select Status",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: "Title",
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            )
-          : Container(
-              margin: EdgeInsets.only(right: 16.0, left: 16.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                  setState(() {
-                    documentStatus = i == 1
-                        ? DocumentStatus.DRAFTED
-                        : i == 2
-                            ? DocumentStatus.INPROGRESS
-                            : i == 3
-                                ? DocumentStatus.COMPLETED
-                                : i == 4
-                                    ? DocumentStatus.RESERVED
-                                    : i == 5
-                                        ? DocumentStatus.INVALID
-                                        : DocumentStatus.CLOSED;
-                    getSOList();
-                  });
-                },
-                child: Column(
-                  children: <Widget>[
-                    Text(i == 1
-                        ? "Drafted"
-                        : i == 2
-                            ? "Inprogress"
-                            : i == 3
-                                ? "Completed"
-                                : i == 4
-                                    ? "Reserved"
-                                    : i == 5 ? "Invalid" : "Closed"),
-                    Divider()
-                  ],
-                ),
-              ),
-            ),
-      itemCount: 7,
-    );
+        builder: (c) => FilterSO(documentStatus,startDate,endDate,(filterParam) {
+              Navigator.pop(context);
+              page = 1;
+              listSO.clear();
+              documentStatus = filterParam.documentStatus;
+              startDate = filterParam.startDate;
+              endDate = filterParam.endDate;
+              setState(() {
+                isReq = true;
+              });
+              getSOList();
+            }));
   }
 
   _item(SalesOrder so) {
@@ -178,7 +36,7 @@ class SalesOrderView extends SalesOrderViewModel {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Doc Number",
+                    "${so.docDate}",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -330,33 +188,28 @@ class SalesOrderView extends SalesOrderViewModel {
     );
   }
 
-  _newData() {
-    return EasyListView(
-      itemCount: listSO.length,
-      itemBuilder: (c, i) => _item(listSO[i]),
-      onLoadMore: loadMore,
-      loadMore: isReq,
-      footerBuilder: (_) => CircularProgressIndicator(),
-    );
-  }
-
-  loadMore() {
-    print("load");
-    isReq = false;
+  _loadMore() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      getSOList();
+    }
   }
 
   _data() {
-    return LoadMore(
-      isFinish: isReq,
-      whenEmptyLoad: true,
-      delegate: DefaultLoadMoreDelegate(),
-      textBuilder: DefaultLoadMoreTextBuilder.english,
-      onLoadMore: getSOList,
-      child: ListView.builder(
-        itemBuilder: (c, i) => _item(listSO[i]),
-        itemCount: listSO.length,
-      ),
+    return ListView.builder(
+      controller: _controller,
+      itemBuilder: (c, i) => _item(listSO[i]),
+      itemCount: listSO.length,
     );
+  }
+
+  ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_loadMore);
+    super.initState();
   }
 
   @override
@@ -390,7 +243,7 @@ class SalesOrderView extends SalesOrderViewModel {
         ),
         body: Container(
           margin: EdgeInsets.only(right: 8.0, left: 8.0),
-          child: isReq ? _loading() : listSO.isEmpty ? _noData() : _newData(),
+          child: isReq && listSO.isEmpty ? _loading() : !isReq && listSO.isEmpty ? _noData() : _data(),
         ));
   }
 }

@@ -14,10 +14,29 @@ class DetailSOView extends DetailSOViewModel {
       child: ListView(
         children: <Widget>[
           forcaLogo(width: 70.0),
-          Padding(padding: EdgeInsets.only(top: 20.0)),
           Container(
             margin: EdgeInsets.only(top: 16.0),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                "Document Date",
+                style: TextStyle(
+                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              ),
+              Text(
+                salesOrder.dateOrdered,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontFamily: "Subtitle",
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+          Divider(),
+          Padding(padding: EdgeInsets.only(top: 10.0)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -245,7 +264,7 @@ class DetailSOView extends DetailSOViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.discount,
+                      orderLine.discount ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -366,7 +385,7 @@ class DetailSOView extends DetailSOViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.discount,
+                            line.discount ?? "0",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,

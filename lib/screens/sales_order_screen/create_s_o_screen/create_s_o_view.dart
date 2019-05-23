@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/master/select_date.dart';
 import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/utils/my_dialog.dart';
 
 class CreateSOView extends CreateSOViewModel {
   _body() {
@@ -106,46 +108,102 @@ class CreateSOView extends CreateSOViewModel {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Sales Rep *",
-                    style: TextStyle(
-                        fontFamily: "Title",
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width / 2 - 20,
+                margin: EdgeInsets.only(top: 16.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        child: Text(
-                          saleRep == null ? 'Select Sales Rep' : saleRep.name,
-                          style: TextStyle(
+                      Text(
+                        "Sales Rep *",
+                        style: TextStyle(
                             fontFamily: "Title",
-                            fontSize: 14.0,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
-                          icon: Icon(Icons.expand_more),
-                          onPressed: () {
-                            getSaleResp();
-                          }),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2 - 70,
+                            child: Text(
+                              saleRep == null
+                                  ? 'Select Sales Rep'
+                                  : saleRep.name,
+                              style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 14.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton(
+                              icon: Icon(Icons.expand_more),
+                              onPressed: () {
+                                getSaleResp();
+                              }),
+                        ],
+                      ),
+                      Container(
+                        height: 1.0,
+                        color: Colors.grey[600],
+                      ),
                     ],
                   ),
-                  Container(
-                    height: 1.0,
-                    color: Colors.grey[600],
-                  ),
-                ],
+                ),
               ),
-            ),
+              Container(
+                width: MediaQuery.of(context).size.width / 2 - 20,
+                margin: EdgeInsets.only(top: 16.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Date Ordered *",
+                        style: TextStyle(
+                            fontFamily: "Title",
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2 - 70,
+                            child: Text(
+                              soParams.dateOrdered,
+                              style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 14.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton(
+                              icon: Icon(Icons.expand_more),
+                              onPressed: () {
+                                selectDate(context, (date) {
+                                  setState(() {
+                                    soParams.dateOrdered = date;
+                                  });
+                                });
+                              }),
+                        ],
+                      ),
+                      Container(
+                        height: 1.0,
+                        color: Colors.grey[600],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           Container(
             margin: EdgeInsets.only(top: 16.0),
@@ -483,8 +541,16 @@ class CreateSOView extends CreateSOViewModel {
             ),
             Expanded(
               flex: 1,
-              child: forcaButton(
-                  forcaText("Create SO", color: Colors.white), () => createSO(),
+              child: forcaButton(forcaText("Create SO", color: Colors.white), () {
+                if (soParams.lines.isNotEmpty) {
+                  createSO();
+                } else {
+                  MyDialog(context, "FAILED", "Please add line", Status.ERROR)
+                      .build(() {
+                    Navigator.pop(context);
+                  });
+                }
+              },
                   color: Colors.blue,
                   height: 50.0,
                   width: 200.0,

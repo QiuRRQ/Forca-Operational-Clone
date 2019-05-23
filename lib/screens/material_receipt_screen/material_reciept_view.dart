@@ -6,7 +6,7 @@ import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_sc
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 
-class MaterialReceiptView extends MaterialRecieptViewModel {
+class MaterialReceiptView extends MaterialReceiptViewModel {
   _body() {
     return Container(
       margin: EdgeInsets.only(right: 8.0, left: 8.0),

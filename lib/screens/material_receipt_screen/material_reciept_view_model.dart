@@ -10,7 +10,7 @@ import 'package:forca_so/utils/string.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class MaterialRecieptViewModel extends State<MaterialRecieptScreen> {
+abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
   DocumentStatus documentStatus = DocumentStatus.COMPLETED;
   bool isReq = true;
   int page = 1;
@@ -18,22 +18,18 @@ abstract class MaterialRecieptViewModel extends State<MaterialRecieptScreen> {
   String endDate = "Select Date";
   List<MaterialReceipt> listMaterialReceipt = List();
 
-  getMaterialReceipts(
-      {String status,
-      String page,
-      String perPage,
-      String dateFrom,
-      String dateTo}) async {
+  getMaterialReceipts() async {
     isReq = true;
     var ref = await SharedPreferences.getInstance();
     var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
     var url = ref.getString(BASE_URL) ?? "";
-    var myBody = {"issotrx": "Y"};
-    if (page != null) myBody.addAll({"page": page});
-    if (perPage != null) myBody.addAll({"perPage": perPage});
-    if (status != null) myBody.addAll({"status": status});
-    if (dateFrom != null) myBody.addAll({"datefrom": dateFrom});
-    if (dateTo != null) myBody.addAll({"dateto": dateTo});
+    var myBody = {
+      "status": StatusDocument(documentStatus).getName(),
+      "page": page.toString(),
+    };
+    if (startDate != "Select Date") myBody.addAll({"datefrom": startDate});
+    if (endDate != "Select Date") myBody.addAll({"dateto": endDate});
+    print(myBody);
     var response = await http
         .post("$url$MATERIAL_RECEIPT",
             headers: {"Forca-Token": usr.token}, body: myBody)

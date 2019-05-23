@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:forca_so/screens/sales_order_screen/filter_so.dart';
+import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/screens/sales_order_screen/sales_order_view_model.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
@@ -10,7 +10,7 @@ class SalesOrderView extends SalesOrderViewModel {
   _filter() {
     showModalBottomSheet(
         context: context,
-        builder: (c) => FilterSO(documentStatus,startDate,endDate,(filterParam) {
+        builder: (c) => FilterDocument(documentStatus,startDate,endDate,(filterParam) {
               Navigator.pop(context);
               page = 1;
               listSO.clear();

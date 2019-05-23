@@ -49,7 +49,7 @@ Future<List<BPartner>> reqBPartner(
   print("myBOdy ${myBody.toString()}");
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
-  var url = "${ref.getString(BASE_URL)}$LIST_BPARTNER";
+  var url = "${ref.getString(BASE_URL)}$LIST_B_PARTNER";
   var response = await http.post(
     url,
     body: myBody,

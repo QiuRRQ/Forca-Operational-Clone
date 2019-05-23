@@ -4,6 +4,6 @@ import 'package:forca_so/screens/material_receipt_screen/material_reciept_view.d
 class MaterialRecieptScreen extends StatefulWidget {
   
   @override
-  MaterialRecieptView createState() => new MaterialRecieptView();
+  MaterialReceiptView createState() => new MaterialReceiptView();
 }
   

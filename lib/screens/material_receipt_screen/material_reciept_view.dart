@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/models/material_receipt/material_receipt.dart';
 import 'package:forca_so/screens/material_receipt_screen/material_reciept_view_model.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/add_material_receipt_screen.dart';
@@ -187,8 +188,22 @@ class MaterialReceiptView extends MaterialRecieptViewModel {
     );
   }
 
-  docItem() {}
-
+  _filter() {
+    showModalBottomSheet(
+        context: context,
+        builder: (c) => FilterDocument(documentStatus,startDate,endDate,(filterParam) {
+          Navigator.pop(context);
+          page = 1;
+          listMaterialReceipt.clear();
+          documentStatus = filterParam.documentStatus;
+          startDate = filterParam.startDate;
+          endDate = filterParam.endDate;
+          setState(() {
+            isReq = true;
+          });
+          getMaterialReceipts();
+        }));
+  }
   @override
   void initState() {
     getMaterialReceipts();
@@ -201,6 +216,11 @@ class MaterialReceiptView extends MaterialRecieptViewModel {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Material Receipt", style: TextStyle(fontFamily: "Title")),
+        actions: <Widget>[
+          FlatButton(
+              onPressed: _filter,
+              child: forcaText("Filter", color: Colors.white, fontSize: 17.0))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(context,

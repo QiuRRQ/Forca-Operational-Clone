@@ -3,22 +3,22 @@ import 'package:forca_so/master/select_date.dart';
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 
-class FilterSO extends StatefulWidget {
+class FilterDocument extends StatefulWidget {
   final ValueChanged<FilterParam> onSelected;
   DocumentStatus documentStatus;
   String startDate = "Select Date";
   String endDate = "Select Date";
 
-  FilterSO(this.documentStatus, this.startDate, this.endDate, this.onSelected);
+  FilterDocument(this.documentStatus, this.startDate, this.endDate, this.onSelected);
 
   @override
-  _FilterSOState createState() => _FilterSOState(onSelected);
+  _FilterDocumentState createState() => _FilterDocumentState(onSelected);
 }
 
-class _FilterSOState extends State<FilterSO> {
+class _FilterDocumentState extends State<FilterDocument> {
   final ValueChanged<FilterParam> onSelected;
 
-  _FilterSOState(this.onSelected);
+  _FilterDocumentState(this.onSelected);
 
   FilterParam filterParam = FilterParam();
 

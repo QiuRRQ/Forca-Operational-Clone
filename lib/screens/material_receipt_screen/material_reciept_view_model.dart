@@ -5,13 +5,17 @@ import 'package:forca_so/models/material_receipt/material_receipt.dart';
 import 'package:forca_so/models/material_receipt/material_receipt_response.dart';
 import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/screens/material_receipt_screen/material_reciept_screen.dart';
+import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/string.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class MaterialRecieptViewModel extends State<MaterialRecieptScreen> {
-  // Add your state and logic here
+  DocumentStatus documentStatus = DocumentStatus.COMPLETED;
   bool isReq = true;
+  int page = 1;
+  String startDate = "Select Date";
+  String endDate = "Select Date";
   List<MaterialReceipt> listMaterialReceipt = List();
 
   getMaterialReceipts(

@@ -54,7 +54,7 @@ class LoginView extends LoginViewModel {
                         height: 50.0,
                         child: forcaButton(
                             forcaText("LOGIN", color: Colors.white, fontSize: 17.0),
-                            () => login()),
+                                () => login()),
                       ),
                       Padding(padding: EdgeInsets.only(top: 30.0)),
                       Row(
@@ -81,6 +81,7 @@ class LoginView extends LoginViewModel {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

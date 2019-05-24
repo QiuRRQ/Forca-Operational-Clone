@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/models/material_receipt/material_receipt.dart';
+import 'package:forca_so/screens/material_receipt_screen/detail_receipt_screen/detail_receipt_screen.dart';
 import 'package:forca_so/screens/material_receipt_screen/material_reciept_view_model.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/add_material_receipt_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 
-class MaterialReceiptView extends MaterialRecieptViewModel {
+class MaterialReceiptView extends MaterialReceiptViewModel {
   _body() {
     return Container(
       margin: EdgeInsets.only(right: 8.0, left: 8.0),
@@ -25,6 +26,9 @@ class MaterialReceiptView extends MaterialRecieptViewModel {
 
   _item(MaterialReceipt materialReceipt) {
     return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailReceiptScreen(materialReceipt.inOutID)));
+      },
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
@@ -219,7 +223,7 @@ class MaterialReceiptView extends MaterialRecieptViewModel {
         actions: <Widget>[
           FlatButton(
               onPressed: _filter,
-              child: forcaText("Filter", color: Colors.white, fontSize: 17.0))
+              child: forcaText("Filter", color: Colors.white, fontSize: 17.0,fontWeight: FontWeight.bold))
         ],
       ),
       floatingActionButton: FloatingActionButton(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/models/payment_rule/payment_rule.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/tax/tax.dart';
-import 'package:forca_so/models/uom/uom.dart';
 import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/screens/sales_order_screen/create_s_o_screen/create_s_o_screen.dart';
 import 'package:forca_so/models/po_line/line.dart';
@@ -36,7 +35,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   var descriptionController;
 
   setParam() {
-    soParams.warehouseID = int.parse(warehouse.m_warehouse_id);
+    soParams.warehouseID = int.parse(warehouse.warehouseID);
     soParams.partnerID = int.parse(bPartner.bPartnerID);
     soParams.saleRepName = saleRep.name;
     soParams.priceListID = int.parse(priceList.priceListID);

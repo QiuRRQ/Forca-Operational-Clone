@@ -3,8 +3,6 @@ import 'package:forca_so/screens/about_app_screen/about_app_screen.dart';
 import 'package:forca_so/screens/home_screen/home_view_model.dart';
 import 'package:forca_so/screens/home_screen/menu.dart';
 import 'package:forca_so/utils/text_widget.dart';
-import 'package:forca_so/utils/my_dialog.dart';
-
 class HomeView extends HomeViewModel {
   _menu() {
     return Container(

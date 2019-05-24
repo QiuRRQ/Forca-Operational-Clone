@@ -24,6 +24,7 @@ const LIST_PAYMENT_RULE = "/api/ws/master/v1/getPaymentRule";
 const LIST_PRICE_LIST = "/api/ws/master/v1/getPricelist";
 const CREATE_ORDER = "/api/ws/transaction/v1/setOrder";
 const MATERIAL_RECEIPT = "/api/ws/transaction/v1/getInOutList";
+const DETAIL_RECEIPT = "/api/ws/transaction/v1/getInOut";
 
 const TITLE_STYLE =
     TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);

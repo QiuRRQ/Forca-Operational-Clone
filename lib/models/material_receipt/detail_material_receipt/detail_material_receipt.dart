@@ -41,7 +41,7 @@ class DetailMaterialReceipt {
   String price;
   String unit;
   String address;
-
+DetailMaterialReceipt();
 	DetailMaterialReceipt.fromJsonMap(Map<String, dynamic> map):
 		inOutID = map["m_inout_id"],
 		clientID = map["ad_client_id"],

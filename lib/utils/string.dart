@@ -23,6 +23,7 @@ const LIST_SALES_REP = "/api/ws/master/v1/getUser";
 const LIST_PAYMENT_RULE = "/api/ws/master/v1/getPaymentRule";
 const LIST_PRICE_LIST = "/api/ws/master/v1/getPricelist";
 const CREATE_ORDER = "/api/ws/transaction/v1/setOrder";
+const LIST_MATERIAL_RECIEPT = "/api/ws/transaction/v1/getInOutList";
 
 const TITLE_STYLE =
     TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);

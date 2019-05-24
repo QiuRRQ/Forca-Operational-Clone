@@ -30,4 +30,5 @@ class User {
     data['token'] = token;
     return data;
   }
+
 }

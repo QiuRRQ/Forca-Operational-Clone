@@ -1,0 +1,3 @@
+enum MyClass{
+  aku, kamu
+}

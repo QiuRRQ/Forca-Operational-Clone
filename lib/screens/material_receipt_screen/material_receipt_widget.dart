@@ -124,7 +124,7 @@ class MaterialReceiptWidget {
                         height: 30.0,
                         child: RaisedButton(
                           onPressed: null,
-                          disabledColor: DocumentStatusColor().getColor(status),
+                          disabledColor: DocumentStatusColor().getColor(status.toString().replaceAll("DocumentStatus.", "")),
                           child: Text(
                             status == DocumentStatus.DRAFTED
                                 ? "Drafted"

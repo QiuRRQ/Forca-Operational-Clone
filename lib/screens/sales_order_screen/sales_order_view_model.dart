@@ -96,4 +96,5 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
     getSOList();
     super.initState();
   }
+
 }

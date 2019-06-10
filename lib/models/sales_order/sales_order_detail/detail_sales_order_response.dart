@@ -18,4 +18,6 @@ class DetailSalesOrderResponse {
 		data['resultdata'] = detail == null ? null : detail.toJson();
 		return data;
 	}
+
+
 }

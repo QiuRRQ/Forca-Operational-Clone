@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/models/material_receipt/detail_material_receipt/detail_material_receipt.dart';
+import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt_orderline.dart';
 import 'package:forca_so/screens/material_receipt_screen/detail_receipt_screen/detail_receipt_view_model.dart';
+import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/utils/string.dart';
 
 class DetailReceiptView extends DetailReceiptViewModel {
   
   _body() {
-    salesOrder.orderLine.forEach((line) {
+    docNumer.m_line.forEach((line) {
       linesWidget.add(_lineItem(line));
     });
+
     return Container(
       margin: EdgeInsets.only(right: 16.0, left: 16.0),
       child: ListView(
@@ -24,7 +29,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                salesOrder.dateOrdered,
+                docNumer.dateOrdered,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -44,7 +49,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                salesOrder.documentNo,
+                docNumer.documentNo,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -64,7 +69,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                "${salesOrder.nominal}",
+                "${docNumer.price}",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -87,7 +92,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 ),
               ),
               Text(
-                salesOrder.partnerName,
+                docNumer.clientName,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -107,71 +112,11 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15, fontFamily: "Title"),
               ),
               Text(
-                salesOrder.warehouse,
+                docNumer.warehouseName,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
                     fontFamily: "Subtitile",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Sale Rep",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
-              ),
-              Text(
-                salesOrder.salesRepName,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Price List",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
-              ),
-              Text(
-                salesOrder.priceList,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Payment Rule",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
-              ),
-              Text(
-                salesOrder.paymentRule,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
                     fontWeight: FontWeight.bold),
               )
             ],
@@ -192,7 +137,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
     );
   }
 
-  _lineItem(OrderLine orderLine) {
+  _lineItem(m_inOutline orderLine) {
     return Container(
       height: 140,
       child: Card(
@@ -206,7 +151,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.productName,
+                      orderLine.product_name,
                       style: TextStyle(fontFamily: "Title", fontSize: 15.0),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -214,7 +159,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.priceEntered,
+                      orderLine.priceentered,
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -238,7 +183,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.qty,
+                      orderLine.qtyentered,
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -298,7 +243,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
     );
   }
 
-  _detailLine(OrderLine line) {
+  _detailLine(m_inOutline line) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -332,7 +277,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.productName,
+                            line.product_name,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -349,7 +294,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.priceEntered,
+                            line.priceentered,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -366,7 +311,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.qty,
+                            line.qtyentered,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -400,24 +345,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.uomName,
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "TAX",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.taxName,
+                            line.uom_name,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,

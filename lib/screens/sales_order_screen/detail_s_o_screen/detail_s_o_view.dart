@@ -9,6 +9,7 @@ class DetailSOView extends DetailSOViewModel {
     salesOrder.orderLine.forEach((line) {
       linesWidget.add(_lineItem(line));
     });
+
     return Container(
       margin: EdgeInsets.only(right: 16.0, left: 16.0),
       child: ListView(

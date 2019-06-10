@@ -20,4 +20,5 @@ abstract class DetailSOViewModel extends State<DetailSOScreen> {
     salesOrder = widget.salesOrder;
     super.initState();
   }
+
 }

@@ -27,7 +27,7 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
   _item(MaterialReceipt materialReceipt) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailReceiptScreen(materialReceipt.inOutID)));
+        getDetail(materialReceipt);
       },
       child: Card(
         child: Container(

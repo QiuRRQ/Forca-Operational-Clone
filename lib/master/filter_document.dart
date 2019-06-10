@@ -33,8 +33,7 @@ class _FilterDocumentState extends State<FilterDocument> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
         children: <Widget>[
           Container(
             height: 40.0,

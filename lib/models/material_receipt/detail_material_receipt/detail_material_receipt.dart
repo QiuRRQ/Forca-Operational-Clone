@@ -1,3 +1,4 @@
+import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt_orderline.dart';
 
 class DetailMaterialReceipt {
 
@@ -37,11 +38,15 @@ class DetailMaterialReceipt {
   String createdDate;
   String productCode;
   String productName;
-  int qty;
+  double qty;
   String price;
   String unit;
   String address;
-DetailMaterialReceipt();
+// ignore: non_constant_identifier_names
+	List<m_inOutline> m_line;
+
+//DetailMaterialReceipt();
+
 	DetailMaterialReceipt.fromJsonMap(Map<String, dynamic> map):
 		inOutID = map["m_inout_id"],
 		clientID = map["ad_client_id"],
@@ -82,7 +87,12 @@ DetailMaterialReceipt();
 		qty = map["qty"],
 		price = map["price"],
 		unit = map["unit"],
-		address = map["address"];
+		address = map["address"],
+				m_line = List<m_inOutline>.from(
+						map["m_inoutline"].map((it) => m_inOutline.fromJsonMap(it)))
+		;
+
+
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -126,6 +136,12 @@ DetailMaterialReceipt();
 		data['price'] = price;
 		data['unit'] = unit;
 		data['address'] = address;
+		data['m_inoutline'] = m_inOutline != null ?
+		this.m_line.map((v) => v.toJson()).toList()
+				: null;
+		print(data['m_inoutline']);
 		return data;
 	}
+
+
 }

@@ -1,16 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:forca_so/models/material_receipt/detail_material_receipt/detail_material_receipt.dart';
-import 'package:forca_so/models/user/user.dart';
+import 'package:forca_so/models/po_line/line.dart';
 import 'package:forca_so/screens/material_receipt_screen/detail_receipt_screen/detail_receipt_screen.dart';
-import 'package:forca_so/utils/string.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+
+
 abstract class DetailReceiptViewModel extends State<DetailReceiptScreen> {
-  DetailMaterialReceipt detailMaterialReceipt;
-  bool isReq = true;
-  _detailReceipt()async{
+  DetailMaterialReceipt docNumer;
+  List<Line> poLines = List();
+  List<Widget> linesWidget = List();
+  //bool isReq = true;
+  //List<DetailMaterialReceipt> linesItem = List();
+
+  /* _detailReceipt()async{
     var ref = await SharedPreferences.getInstance();
     var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
     var url = "${ref.getString(BASE_URL) ?? ""}$DETAIL_RECEIPT";
@@ -24,12 +25,24 @@ abstract class DetailReceiptViewModel extends State<DetailReceiptScreen> {
       isReq = false;
       print('hasil ${err.toString()}');
     });
+
+    var res = jsonDecode(response.body);
+
     print("hasil ${response.body}");
+    DetailMaterialReceiptResponse detailMaterialReceiptResponse = DetailMaterialReceiptResponse.fromJsonMap(res);
+    return docNumer = detailMaterialReceiptResponse.materialReceipts;
+  }*/
+  addLine(Line line) {
+    setState(() {
+      poLines.add(line);
+    });
   }
 
   @override
   void initState() {
-    _detailReceipt();
+    //_detailReceipt();
+    docNumer = widget.docNumer;
     super.initState();
   }
+
 }

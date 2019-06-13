@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:forca_so/master/select_date.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/add_material_receipt_view_model.dart';
+import 'package:forca_so/utils/my_dialog.dart';
 import 'package:forca_so/utils/string.dart';
+
 class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
    _body() {
     return Container(
@@ -39,7 +42,9 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select Wwarehouse',
+                                  warehouse == null
+                                      ? 'Select Warehouse'
+                                      : warehouse.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -49,7 +54,9 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                               ),
                               IconButton(
                                   icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    getWarehouse();
+                                  }),
                             ],
                           ),
                           Container(
@@ -78,7 +85,9 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  'Select BPartner',
+                                  bPartner == null
+                                      ? 'Select BPartner'
+                                      : bPartner.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -88,7 +97,9 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                               ),
                               IconButton(
                                   icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    getBPartner();
+                                  }),
                             ],
                           ),
                           Container(
@@ -107,152 +118,114 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
             margin: EdgeInsets.only(top: 16.0),
             child: Column(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Movement Date",
+                        style: TextStyle(
+                            fontFamily: "Title",
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            "Order Ref",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Order Ref',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
                           Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
+                            width:
+                            MediaQuery.of(context).size.width/2-70,
+                            child: Text(
+                              mrParam.movementDate,
+                              style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 14.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+                          IconButton(
+                              icon: Icon(Icons.expand_more),
+                              onPressed: () {
+                                selectDate(context, (date) {
+                                  setState(() {
+                                    mrParam.movementDate = date;
+                                  });
+                                });
+                              }),
                         ],
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Movement Date",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  'Select Date',
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {}),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
+                      Container(
+                        height: 1.0,
+                        color: Colors.grey[600],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: 20)),
+          Padding(padding: EdgeInsets.only(top: 20.0)),
           Container(
-            width: MediaQuery.of(context).size.width,
+
+          ),
+          Padding(padding: EdgeInsets.only(top: 20.0)),
+          Container(
+            margin: EdgeInsets.only(top: 16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Description",
-                  style: TextStyle(
-                      fontFamily: "Title",
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Input description of Material Receipt'
-                  ),
-                  style: TextStyle(
-                    fontFamily: "Title",
-                    fontSize: 14.0,
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FlatButton(
+                              onPressed: () {
+                                if (mrParam.lines.isNotEmpty) {
+                                  createMR();
+                                } else {
+                                  MyDialog(context, "FAILED", "Please add line", Status.ERROR)
+                                      .build(() {
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              },
+                              child: Text(
+                                "Save",
+                                style: TextStyle(fontFamily: "Title", color: Colors.blue),
+                              )
+                          ),
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(fontFamily: "Title", color: Colors.blue),
+                              )
+                          ),
+                          FlatButton(
+                              onPressed: () {
+                                getMasterLine();
+                                //Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Add Line",
+                                style: TextStyle(fontFamily: "Title", color: Colors.blue),
+                              )
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: 20)),
-          Text(
-            "Receipt Line",
-            style: TextStyle(
-                fontFamily: "Title",
-                fontSize: 15.0,
-                fontWeight: FontWeight.bold),
-          ),
-          lines.isEmpty
-              ? Container(
-                  height: 100.0,
-                  child: Center(
-                    child: Text(
-                      "Receipt Line is empty\nPress + to add Receipt Line",
-                      style: TextStyle(fontFamily: "Title"),
-                      textAlign: TextAlign.center,
-                    ),
-                  ))
-              : Expanded(
-                  child: Container()
-                  // ListView.builder(
-                  //     itemCount: lines.length,
-                  //     itemBuilder: (context, index) =>
-                  //         WidgetSO.lineItem(context, lines[index], (detailLine) {
-                  //           WidgetSO.detailLine(context, detailLine);
-                  //         }, (editLine) {
-                  //           WidgetSO.editLine(context, (editedLine){
-                  //             Navigator.pop(context);
-                  //           });
-                  //         }, (deleteLine) {
-                  //           setState(() {
-                  //             lines.remove(deleteLine);
-                  //           });
-                  //         })),
-                ),
         ],
       ),
     );
@@ -266,28 +239,6 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
           "Create M Receipt",
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
-        actions: <Widget>[
-          FlatButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                "Save",
-                style: TextStyle(fontFamily: "Title", color: Colors.white),
-              )),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // WidgetSO.addLine(context, (line) {
-          //   setState(() {
-          //     Navigator.pop(context);
-          //     lines.add(line);
-          //   });
-          // });
-        },
-        tooltip: "Add Receipt Line",
-        child: Icon(Icons.add),
       ),
       body: _body(),
     );

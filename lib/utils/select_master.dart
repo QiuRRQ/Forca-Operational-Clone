@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_bussines_partner.dart';
 import 'package:forca_so/master/select_product.dart';
+import 'package:forca_so/master/select_warehouse.dart';
 import 'package:forca_so/models/payment_rule/payment_rule.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/product/product.dart';
@@ -9,7 +10,7 @@ import 'package:forca_so/models/bpartner/bpartner.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/models/sale_rep/sale_rep.dart';
 
-selectWarehouse(BuildContext context, List<Warehouse> warehouses,
+/*selectWarehouse(BuildContext context, List<Warehouse> warehouses,
     ValueChanged<Warehouse> onSelected) {
   showModalBottomSheet(
       context: context,
@@ -48,6 +49,14 @@ selectWarehouse(BuildContext context, List<Warehouse> warehouses,
               ],
             ),
           ));
+}*/
+
+selectWarehouse(BuildContext context, ValueChanged<Warehouse> onSelected) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: SelectWarehouse(onSelected),
+      ));
 }
 
 selectBPartner(BuildContext context,ValueChanged<BPartner> onSelected) {

@@ -18,11 +18,13 @@ const LIST_B_PARTNER = "/api/ws/master/v1/getBPartner";
 const LIST_PRODUCT = "/api/ws/master/v1/getProduct";
 const LIST_UOM = "/api/ws/master/v1/getUom";
 const LIST_TAX = "/api/ws/master/v1/getTax";
+const LIST_LOCATOR = "/api/ws/master/v1/getLocator";
 const DETAIL_SO = "/api/ws/transaction/v1/getOrder";
 const LIST_SALES_REP = "/api/ws/master/v1/getUser";
 const LIST_PAYMENT_RULE = "/api/ws/master/v1/getPaymentRule";
 const LIST_PRICE_LIST = "/api/ws/master/v1/getPricelist";
 const CREATE_ORDER = "/api/ws/transaction/v1/setOrder";
+const CREATE_INOUT = "/api/ws/transaction/v1/setInOut";
 const MATERIAL_RECEIPT = "/api/ws/transaction/v1/getInOutList";
 const DETAIL_RECEIPT = "/api/ws/transaction/v1/getInOut";
 

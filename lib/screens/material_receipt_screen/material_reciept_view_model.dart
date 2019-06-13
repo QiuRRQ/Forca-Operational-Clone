@@ -66,7 +66,7 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
     var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
     var url = ref.getString(BASE_URL) ?? "";
     var myBody = {"m_inout_id": materialReceipt.inOutID,
-    "issotrx":"N"};
+    "issotrx":"Y"};
     var response = await http.post("$url$DETAIL_RECEIPT",
         headers: {"Forca-Token": usr.token},
         body:myBody ).catchError((err) {});

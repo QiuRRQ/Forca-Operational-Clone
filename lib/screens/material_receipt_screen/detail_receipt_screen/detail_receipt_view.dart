@@ -123,7 +123,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
           ),
           Divider(),
           Padding(padding: EdgeInsets.only(top: 20.0)),
-          Text("SO LINE",
+          Text("Material Receipt LINE",
               style: TextStyle(
                   fontFamily: "Title",
                   fontSize: 15.0,
@@ -384,7 +384,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Detail SO",
+          "Detail Material Receipt",
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),

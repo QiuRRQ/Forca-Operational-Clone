@@ -1,11 +1,11 @@
 
 class Warehouse {
 
-  final String warehouseID;
-  final String clientName;
-  final String value;
-  final String name;
-  final String description;
+	String warehouseID;
+  String clientName;
+  String value;
+  String name;
+  String description;
 
 	Warehouse.fromJsonMap(Map<String, dynamic> map):
 		warehouseID = map["m_warehouse_id"],

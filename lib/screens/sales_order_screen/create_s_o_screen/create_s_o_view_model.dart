@@ -76,15 +76,11 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   }
 
   getWarehouse() async {
-    Loading(context).show();
-    await reqWarehouse().then((warehouses) {
-      Navigator.pop(context);
-      selectWarehouse(context, warehouses, (warehouse) {
-        setState(() {
-          this.warehouse = warehouse;
-        });
-        Navigator.pop(context);
+    selectWarehouse(context, (warehouse) {
+      setState(() {
+        this.warehouse = warehouse;
       });
+      Navigator.pop(context);
     });
   }
 

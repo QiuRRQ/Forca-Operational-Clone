@@ -27,7 +27,10 @@ const CREATE_ORDER = "/api/ws/transaction/v1/setOrder";
 const CREATE_INOUT = "/api/ws/transaction/v1/setInOut";
 const MATERIAL_RECEIPT = "/api/ws/transaction/v1/getInOutList";
 const DETAIL_RECEIPT = "/api/ws/transaction/v1/getInOut";
-
+const LIST_IM = "/api/ws/transaction/v1/getInventoryMoveList";
+const DETAIL_IM = "/api/ws/transaction/v1/getInventoryMove";
+const LOCATOR = "/api/ws/master/v1/getLocator";
+const CREATE_IM ="/api/ws/transaction/v1/setInventoryMove";
 const TITLE_STYLE =
     TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);
 

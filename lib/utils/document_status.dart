@@ -3,7 +3,7 @@ enum  DocumentStatus {
   DRAFTED,
   INPROGRESS,
   COMPLETED,
-  RESERVED,
+  REVERSED,
   INVALID,
   CLOSED,
   APPROVED,
@@ -25,7 +25,7 @@ class DocumentStatusColor {
           case "COMPLETED":
           return Colors.green;
           break;
-          case "RESERVED":
+          case "REVERSED":
           return Colors.orange;
           break;
           case "INVALID":
@@ -69,8 +69,8 @@ class StatusDocument {
       case DocumentStatus.COMPLETED:
         return "Completed";
         break;
-      case DocumentStatus.RESERVED:
-        return "Reserved";
+      case DocumentStatus.REVERSED:
+        return "Reversed";
         break;
       case DocumentStatus.INVALID:
         return "Invalid";

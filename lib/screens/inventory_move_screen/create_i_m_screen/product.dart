@@ -3,32 +3,30 @@ import 'package:forca_so/master/master_presenter.dart';
 import 'package:forca_so/models/product/product.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/utils/my_dialog.dart';
-
 class SelectProduct extends StatefulWidget {
-  final String priceListID;
+
   final ValueChanged<Product> onSelected;
 
-  SelectProduct(this.priceListID, this.onSelected);
+  SelectProduct(this.onSelected);
 
   @override
   _SelectProductState createState() =>
-      _SelectProductState(this.priceListID, this.onSelected);
+      _SelectProductState(this.onSelected);
 }
 
 class _SelectProductState extends State<SelectProduct> {
   final ValueChanged<Product> onSelected;
-  final String priceListID;
   List<Product> myProducts = List();
 
-  _SelectProductState(this.priceListID, this.onSelected);
+  _SelectProductState(this.onSelected);
 
   TextEditingController keyword;
   int page = 1;
 
   _getProduct() async {
     Loading(context).show();
-    await reqProduct(priceListID: priceListID,
-            keyWord: keyword.text.toString(), page: page.toString())
+    await reqProduct(
+        keyWord: keyword.text.toString(), page: page.toString())
         .then((listProduct) {
       setState(() {
         this.myProducts = listProduct;
@@ -72,20 +70,20 @@ class _SelectProductState extends State<SelectProduct> {
           ),
           myProducts.isEmpty
               ? Container(
-                  height: 50.0,
-                  child: Center(
-                    child: forcaText("No more data!"),
-                  ),
-                )
+            height: 50.0,
+            child: Center(
+              child: forcaText("No more data!"),
+            ),
+          )
               : Expanded(
-                  child: ListView.builder(
-                  itemBuilder: (c, i) => FlatButton(
-                      onPressed: () {
-                        onSelected(myProducts[i]);
-                      },
-                      child: forcaText(myProducts[i].name)),
-                  itemCount: myProducts.length,
-                )),
+              child: ListView.builder(
+                itemBuilder: (c, i) => FlatButton(
+                    onPressed: () {
+                      onSelected(myProducts[i]);
+                    },
+                    child: forcaText(myProducts[i].name)),
+                itemCount: myProducts.length,
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -93,13 +91,13 @@ class _SelectProductState extends State<SelectProduct> {
                   onPressed: page <= 1
                       ? null
                       : () {
-                          if (page - 1 > 0) {
-                            setState(() {
-                              page--;
-                              _getProduct();
-                            });
-                          }
-                        },
+                    if (page - 1 > 0) {
+                      setState(() {
+                        page--;
+                        _getProduct();
+                      });
+                    }
+                  },
                   child: forcaText("Previus",
                       color: page <= 1 ? Colors.grey : Colors.black,
                       fontWeight: FontWeight.bold)),
@@ -107,11 +105,11 @@ class _SelectProductState extends State<SelectProduct> {
                   onPressed: myProducts.isEmpty
                       ? null
                       : () {
-                          setState(() {
-                            page++;
-                            _getProduct();
-                          });
-                        },
+                    setState(() {
+                      page++;
+                      _getProduct();
+                    });
+                  },
                   child: forcaText("Next",
                       color: myProducts.isEmpty ? Colors.grey : Colors.black,
                       fontWeight: FontWeight.bold)),

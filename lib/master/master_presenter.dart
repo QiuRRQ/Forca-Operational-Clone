@@ -73,13 +73,14 @@ Future<List<BPartner>> reqBPartner(
   return bPartners;
 }
 
-Future<List<Product>> reqProduct(String priceListID,
-    {String keyWord, String page, String productID, String perPage}) async {
+Future<List<Product>> reqProduct(
+    {String priceListID,String keyWord, String page, String productID, String perPage}) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRODUCT";
-  var myBody = {"m_pricelist_id": priceListID, "showpricelist": "Y"};
+  var myBody = {"showpricelist": "Y"};
+  if (priceListID != null) myBody.addAll({"m_pricelist_id": priceListID});
   if (keyWord != null) if (keyWord.isNotEmpty) myBody.addAll({"name": keyWord});
   if (page != null) myBody.addAll({"page": page});
   if (perPage != null) myBody.addAll({"perpage": perPage});
@@ -175,22 +176,26 @@ Future<List<Tax>> reqTax() async {
   return taxList;
 }
 
-
 Future<List<Locator>> reqLocator() async {
   List<Locator> locatorList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
-  var url = "${ref.getString(BASE_URL)}$LIST_LOCATOR";
+
+  var url = "${ref.getString(BASE_URL)}$LOCATOR";
   var response = await http.post(url, headers: {"Forca-Token": user.token});
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
-    if (res["codestatus"] == "S") {
-      return LocatorResponse.fromJsonMap(res).locator;
+
+    if (res['codestatus'] == "S") {
+      return LocatorResponse
+          .fromJsonMap(res)
+          .locatorList;
     }
   }
   return locatorList;
 }
+
 
 Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
     {String keyWord, String page, String perPage}) async {
@@ -221,3 +226,4 @@ Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
   }
   return listSO;
 }
+

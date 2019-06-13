@@ -185,14 +185,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                         children: <Widget>[
                           FlatButton(
                               onPressed: () {
-                                if (mrParam.lines.isNotEmpty) {
-                                  createMR();
-                                } else {
-                                  MyDialog(context, "FAILED", "Please add line", Status.ERROR)
-                                      .build(() {
-                                    Navigator.pop(context);
-                                  });
-                                }
+                                createMR();
                               },
                               child: Text(
                                 "Save",

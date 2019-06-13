@@ -103,7 +103,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       List<Product> listProduct = List();
       List<Tax> listTax = List();
 
-      await reqProduct(priceList.priceListID).then((products) {
+      await reqProduct(priceListID: priceList.priceListID).then((products) {
         listProduct.addAll(products);
       }).catchError((err) {
         print(err.toString());

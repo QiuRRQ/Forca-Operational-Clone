@@ -6,6 +6,7 @@ class SalesOrder {
   String status;
   String docDate = "";
 
+  SalesOrder();
   SalesOrder.fromJsonMap(Map<String, dynamic> map)
       : orderID = map["c_order_id"],
         name = map["name"],

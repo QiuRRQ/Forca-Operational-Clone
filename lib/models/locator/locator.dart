@@ -5,7 +5,7 @@ class Locator {
   String locator_name;
 
   Locator();
-	Locator.fromJsonMap(Map<String, dynamic> map): 
+	Locator.fromJsonMap(Map<String, dynamic> map):
 		m_locator_id = map["m_locator_id"],
 		locator_name = map["locator_name"];
 

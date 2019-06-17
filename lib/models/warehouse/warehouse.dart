@@ -1,7 +1,7 @@
 
 class Warehouse {
 
-  final String warehouseID;
+	final String warehouseID;
   final String clientName;
   final String value;
   final String name;

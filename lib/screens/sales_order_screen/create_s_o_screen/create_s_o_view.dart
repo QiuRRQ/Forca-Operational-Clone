@@ -92,7 +92,7 @@ class CreateSOView extends CreateSOViewModel {
                               IconButton(
                                   icon: Icon(Icons.expand_more),
                                   onPressed: () {
-                                    getBPartner();
+                                      getBPartner();
                                   }),
                             ],
                           ),

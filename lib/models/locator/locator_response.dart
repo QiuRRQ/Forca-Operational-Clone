@@ -11,6 +11,7 @@ class LocatorResponse {
 		message = map["message"],
 		locatorList = List<Locator>.from(map["resultdata"].map((it) => Locator.fromJsonMap(it)));
 
+
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
 		data['codestatus'] = codestatus;

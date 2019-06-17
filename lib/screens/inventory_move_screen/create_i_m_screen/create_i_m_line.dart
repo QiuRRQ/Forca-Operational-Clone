@@ -27,6 +27,7 @@ class _CreateIMLineState extends State<CreateIMLine> {
 
   setLine() {
     myLine.productName = selectedProduct.name;
+    myLine.m_product_id = int.parse(selectedProduct.productID);
     myLine.locatorFrom = selectedLocatorFrom.locator_name;
     myLine.m_locator_id = int.parse(selectedLocatorFrom.m_locator_id);
     myLine.m_locatorto_id = int.parse(selectedLocatorTo.m_locator_id);

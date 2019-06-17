@@ -98,7 +98,8 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     getIMList();
+    super.initState();
+
   }
 }

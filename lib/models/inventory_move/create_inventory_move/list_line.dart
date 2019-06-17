@@ -5,19 +5,18 @@ class ListLine {
   String productName;
   int m_locator_id;
   String locatorFrom;
-  int forca_qtyentered;
+  int forca_qtyentered = 0;
   int m_locatorto_id;
   String locatorTo;
   int movementqty;
-  int forca_c_uom_id;
+  int forca_c_uom_id = 0;
+
   
   ListLine({
 		this.m_product_id,
 		this.m_locator_id,
 		this.m_locatorto_id,
 		this.movementqty,
-		this.forca_c_uom_id,
-		this.forca_qtyentered
 });
 
 	ListLine.fromJsonMap(Map<String, dynamic> map): 

@@ -102,6 +102,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                               child: OutlineButton(
                                 onPressed: () {
                                   //TODO create Inventory Move
+                                  Navigator.push(context, MaterialPageRoute(builder: (c)=> CreateIMScreen()));
                                 },
                                 child: Text(
                                   "Edit",

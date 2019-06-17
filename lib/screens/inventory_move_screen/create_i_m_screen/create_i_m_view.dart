@@ -39,7 +39,7 @@ class CreateIMView extends CreateIMViewModel{
                                 MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
                                   saleRep == null
-                                      ? 'Select Warehouse'
+                                      ? 'Select Sales Rep'
                                       : saleRep.name,
                                   style: TextStyle(
                                     fontFamily: "Title",

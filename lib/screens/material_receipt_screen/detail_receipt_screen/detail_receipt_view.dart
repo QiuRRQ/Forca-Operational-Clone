@@ -29,7 +29,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                docNumer.dateOrdered,
+                docNumer.dateOrdered == null ? "" : docNumer.dateOrdered,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -49,7 +49,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                docNumer.documentNo,
+                docNumer.documentNo == null ? "" : docNumer.documentNo,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -69,7 +69,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                "${docNumer.price}",
+                docNumer.price == null ? "" : "${docNumer.price}",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -92,7 +92,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 ),
               ),
               Text(
-                docNumer.clientName,
+                docNumer.clientName == null ? "": docNumer.clientName,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -112,7 +112,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15, fontFamily: "Title"),
               ),
               Text(
-                docNumer.warehouseName,
+                docNumer.warehouseName == null ? "" : docNumer.warehouseName,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,

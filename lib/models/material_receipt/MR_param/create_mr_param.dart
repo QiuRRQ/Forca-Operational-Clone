@@ -3,7 +3,7 @@ import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
 
 class CreateMrParam {
   String movementDate = "";
-  List<MrLine> lines;
+  List<MrLine> lines = List<MrLine>();
   int warehouseID = 0;
   int partnerID = 0;
   String isSoTrx = "";

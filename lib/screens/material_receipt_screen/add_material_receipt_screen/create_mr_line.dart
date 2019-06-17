@@ -1,22 +1,31 @@
+import 'dart:convert';
+import 'dart:async';
+import 'package:forca_so/utils/my_dialog.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_order.dart';
 import 'package:forca_so/models/bpartner/bpartner.dart';
 import 'package:forca_so/models/locator/locator.dart';
 import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
+import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/models/warehouse/warehouse.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/utils/string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateMRLine extends StatefulWidget {
   final List<Locator> listLocator;
   final ValueChanged<MrLine> line;
   final BPartner bPartner;
   final Warehouse warehouse;
+  int inoutID;
+  bool lineInserted;
 
-  CreateMRLine(this.listLocator, this.line, this.bPartner, this.warehouse);
+  CreateMRLine(this.listLocator, this.line, this.bPartner, this.warehouse, this.inoutID, this.lineInserted);
 
   @override
-  _MRLineState createState() => _MRLineState(listLocator, line, bPartner, warehouse);
+  _MRLineState createState() => _MRLineState(listLocator, line, bPartner, warehouse, inoutID, lineInserted);
 }
 
 class _MRLineState extends State<CreateMRLine> {
@@ -25,19 +34,65 @@ class _MRLineState extends State<CreateMRLine> {
   Locator selectedLocator = Locator();
   final BPartner bPartner;
   final Warehouse warehouse;
+  int inoutID;
+  bool lineInserted;
   final ValueChanged<MrLine> line;
   MrLine myline = MrLine();
   var qtyController,
       orderController;
 
-  _MRLineState(this.listLocator, this.line, this.bPartner, this.warehouse);
+  _MRLineState(this.listLocator, this.line, this.bPartner, this.warehouse, this.inoutID, this.lineInserted);
 
   setLine() {
+    myline.inOutId = inoutID;
     myline.locatorName = selectedLocator.locator_name;
     myline.locatorId = int.parse(selectedLocator.m_locator_id);
     myline.orderId = int.parse(selectedOrder.orderID);
     myline.orderName = selectedOrder.name;
     myline.qty = int.parse(qtyController.text.toString());
+  }
+
+  submitterMR(MrLine item)async{
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$CREATE_INOUTLINE";
+    var response = await http.post(url, body: {
+      "m_inout_id": item.inOutId.toString(),
+      "c_order_id": item.orderId.toString(),
+      "m_locator_id": item.locatorId.toString(),
+      "qty": item.qty.toString()
+    }, headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+      "Forca-Token": user.token
+    }).catchError((err) {
+      MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+    });
+    //Navigator.pop(context);
+    if (response != null) {
+      print("hasil Line ${response.body}");
+      var res = jsonDecode(response.body);
+      if (res["codestatus"] == "S") {//ToDO: context need to passing here yaitu semua yang pakai context di sini akan crash
+        print("insert line sukses");
+        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+          //Navigator.pop(context);
+          //Navigator.pop(context);
+          print("result id : ${res['resultdata']}");
+        });
+      } else {
+        MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -79,7 +134,7 @@ class _MRLineState extends State<CreateMRLine> {
                     height: 50.0,
                     color: Colors.blue[600],
                     child: Center(
-                      child: forcaText("Create SO Line", color: Colors.white),
+                      child: forcaText("Create MR Line", color: Colors.white),
                     ),
                   ),
                   Container(
@@ -202,6 +257,7 @@ class _MRLineState extends State<CreateMRLine> {
                       onPressed: () {
                         try {
                           setLine();
+                          submitterMR(myline);
                           line(myline);
                         } catch (exception) {
                           print("eception ${exception.toString()}");

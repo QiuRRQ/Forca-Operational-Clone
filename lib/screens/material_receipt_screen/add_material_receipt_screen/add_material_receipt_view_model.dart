@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:forca_so/models/locator/locator.dart';
+import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/create_mr_line.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,10 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;
+  int minOutId;
+  bool isSave = false;
+  bool isSavedTwice = false;
+  bool lineInserted = false;
   CreateMrParam mrParam = CreateMrParam();
 
   setParam() {
@@ -90,7 +95,52 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
               Navigator.pop(context);
               mrParam.lines.add(line);
             });
-          }, bPartner, warehouse));
+          }, bPartner, warehouse, minOutId, lineInserted));
+      print(lineInserted);
+    }
+  }
+
+  createLine(){
+    if(mrParam.lines.isNotEmpty){
+      print("submitting line...");
+      mrParam.lines.forEach((element) => (_submitterMR(element)));
+    }
+  }
+
+  _submitterMR(MrLine item)async{
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$CREATE_INOUTLINE";
+    print("parameter ${jsonEncode(mrParam)}");
+    var response = await http.post(url, body: {
+      "m_inout_id": item.inOutId.toString(),
+      "c_order_id": item.orderId.toString(),
+      "m_locator_id": item.locatorId.toString(),
+      "qty": item.qty.toString()
+    }, headers: {
+      "Forca-Token": user.token,
+      "Accept": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded"
+    }).catchError((err) {
+      MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+    });
+    Navigator.pop(context);
+    if (response != null) {
+      print("hasil Line ${response.body}");
+      var res = jsonDecode(response.body);
+      if (res["codestatus"] == "S") {
+        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          print("result id : ${res['resultdata']}");
+        });
+      } else {
+        MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+      }
     }
   }
 
@@ -122,9 +172,12 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
         var res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
           MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+            minOutId = res['resultdata'][0]['m_inout_id'];//ToDO: this item still null
             Navigator.pop(context);
-            Navigator.pop(context);
-            print("result : ${res['resultdata']}");
+            //Navigator.pop(context);
+            //ToDO: cara cek line item masuk atau tidak gimana
+            isSave = true;
+            print("result id : $minOutId");
           });
         } else {
           MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {

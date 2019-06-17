@@ -5,7 +5,7 @@ class DetailMaterialReceipt {
   String inOutID;
   String clientID;
   String orgID;
-  String orderID;
+  int orderID;
   String dateOrdered;
   String documentNo;
   String poReference;
@@ -13,10 +13,10 @@ class DetailMaterialReceipt {
   String docTypeID;
   String movementDate;
   String dateAcct;
-  String bPartnerID;
+  int bPartnerID;
   String bPartnerLocID;
   String userID;
-  String warehouseID;
+  int warehouseID;
   String saleRepID;
   String docStatus;
   String movementType;

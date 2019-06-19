@@ -15,6 +15,7 @@ enum  DocumentStatus {
 
 class DocumentStatusColor {
   getColor(String status){
+    if(status != null) {
       switch (status.toUpperCase()) {
         case "DRAFTED":
             return Colors.yellow[800];
@@ -50,6 +51,9 @@ class DocumentStatusColor {
           return Colors.yellow[600];
           break;
       }
+  } else {
+  return Colors.white;
+    }
   }
 }
 

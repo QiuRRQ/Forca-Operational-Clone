@@ -102,7 +102,10 @@ class InventoryMoveView extends InventoryMoveViewModel {
                               child: OutlineButton(
                                 onPressed: () {
                                   //TODO create Inventory Move
-                                  Navigator.push(context, MaterialPageRoute(builder: (c)=> CreateIMScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (c) => CreateIMScreen()));
                                 },
                                 child: Text(
                                   "Edit",
@@ -119,9 +122,10 @@ class InventoryMoveView extends InventoryMoveViewModel {
                         height: 30.0,
                         child: RaisedButton(
                           onPressed: null,
-                          disabledColor: DocumentStatusColor().getColor(im.status),
+                          disabledColor:
+                              DocumentStatusColor().getColor(im.status),
                           child: Text(
-                            im.status,
+                            im.status ?? "",
                             style: TextStyle(
                                 fontSize: 13.0,
                                 fontFamily: "Title",

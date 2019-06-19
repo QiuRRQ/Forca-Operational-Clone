@@ -323,7 +323,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                          height: 30.0,
                          child: OutlineButton(
                            onPressed: () {
-//                            edit(line);
+                            edit(line);
                            },
                            child: Text(
                              "Edit",
@@ -389,12 +389,19 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
               children: <Widget>[
                 FlatButton(
                     onPressed: () {
-                     isSave ?
-                     MyDialog(context, "Succeed", "Insert data material receipt line succeeded", Status.SUCCESS)
-                         .build(() {
-                       Navigator.pop(context);
-                       Navigator.pop(context);
-                     }) : createMR();
+                      if(isSave) {
+                        if(mrParam.lines.isEmpty){
+                          MyDialog(context, "Error", "Please Insert material receipt line", Status.ERROR)
+                              .build(() {
+                            //Navigator.pop(context);
+                            Navigator.pop(context);
+                          });
+                        }else{
+                          createLine();
+                        }
+                      }else{
+                        createMR();
+                      }
                     },
                     child: Text(
                       "Save",

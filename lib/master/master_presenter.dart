@@ -176,13 +176,15 @@ Future<List<Tax>> reqTax() async {
   return taxList;
 }
 
-Future<List<Locator>> reqLocator() async {
+Future<List<Locator>> reqLocator({String warehouseID}) async {
   List<Locator> locatorList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
-
+  var myBody = {
+    "m_warehouse_id": warehouseID
+  };
   var url = "${ref.getString(BASE_URL)}$LOCATOR";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var response = await http.post(url,body: myBody, headers: {"Forca-Token": user.token});
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);

@@ -23,6 +23,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   Warehouse warehouse;
   BPartner bPartner;
   int minOutId;
+  var editQTY;
   bool isSave = false;
   bool isSavedTwice = false;
   bool lineInserted = false;
@@ -68,6 +69,10 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
     });
   }
 
+  edit(MrLine line) {
+
+  }
+
   getMasterLine() async {
     if (isNotEmptyHeader()) {
       Loading(context).show();
@@ -80,7 +85,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
         print(err.toString());
       });
       print("data Order ${listSO.length}");
-      await reqLocator().then((locatorList) {
+      await reqLocator(warehouseID:warehouse.warehouseID).then((locatorList) {
         listLocator.addAll(locatorList);
       }).catchError((err) {
         print(err.toString());

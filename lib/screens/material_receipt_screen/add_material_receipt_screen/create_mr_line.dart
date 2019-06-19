@@ -52,42 +52,6 @@ class _MRLineState extends State<CreateMRLine> {
     myline.qty = int.parse(qtyController.text.toString());
   }
 
-  submitterMR(MrLine item)async{
-    var ref = await SharedPreferences.getInstance();
-    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
-    var url = "${ref.getString(BASE_URL)}$CREATE_INOUTLINE";
-    var response = await http.post(url, body: {
-      "m_inout_id": item.inOutId.toString(),
-      "c_order_id": item.orderId.toString(),
-      "m_locator_id": item.locatorId.toString(),
-      "qty": item.qty.toString()
-    }, headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Accept": "application/json",
-      "Forca-Token": user.token
-    }).catchError((err) {
-      MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
-        Navigator.pop(context);
-      });
-    });
-    //Navigator.pop(context);
-    if (response != null) {
-      print("hasil Line ${response.body}");
-      var res = jsonDecode(response.body);
-      if (res["codestatus"] == "S") {//ToDO: context need to passing here yaitu semua yang pakai context di sini akan crash
-        print("insert line sukses");
-        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
-          //Navigator.pop(context);
-          //Navigator.pop(context);
-          print("result id : ${res['resultdata']}");
-        });
-      } else {
-        MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
-          Navigator.pop(context);
-        });
-      }
-    }
-  }
 
   @override
   void dispose() {
@@ -214,50 +178,12 @@ class _MRLineState extends State<CreateMRLine> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 20.0)),
                   Container(
-                    margin: EdgeInsets.only(right: 16.0, left: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width - 32,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                "QTY",
-                                style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.0),
-                              ),
-                              Container(
-                                  width:
-                                  MediaQuery.of(context).size.width / 2 - 30,
-                                  child: TextField(
-                                    controller: qtyController,
-                                    keyboardType: TextInputType.number,
-                                    style: TextStyle(
-                                        fontFamily: "Title",
-                                        color: Colors.black,
-                                        fontSize: 14.0),
-                                    decoration: InputDecoration(
-                                        hintText: 'Enter QTY of product'),
-                                  ))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 20.0)),
-                  Container(
                     width: MediaQuery.of(context).size.width / 2,
                     child: RaisedButton(
                       onPressed: () {
                         try {
                           setLine();
-                          submitterMR(myline);
+                          //submitterMR(myline);
                           line(myline);
                         } catch (exception) {
                           print("eception ${exception.toString()}");

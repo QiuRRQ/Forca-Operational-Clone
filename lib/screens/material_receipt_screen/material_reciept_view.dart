@@ -127,8 +127,7 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
                               height: 30.0,
                               child: OutlineButton(
                                 onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (c) {}));
+                                  getDetailForEdit(materialReceipt);
                                 },
                                 child: Text(
                                   "Edit",

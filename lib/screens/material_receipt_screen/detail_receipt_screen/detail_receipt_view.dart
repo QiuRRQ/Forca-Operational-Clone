@@ -29,7 +29,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                docNumer.dateOrdered == null ? "" : docNumer.dateOrdered,
+                docNumer.movementDate == null ? "" : docNumer.movementDate,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -92,7 +92,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 ),
               ),
               Text(
-                docNumer.clientName == null ? "": docNumer.clientName,
+                docNumer.bPartnerName == null ? "": docNumer.bPartnerName,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,

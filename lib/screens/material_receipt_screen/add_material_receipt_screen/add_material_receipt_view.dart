@@ -323,7 +323,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                          height: 30.0,
                          child: OutlineButton(
                            onPressed: () {
-                            edit(line);
+                            //edit(line);
                            },
                            child: Text(
                              "Edit",
@@ -397,7 +397,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                             Navigator.pop(context);
                           });
                         }else{
-                          createLine();
+                          Navigator.pop(context);
                         }
                       }else{
                         createMR();

@@ -14,6 +14,7 @@ class DetailMaterialReceipt {
   String movementDate;
   String dateAcct;
   int bPartnerID;
+  String bPartnerName;
   String bPartnerLocID;
   String userID;
   int warehouseID;
@@ -28,7 +29,7 @@ class DetailMaterialReceipt {
   String descDetail;
   String qtyEntered;
   String uomID;
-  String warehouseCode;
+  int warehouseCode;
   String warehouseName;
   String clientName;
   String distributorCode;
@@ -60,6 +61,7 @@ class DetailMaterialReceipt {
 		movementDate = map["movementdate"],
 		dateAcct = map["dateacct"],
 		bPartnerID = map["c_bpartner_id"],
+		bPartnerName = map["c_bpartner_name"],
 		bPartnerLocID = map["c_bpartner_location_id"],
 		userID = map["ad_user_id"],
 		warehouseID = map["m_warehouse_id"],
@@ -74,8 +76,7 @@ class DetailMaterialReceipt {
 		descDetail = map["description_detail"],
 		qtyEntered = map["qtyentered"],
 		uomID = map["c_uom_id"],
-		warehouseCode = map["warehousecode"],
-		warehouseName = map["warehousename"],
+		warehouseName = map["warehouse"],
 		clientName = map["clientname"],
 		distributorCode = map["distributorcode"],
 		distributorName = map["distributorname"],
@@ -108,6 +109,7 @@ class DetailMaterialReceipt {
 		data['movementdate'] = movementDate;
 		data['dateacct'] = dateAcct;
 		data['c_bpartner_id'] = bPartnerID;
+		data['c_bpartner_name'] = bPartnerName;
 		data['c_bpartner_location_id'] = bPartnerLocID;
 		data['ad_user_id'] = userID;
 		data['m_warehouse_id'] = warehouseID;

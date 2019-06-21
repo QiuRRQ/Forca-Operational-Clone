@@ -49,9 +49,42 @@ class _MRLineState extends State<CreateMRLine> {
     myline.locatorId = int.parse(selectedLocator.m_locator_id);
     myline.orderId = int.parse(selectedOrder.orderID);
     myline.orderName = selectedOrder.name;
-    myline.qty = int.parse(qtyController.text.toString());
   }
 
+  submitterMR(MrLine item)async{
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$CREATE_INOUTLINE";
+    var response = await http.post(url, body: {
+      "m_inout_id": item.inOutId.toString(),
+      "c_order_id": item.orderId.toString(),
+      "m_locator_id": item.locatorId.toString()
+    }, headers: {
+      "Forca-Token": user.token,
+      "Accept": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded"
+    }).catchError((err) {
+      MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+    });
+    //Navigator.pop(context);
+    if (response != null) {
+      print("hasil Line ${response.body}");
+      var res = jsonDecode(response.body);
+      if (res["codestatus"] == "S") {
+        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+          //Navigator.pop(context);
+          //Navigator.pop(context);
+          print("result id : ${res['resultdata']}");
+        });
+      } else {
+        MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -183,7 +216,7 @@ class _MRLineState extends State<CreateMRLine> {
                       onPressed: () {
                         try {
                           setLine();
-                          //submitterMR(myline);
+                          submitterMR(myline);
                           line(myline);
                         } catch (exception) {
                           print("eception ${exception.toString()}");

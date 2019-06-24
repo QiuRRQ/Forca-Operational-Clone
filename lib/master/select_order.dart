@@ -33,11 +33,20 @@ class _SelectOrderState extends State<SelectOrder> {
     await reqOrder(bPartnerID, warehouseID,
         keyWord: keyword.text.toString(), page: page.toString())
         .then((listOrder) {
-      setState(() {
-        this.myOrder = listOrder;
-      });
+      if(listOrder.isNotEmpty){
+        setState(() {
+          this.myOrder = listOrder;
+        });
+        Navigator.pop(context);
+      }else{
+        Navigator.pop(context);
+        print("list order kosong");
+        MyDialog(context, "Failur", "Order not Found for this Warehouse and BPartner", Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+      }
     });
-    Navigator.pop(context);
+
   }
 
   @override

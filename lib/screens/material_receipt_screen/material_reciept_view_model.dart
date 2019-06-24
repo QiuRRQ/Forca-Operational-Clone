@@ -80,7 +80,8 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
         Navigator.push(context,
             MaterialPageRoute(builder: (c) => DetailReceiptScreen(materialReceipt)));
       } else {
-        MyDialog(context, "Failur", res["message"], Status.ERROR).build(() {
+        print("getDetail : ${res["message"]}");
+        MyDialog(context, "Failur", "Detail Material Receipt not Found", Status.ERROR).build(() {
           Navigator.pop(context);
         });
       }

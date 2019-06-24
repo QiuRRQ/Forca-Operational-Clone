@@ -29,14 +29,13 @@ import 'package:forca_so/models/payment_rule/payment_rule.dart';
 
 Future<List<Warehouse>> reqWarehouse({String keyWord}) async {
   List<Warehouse> warehouses = List();
-  var myBody = {
-    "name": keyWord ?? ""
-  };
+  var myBody = {"name": keyWord ?? ""};
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_WAREHOUSE";
-  var response = await http.post(url,body: myBody,headers: {"Forca-Token": user.token})
-      .catchError((err) => print("error ${err.toString()}"));
+  var response = await http.post(url, body: myBody, headers: {
+    "Forca-Token": user.token
+  }).catchError((err) => print("error ${err.toString()}"));
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
@@ -74,7 +73,11 @@ Future<List<BPartner>> reqBPartner(
 }
 
 Future<List<Product>> reqProduct(
-    {String priceListID,String keyWord, String page, String productID, String perPage}) async {
+    {String priceListID,
+    String keyWord,
+    String page,
+    String productID,
+    String perPage}) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
@@ -180,24 +183,33 @@ Future<List<Locator>> reqLocator({String warehouseID}) async {
   List<Locator> locatorList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
-  var myBody = {
-    "m_warehouse_id": warehouseID
-  };
+  var myBody = {"m_warehouse_id": warehouseID};
   var url = "${ref.getString(BASE_URL)}$LOCATOR";
-  var response = await http.post(url,body: myBody, headers: {"Forca-Token": user.token});
-  print(response.body);
-  if (response.statusCode == 200) {
-    Map res = jsonDecode(response.body);
+  if (warehouseID == null) {
+    var response_nobody =
+        await http.post(url, headers: {"Forca-Token": user.token});
+    print(response_nobody.body);
+    if (response_nobody.statusCode == 200) {
+      Map res = jsonDecode(response_nobody.body);
 
-    if (res['codestatus'] == "S") {
-      return LocatorResponse
-          .fromJsonMap(res)
-          .locatorList;
+      if (res['codestatus'] == "S") {
+        return LocatorResponse.fromJsonMap(res).locatorList;
+      }
+    }
+  } else {
+    var response = await http
+        .post(url, body: myBody, headers: {"Forca-Token": user.token});
+    print(response.body);
+    if (response.statusCode == 200) {
+      Map res = jsonDecode(response.body);
+
+      if (res['codestatus'] == "S") {
+        return LocatorResponse.fromJsonMap(res).locatorList;
+      }
     }
   }
   return locatorList;
 }
-
 
 Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
     {String keyWord, String page, String perPage}) async {
@@ -228,4 +240,3 @@ Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
   }
   return listSO;
 }
-

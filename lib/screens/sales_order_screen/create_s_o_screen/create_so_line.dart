@@ -42,7 +42,7 @@ class _SOLineState extends State<CreateSOLine> {
     myline.productName = selectedProduct.name;
     myline.uomID = int.parse(selectedUom.uomID);
     myline.uomName = selectedUom.name;
-    myline.price = int.parse(priceController.text.toString());
+    myline.price = priceController.text.toString();
     myline.qty = int.parse(qtyController.text.toString());
   }
 

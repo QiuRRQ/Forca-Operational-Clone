@@ -82,7 +82,7 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
       print("data locator ${listLocator.length}");
       Navigator.pop(context);
       if (listLocator.isEmpty) {
-        MyDialog(context, "TAX Empty", "TAX is Empty", Status.ERROR).build(() {
+        MyDialog(context, "Locator Empty", "Locator is Empty", Status.ERROR).build(() {
           Navigator.pop(context);
         });
         return;

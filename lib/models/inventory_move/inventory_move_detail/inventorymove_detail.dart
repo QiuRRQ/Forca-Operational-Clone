@@ -14,6 +14,8 @@ class InventoryMoveDetail {
   Object crm_id;
   List<M_movementline> m_movementline;
 
+
+
 	InventoryMoveDetail.fromJsonMap(Map<String, dynamic> map): 
 		c_bpartner_id = map["c_bpartner_id"],
 		c_bpartner_name = map["c_bpartner_name"],

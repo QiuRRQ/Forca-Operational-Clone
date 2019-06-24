@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/models/inventory_move/inventory_move.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/create_i_m_screen.dart';
+import 'package:forca_so/screens/inventory_move_screen/edit_i_m_screen/edit_i_m_screen.dart';
 import 'package:forca_so/screens/inventory_move_screen/inventory_move_view_model.dart';
 import 'package:forca_so/utils/document_status.dart';
-import 'package:forca_so/screens/inventory_move_screen/detail_i_m_screen/detail_i_m_screen.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/screens/inventory_move_screen/edit_i_m_screen/edit_i_m_view_model.dart';
 
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter() {
@@ -100,13 +101,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                           ? Container(
                               height: 30.0,
                               child: OutlineButton(
-                                onPressed: () {
-                                  //TODO create Inventory Move
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (c) => CreateIMScreen()));
-                                },
+                                onPressed: () => getIMData(im),
                                 child: Text(
                                   "Edit",
                                   style: TextStyle(

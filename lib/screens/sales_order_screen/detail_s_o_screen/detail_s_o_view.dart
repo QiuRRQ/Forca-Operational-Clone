@@ -181,11 +181,13 @@ class DetailSOView extends DetailSOViewModel {
           ),
           Divider(),
           Padding(padding: EdgeInsets.only(top: 20.0)),
-          Text("SO LINE",
-              style: TextStyle(
-                  fontFamily: "Title",
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold)),
+          Center(
+            child: Text("SO LINE",
+                style: TextStyle(
+                    fontFamily: "Title",
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold)),
+          ),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: linesWidget,

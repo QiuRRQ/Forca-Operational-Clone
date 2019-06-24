@@ -5,7 +5,7 @@ class SoLine {
   int taxID;
   String taxName;
   int qty;
-  int price;
+  String price;
   int uomID;
   String uomName;
 

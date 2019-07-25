@@ -124,7 +124,7 @@ class SalesOrderView extends SalesOrderViewModel {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (c) => CreateSOScreen()));
+                                          builder: (c) => CreateSOScreen(orderItem: so,)));
                                 },
                                 child: Text(
                                   "Edit",

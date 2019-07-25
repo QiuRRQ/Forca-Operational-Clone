@@ -41,6 +41,7 @@ Future<List<Warehouse>> reqWarehouse({String keyWord}) async {
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
+      print("warehouse ${WarehouseResponse.fromJsonMap(res).warehouses}");
       return WarehouseResponse.fromJsonMap(res).warehouses;
     }
   }
@@ -97,12 +98,20 @@ Future<List<Product>> reqProduct(
   return products;
 }
 
-Future<List<SaleRep>> reqSaleRep() async {
+Future<List<SaleRep>> reqSaleRep({String keyword}) async {
   List<SaleRep> salesReps = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_SALES_REP";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var myBody = {
+    "name": keyword
+  };
+  var response;
+  if(keyword == null){
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }else{
+    response = await http.post(url, body: myBody, headers: {"Forca-Token": user.token});
+  }
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
@@ -112,12 +121,21 @@ Future<List<SaleRep>> reqSaleRep() async {
   return salesReps;
 }
 
-Future<List<PaymentRule>> reqPaymentRule() async {
+Future<List<PaymentRule>> reqPaymentRule([String name]) async {
   List<PaymentRule> paymentRules = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PAYMENT_RULE";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var response;
+  if(name != null){
+    var myBody = {
+      "name": name
+    };
+    response = await http.post(url,body: myBody , headers: {"Forca-Token": user.token});
+  }else{
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }
+
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
@@ -128,12 +146,21 @@ Future<List<PaymentRule>> reqPaymentRule() async {
   return paymentRules;
 }
 
-Future<List<PriceList>> reqPriceList() async {
+Future<List<PriceList>> reqPriceList([String name]) async {
   List<PriceList> priceList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRICE_LIST";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var response;
+  if(name != null){
+    var myBody = {
+      "name": name
+    };
+     response = await http.post(url,body: myBody , headers: {"Forca-Token": user.token});
+  }else{
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }
+
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);

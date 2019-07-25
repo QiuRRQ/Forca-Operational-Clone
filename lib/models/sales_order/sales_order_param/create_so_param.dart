@@ -2,6 +2,15 @@ import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 
 class CreateSoParam {
   String dateOrdered = "";
+
+  String poreference = "";
+  int c_paymentterm_id = 0;
+  int dropship_location_id = 0;
+  int dropship_bpartner_id = 0;
+  int c_project_id = 0;
+  int user2_id = 0;
+  String description = "";
+
   List<SoLine> lines;
   int warehouseID = 0;
   int partnerID = 0;
@@ -23,6 +32,13 @@ class CreateSoParam {
 
   CreateSoParam.fromJsonMap(Map<String, dynamic> map)
       : dateOrdered = map["dateordered"],
+        poreference = map ["poreference"],
+        c_paymentterm_id = map["c_paymentterm_id"],
+        dropship_location_id = map["dropship_location_id"],
+        dropship_bpartner_id = map["dropship_bpartner_id"],
+        c_project_id = map["c_project_id"],
+        user2_id = map["user2_id"],
+        description = map["description"],
         lines = List<SoLine>.from(
             map["list_line"].map((it) => SoLine.fromJsonMap(it))),
         warehouseID = map["m_warehouse_id"],
@@ -44,6 +60,13 @@ class CreateSoParam {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['dateordered'] = dateOrdered;
+    data["poreference"] = poreference;
+    data["c_paymentterm_id"] = c_paymentterm_id;
+    data["dropship_location_id"] = dropship_location_id;
+    data["dropship_bpartner_id"] = dropship_bpartner_id;
+    data["c_project_id"] = c_project_id;
+    data["user2_id"] = user2_id;
+    data["description"] = description;
     data['list_line'] =
         lines != null ? this.lines.map((v) => v.toJson()).toList() : null;
     data['m_warehouse_id'] = warehouseID;

@@ -44,11 +44,11 @@ class _MRLineState extends State<CreateMRLine> {
   _MRLineState(this.listLocator, this.line, this.bPartner, this.warehouse, this.inoutID, this.lineInserted);
 
   setLine() {
-    myline.inOutId = inoutID;
-    myline.locatorName = selectedLocator.locator_name;
-    myline.locatorId = int.parse(selectedLocator.m_locator_id);
-    myline.orderId = int.parse(selectedOrder.orderID);
-    myline.orderName = selectedOrder.name;
+    myline.m_inout_id = inoutID;
+//    myline.m_locator_id = selectedLocator.locator_name;
+    myline.m_locator_id = int.parse(selectedLocator.m_locator_id);
+    myline.c_orderline_id = int.parse(selectedOrder.orderID);
+//    myline.orderName = selectedOrder.name;
   }
 
   submitterMR(MrLine item)async{
@@ -56,9 +56,9 @@ class _MRLineState extends State<CreateMRLine> {
     var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
     var url = "${ref.getString(BASE_URL)}$CREATE_INOUTLINE";
     var response = await http.post(url, body: {
-      "m_inout_id": item.inOutId.toString(),
-      "c_order_id": item.orderId.toString(),
-      "m_locator_id": item.locatorId.toString()
+      "m_inout_id": item.m_inout_id.toString(),
+      "c_order_id": item.c_orderline_id.toString(),
+      "m_locator_id": item.m_locator_id.toString()
     }, headers: {
       "Forca-Token": user.token,
       "Accept": "application/json",

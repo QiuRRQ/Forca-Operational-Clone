@@ -142,7 +142,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                                   width:
                                   MediaQuery.of(context).size.width/2-70,
                                   child: Text(
-                                    mrParam.movementDate,
+                                    mrParam.movementdate,
                                     style: TextStyle(
                                       fontFamily: "Title",
                                       fontSize: 14.0,
@@ -155,7 +155,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                                     onPressed: () {
                                       selectDate(context, (date) {
                                         setState(() {
-                                          mrParam.movementDate = date;
+                                          mrParam.movementdate = date;
                                         });
                                       });
                                     }),
@@ -180,7 +180,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                       fontWeight: FontWeight.bold,
                       align: TextAlign.center),
                 ),
-                mrParam.lines.isEmpty
+                mrParam.list_line.isEmpty
                     ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -192,8 +192,8 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                     : Container(
                   height: 1000,
                   child: ListView.builder(
-                    itemBuilder: (c, i) => _lineItem(mrParam.lines[i]),
-                    itemCount: mrParam.lines.length,
+                    itemBuilder: (c, i) => _lineItem(mrParam.list_line[i]),
+                    itemCount: mrParam.list_line.length,
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(top: 20.0)),
@@ -231,7 +231,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                    Container(
                      width: MediaQuery.of(context).size.width / 2 - 30,
                      child: Text(
-                       line.orderName,
+                       line.c_orderline_id.toString(),
                        style: TextStyle(
                            fontFamily: "Title",
                            fontSize: 14.0,
@@ -260,7 +260,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                    Container(
                      width: MediaQuery.of(context).size.width / 2 - 30,
                      child: Text(
-                       line.locatorName,
+                       line.m_locator_id.toString(),
                        style: TextStyle(
                            fontFamily: "Title",
                            fontSize: 14.0,
@@ -339,7 +339,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                            color: Colors.red,
                            onPressed: () {
                              setState(() {
-                               mrParam.lines.remove(line);
+                               mrParam.list_line.remove(line);
                              });
                            },
                            child: Text(
@@ -390,7 +390,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                 FlatButton(
                     onPressed: () {
                       if(isSave) {
-                        if(mrParam.lines.isEmpty){
+                        if(mrParam.list_line.isEmpty){
                           MyDialog(context, "Error", "Please Insert material receipt line", Status.ERROR)
                               .build(() {
                             //Navigator.pop(context);

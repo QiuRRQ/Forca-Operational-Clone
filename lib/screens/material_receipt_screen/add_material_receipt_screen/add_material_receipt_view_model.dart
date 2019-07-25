@@ -30,9 +30,9 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   CreateMrParam mrParam = CreateMrParam();
 
   setParam() {
-    mrParam.warehouseID = int.parse(warehouse.warehouseID);
-    mrParam.partnerID = int.parse(bPartner.bPartnerID);
-    mrParam.isSoTrx = "N";
+    mrParam.m_warehouse_id = int.parse(warehouse.warehouseID);
+    mrParam.c_bpartner_id = int.parse(bPartner.bPartnerID);
+    mrParam.issotrx = "N";
   }
 
   bool isNotEmptyHeader() {
@@ -94,54 +94,10 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
           builder: (_) => CreateMRLine(listLocator, (line) {
             setState(() {
               Navigator.pop(context);
-              mrParam.lines.add(line);
+              mrParam.list_line.add(line);
             });
           }, bPartner, warehouse, minOutId, lineInserted));
       print(lineInserted);
-    }
-  }
-
-  createLine(){
-    if(mrParam.lines.isNotEmpty){
-      print("submitting line...");
-      mrParam.lines.forEach((element) => (_submitterMR(element)));
-    }
-  }
-
-  _submitterMR(MrLine item)async{
-    var ref = await SharedPreferences.getInstance();
-    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
-    var url = "${ref.getString(BASE_URL)}$CREATE_INOUTLINE";
-    print("parameter ${jsonEncode(mrParam)}");
-    var response = await http.post(url, body: {
-      "m_inout_id": item.inOutId.toString(),
-      "c_order_id": item.orderId.toString(),
-      "m_locator_id": item.locatorId.toString(),
-      "qty": item.qty.toString()
-    }, headers: {
-      "Forca-Token": user.token,
-      "Accept": "application/json",
-      "Content-Type": "application/x-www-form-urlencoded"
-    }).catchError((err) {
-      MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
-        Navigator.pop(context);
-      });
-    });
-    Navigator.pop(context);
-    if (response != null) {
-      print("hasil Line ${response.body}");
-      var res = jsonDecode(response.body);
-      if (res["codestatus"] == "S") {
-        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
-          Navigator.pop(context);
-          Navigator.pop(context);
-          print("result id : ${res['resultdata']}");
-        });
-      } else {
-        MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
-          Navigator.pop(context);
-        });
-      }
     }
   }
 
@@ -154,10 +110,10 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
       var url = "${ref.getString(BASE_URL)}$CREATE_INOUT";
       print("parameter ${jsonEncode(mrParam)}");
       var response = await http.post(url, body: {
-        "movementdate": mrParam.movementDate.toString(),
-        "c_bpartner_id": mrParam.partnerID.toString(),
-        "m_warehouse_id": mrParam.warehouseID.toString(),
-        "issotrx": mrParam.isSoTrx
+        "movementdate": mrParam.movementdate.toString(),
+        "c_bpartner_id": mrParam.c_bpartner_id.toString(),
+        "m_warehouse_id": mrParam.m_warehouse_id.toString(),
+        "issotrx": mrParam.issotrx
       }, headers: {
         "Forca-Token": user.token,
         "Accept": "application/json",
@@ -192,7 +148,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   @override
   void initState() {
     var now = DateTime.now();
-    mrParam.movementDate = "${now.year}-${now.month}-${now.day}";
+    mrParam.movementdate = "${now.year}-${now.month}-${now.day}";
     super.initState();
   }
 

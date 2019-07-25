@@ -303,6 +303,47 @@ class CreateSOView extends CreateSOViewModel {
               ],
             ),
           ),
+//          Container(
+//            width: MediaQuery.of(context).size.width / 2 - 20,
+//            margin: EdgeInsets.only(top: 16.0),
+//            child: Container(
+//              child: Column(
+//                crossAxisAlignment: CrossAxisAlignment.start,
+//                children: <Widget>[
+//                  Text(
+//                    "Documaent Status",
+//                    style: TextStyle(
+//                        fontFamily: "Title",
+//                        fontSize: 15.0,
+//                        fontWeight: FontWeight.bold),
+//                  ),
+//                  Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                    children: <Widget>[
+//                      Container(
+//                        width: MediaQuery.of(context).size.width - 32,
+//                        child: DropdownButtonHideUnderline(
+//                            child: ButtonTheme(
+//                              alignedDropdown: true,
+//                              child: new DropdownButton(
+//                                value: currentStatus,
+//                                items: dropDownMenuItems,
+//                                onChanged: changedDropDownItem,
+//                              )
+//                            )
+//                        )
+//                      ),
+//
+//                    ],
+//                  ),
+//                  Container(
+//                    height: 1.0,
+//                    color: Colors.grey[600],
+//                  ),
+//                ],
+//              ),
+//            ),
+//          ),
 //          Padding(padding: EdgeInsets.only(top: 20)),
 //          Container(
 //            width: MediaQuery.of(context).size.width,
@@ -348,7 +389,7 @@ class CreateSOView extends CreateSOViewModel {
               : Container(
                   height: 1000,
                   child: ListView.builder(
-                    itemBuilder: (c, i) => _lineItem(soParams.lines[i]),
+                    itemBuilder: (c, i) => _lineItem(soParams.lines[i], index: i),
                     itemCount: soParams.lines.length,
                   ),
                 ),
@@ -357,14 +398,38 @@ class CreateSOView extends CreateSOViewModel {
     );
   }
 
-  _lineItem(SoLine line) {
+  _lineItem(SoLine line, {int index}) {
     return Container(
-      height: 135,
+      height: 180,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text("Line No",
+                        style: TextStyle(fontFamily: "Title", fontSize: 14.0, fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      line.lineNo ?? "",
+                      style: TextStyle(
+                          fontFamily: "Subtitle",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -459,7 +524,7 @@ class CreateSOView extends CreateSOViewModel {
                     height: 30.0,
                     child: OutlineButton(
                       onPressed: () {
-//                        detail(line);
+                        _detailLine(line);
                       },
                       child: Text(
                         "Detail",
@@ -474,7 +539,7 @@ class CreateSOView extends CreateSOViewModel {
                         height: 30.0,
                         child: OutlineButton(
                           onPressed: () {
-//                            edit(line);
+                            editMasterLine(line, index);
                           },
                           child: Text(
                             "Edit",
@@ -489,9 +554,7 @@ class CreateSOView extends CreateSOViewModel {
                         child: RaisedButton(
                           color: Colors.red,
                           onPressed: () {
-                            setState(() {
-                              soParams.lines.remove(line);
-                            });
+                            delete(line);
                           },
                           child: Text(
                             "Delete",
@@ -511,6 +574,159 @@ class CreateSOView extends CreateSOViewModel {
     );
   }
 
+  _detailLine(SoLine line) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 270.0,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  color: Colors.blue,
+                  height: 40.0,
+                  child: Center(
+                    child: Text(
+                      "Detail Line",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Title",
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Product",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            line.productName ?? " ",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Price",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            line.price.toString() ?? "0",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "QTY",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            line.qty.toString() ?? "0",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Discount",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            line.discount.toString() ?? "0",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "UOM",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            line.uomName ?? " ",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "TAX",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            line.taxName ?? " ",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Total",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            (line.price * line.qty).toString() ?? "0",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -519,7 +735,7 @@ class CreateSOView extends CreateSOViewModel {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Create SO",
+          widget.orderItem == null ? "Create SO" : "Edit SO",
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
@@ -541,14 +757,18 @@ class CreateSOView extends CreateSOViewModel {
             ),
             Expanded(
               flex: 1,
-              child: forcaButton(forcaText("Create SO", color: Colors.white), () {
-                if (soParams.lines.isNotEmpty) {
-                  createSO();
-                } else {
-                  MyDialog(context, "FAILED", "Please add line", Status.ERROR)
-                      .build(() {
-                    Navigator.pop(context);
-                  });
+              child: forcaButton(forcaText(widget.orderItem == null ? "Create SO" : "Save SO", color: Colors.white), () {
+                if(widget.orderItem == null){ //create SO
+                  if (soParams.lines.isNotEmpty) {
+                    createSO();
+                  } else {
+                    MyDialog(context, "FAILED", "Please add line", Status.ERROR)
+                        .build(() {
+                      Navigator.pop(context);
+                    });
+                  }
+                }else{//update SO
+                  updateSO();
                 }
               },
                   color: Colors.blue,

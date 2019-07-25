@@ -181,13 +181,11 @@ class DetailSOView extends DetailSOViewModel {
           ),
           Divider(),
           Padding(padding: EdgeInsets.only(top: 20.0)),
-          Center(
-            child: Text("SO LINE",
-                style: TextStyle(
-                    fontFamily: "Title",
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold)),
-          ),
+          Text("SO LINE",
+              style: TextStyle(
+                  fontFamily: "Title",
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold)),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: linesWidget,
@@ -199,12 +197,36 @@ class DetailSOView extends DetailSOViewModel {
 
   _lineItem(OrderLine orderLine) {
     return Container(
-      height: 140,
+      height: 180,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text("Line No",
+                        style: TextStyle(fontFamily: "Title", fontSize: 15.0),
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      orderLine.line_number,
+                      style: TextStyle(
+                          fontFamily: "Subtitle",
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -465,7 +487,39 @@ class DetailSOView extends DetailSOViewModel {
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),
-      body: _body(),
+      body: Container(
+        margin: EdgeInsets.only(bottom: 16.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 9,
+              child: _body(),
+            ),
+            Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    forcaButton(forcaText("Set Completed", color: Colors.white), () {
+                      setComplete();
+                    },
+                        color: Colors.blue,
+                        height: 50.0,
+                        width: 150.0,
+                        margin: EdgeInsets.only(top: 20.0)),
+                    forcaButton(forcaText("Delete Order", color: Colors.white), () {
+                      deleteOrder();
+                    },
+                        color: Colors.red,
+                        height: 50.0,
+                        width: 150.0,
+                        margin: EdgeInsets.only(top: 20.0)),
+                  ],
+                )
+            )
+          ],
+        ),
+      ),
     );
   }
 }

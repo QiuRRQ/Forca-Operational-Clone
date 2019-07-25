@@ -29,17 +29,19 @@ import 'package:forca_so/models/payment_rule/payment_rule.dart';
 
 Future<List<Warehouse>> reqWarehouse({String keyWord}) async {
   List<Warehouse> warehouses = List();
-  var myBody = {"name": keyWord ?? ""};
+  var myBody = {
+    "name": keyWord ?? ""
+  };
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_WAREHOUSE";
-  var response = await http.post(url, body: myBody, headers: {
-    "Forca-Token": user.token
-  }).catchError((err) => print("error ${err.toString()}"));
+  var response = await http.post(url,body: myBody,headers: {"Forca-Token": user.token})
+      .catchError((err) => print("error ${err.toString()}"));
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
+      print("warehouse ${WarehouseResponse.fromJsonMap(res).warehouses}");
       return WarehouseResponse.fromJsonMap(res).warehouses;
     }
   }
@@ -73,11 +75,7 @@ Future<List<BPartner>> reqBPartner(
 }
 
 Future<List<Product>> reqProduct(
-    {String priceListID,
-    String keyWord,
-    String page,
-    String productID,
-    String perPage}) async {
+    {String priceListID,String keyWord, String page, String productID, String perPage}) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
@@ -89,7 +87,7 @@ Future<List<Product>> reqProduct(
   if (perPage != null) myBody.addAll({"perpage": perPage});
   if (productID != null) myBody.addAll({"m_product_id": productID});
   var response =
-      await http.post(url, headers: {"Forca-Token": user.token}, body: myBody);
+  await http.post(url, headers: {"Forca-Token": user.token}, body: myBody);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
@@ -100,12 +98,20 @@ Future<List<Product>> reqProduct(
   return products;
 }
 
-Future<List<SaleRep>> reqSaleRep() async {
+Future<List<SaleRep>> reqSaleRep({String keyword}) async {
   List<SaleRep> salesReps = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_SALES_REP";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var myBody = {
+    "name": keyword
+  };
+  var response;
+  if(keyword == null){
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }else{
+    response = await http.post(url, body: myBody, headers: {"Forca-Token": user.token});
+  }
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
@@ -115,12 +121,21 @@ Future<List<SaleRep>> reqSaleRep() async {
   return salesReps;
 }
 
-Future<List<PaymentRule>> reqPaymentRule() async {
+Future<List<PaymentRule>> reqPaymentRule([String name]) async {
   List<PaymentRule> paymentRules = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PAYMENT_RULE";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var response;
+  if(name != null){
+    var myBody = {
+      "name": name
+    };
+    response = await http.post(url,body: myBody , headers: {"Forca-Token": user.token});
+  }else{
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }
+
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
@@ -131,12 +146,21 @@ Future<List<PaymentRule>> reqPaymentRule() async {
   return paymentRules;
 }
 
-Future<List<PriceList>> reqPriceList() async {
+Future<List<PriceList>> reqPriceList([String name]) async {
   List<PriceList> priceList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRICE_LIST";
-  var response = await http.post(url, headers: {"Forca-Token": user.token});
+  var response;
+  if(name != null){
+    var myBody = {
+      "name": name
+    };
+    response = await http.post(url,body: myBody , headers: {"Forca-Token": user.token});
+  }else{
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }
+
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
@@ -183,33 +207,24 @@ Future<List<Locator>> reqLocator({String warehouseID}) async {
   List<Locator> locatorList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
-  var myBody = {"m_warehouse_id": warehouseID};
+  var myBody = {
+    "m_warehouse_id": warehouseID
+  };
   var url = "${ref.getString(BASE_URL)}$LOCATOR";
-  if (warehouseID == null) {
-    var response_nobody =
-        await http.post(url, headers: {"Forca-Token": user.token});
-    print(response_nobody.body);
-    if (response_nobody.statusCode == 200) {
-      Map res = jsonDecode(response_nobody.body);
+  var response = await http.post(url,body: myBody, headers: {"Forca-Token": user.token});
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map res = jsonDecode(response.body);
 
-      if (res['codestatus'] == "S") {
-        return LocatorResponse.fromJsonMap(res).locatorList;
-      }
-    }
-  } else {
-    var response = await http
-        .post(url, body: myBody, headers: {"Forca-Token": user.token});
-    print(response.body);
-    if (response.statusCode == 200) {
-      Map res = jsonDecode(response.body);
-
-      if (res['codestatus'] == "S") {
-        return LocatorResponse.fromJsonMap(res).locatorList;
-      }
+    if (res['codestatus'] == "S") {
+      return LocatorResponse
+          .fromJsonMap(res)
+          .locatorList;
     }
   }
   return locatorList;
 }
+
 
 Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
     {String keyWord, String page, String perPage}) async {
@@ -240,3 +255,4 @@ Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
   }
   return listSO;
 }
+

@@ -42,16 +42,16 @@ abstract class EditReceiptViewModel extends State<EditReceiptScreen> {
   }
 
   initialize(){
-    mrParam.warehouseID = docNumer.warehouseID;
-    mrParam.partnerID = docNumer.bPartnerID;
-    mrParam.movementDate = docNumer.movementDate;
-    mrParam.isSoTrx = "N";
+    mrParam.m_warehouse_id = docNumer.warehouseID;
+    mrParam.c_bpartner_id = docNumer.bPartnerID;
+    mrParam.movementdate = docNumer.movementDate;
+    mrParam.issotrx = "N";
   }
 
   setParam() {
-    warehouseChange ? mrParam.warehouseID = int.parse(warehouse.warehouseID) : mrParam.warehouseID = docNumer.warehouseID;
-    bPartnerChange ? mrParam.partnerID = int.parse(bPartner.bPartnerID) : mrParam.partnerID = docNumer.bPartnerID;
-    mrParam.isSoTrx = "N";
+    warehouseChange ? mrParam.m_warehouse_id = int.parse(warehouse.warehouseID) : mrParam.m_warehouse_id = docNumer.warehouseID;
+    bPartnerChange ? mrParam.c_bpartner_id = int.parse(bPartner.bPartnerID) : mrParam.c_bpartner_id = docNumer.bPartnerID;
+    mrParam.issotrx = "N";
   }
 
   getBPartner() {
@@ -65,12 +65,12 @@ abstract class EditReceiptViewModel extends State<EditReceiptScreen> {
   }
 
   bool isNotEmptyHeader() {
-    if (mrParam.warehouseID == null && warehouse == null) {
+    if (mrParam.m_warehouse_id == null && warehouse == null) {
       MyDialog(context, "Error", "Warehouse required", Status.ERROR).build(() {
         Navigator.pop(context);
       });
       return false;
-    } else if (mrParam.partnerID == null && bPartner == null ) {
+    } else if (mrParam.c_bpartner_id == null && bPartner == null ) {
       MyDialog(context, "Error", "Business Partner required", Status.ERROR)
           .build(() {
         Navigator.pop(context);
@@ -105,7 +105,7 @@ abstract class EditReceiptViewModel extends State<EditReceiptScreen> {
           builder: (_) => CreateMRLine(listLocator, (line) {
             setState(() {
               Navigator.pop(context);
-              mrParam.lines.add(line);
+              mrParam.list_line.add(line);
             });
           }, bPartner, warehouse, minOutId, lineInserted));
       print(lineInserted);
@@ -122,10 +122,10 @@ abstract class EditReceiptViewModel extends State<EditReceiptScreen> {
       print("parameter ${jsonEncode(mrParam)}");
       var response = await http.post(url, body: {
         "m_inout_id": widget.inOutID,
-        "movementdate": mrParam.movementDate.toString(),
-        "c_bpartner_id": mrParam.partnerID.toString(),
-        "m_warehouse_id": mrParam.warehouseID.toString(),
-        "issotrx": mrParam.isSoTrx
+        "movementdate": mrParam.movementdate.toString(),
+        "c_bpartner_id": mrParam.c_bpartner_id.toString(),
+        "m_warehouse_id": mrParam.m_warehouse_id.toString(),
+        "issotrx": mrParam.issotrx
       }, headers: {
         "Forca-Token": user.token,
         "Accept": "application/json",

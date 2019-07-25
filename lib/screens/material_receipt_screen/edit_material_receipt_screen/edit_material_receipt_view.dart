@@ -154,7 +154,7 @@ class EditReceiptView extends EditReceiptViewModel {
                                     onPressed: () {
                                       selectDate(context, (date) {
                                         setState(() {
-                                          mrParam.movementDate = date;
+                                          mrParam.movementdate = date;
                                         });
                                       });
                                     }),

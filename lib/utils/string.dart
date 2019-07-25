@@ -24,6 +24,10 @@ const LIST_SALES_REP = "/api/ws/master/v1/getUser";
 const LIST_PAYMENT_RULE = "/api/ws/master/v1/getPaymentRule";
 const LIST_PRICE_LIST = "/api/ws/master/v1/getPricelist";
 const CREATE_ORDER = "/api/ws/transaction/v1/setOrder";
+const UPDATE_SOLINE = "/api/ws/transaction/v1/setOrderLine";
+const DEL_SOLINE = "/api/ws/transaction/v1/deleteOrderLine";
+const SET_SOCOMPLETE = "/api/ws/transaction/v1/setOrderComplete";
+const DEL_ORDER = "/api/ws/transaction/v1/deleteOrder";
 const CREATE_INOUT = "/api/ws/transaction/v1/setInOut";
 const CREATE_INOUTLINE = "/api/ws/transaction/v1/setInOutLine";
 const MATERIAL_RECEIPT = "/api/ws/transaction/v1/getInOutList";
@@ -33,9 +37,9 @@ const DETAIL_IM = "/api/ws/transaction/v1/getInventoryMove";
 const LOCATOR = "/api/ws/master/v1/getLocator";
 const CREATE_IM ="/api/ws/transaction/v1/setInventoryMove";
 const TITLE_STYLE =
-    TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);
+TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);
 
 const SUBTITLE_STYLE =
-    TextStyle(color: Colors.black, fontFamily: "Subtitle", fontSize: 12.0);
+TextStyle(color: Colors.black, fontFamily: "Subtitle", fontSize: 12.0);
 
 // const BUTTON_THEME =

@@ -11,17 +11,17 @@ class SalesOrderView extends SalesOrderViewModel {
     showModalBottomSheet(
         context: context,
         builder: (c) => FilterDocument(documentStatus,startDate,endDate,(filterParam) {
-              Navigator.pop(context);
-              page = 1;
-              listSO.clear();
-              documentStatus = filterParam.documentStatus;
-              startDate = filterParam.startDate;
-              endDate = filterParam.endDate;
-              setState(() {
-                isReq = true;
-              });
-              getSOList();
-            }));
+          Navigator.pop(context);
+          page = 1;
+          listSO.clear();
+          documentStatus = filterParam.documentStatus;
+          startDate = filterParam.startDate;
+          endDate = filterParam.endDate;
+          setState(() {
+            isReq = true;
+          });
+          getSOList();
+        }));
   }
 
   _item(SalesOrder so) {
@@ -118,23 +118,23 @@ class SalesOrderView extends SalesOrderViewModel {
                     children: <Widget>[
                       so.status == "Drafted"
                           ? Container(
-                              height: 30.0,
-                              child: OutlineButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (c) => CreateSOScreen()));
-                                },
-                                child: Text(
-                                  "Edit",
-                                  style: TextStyle(
-                                      fontFamily: "Title",
-                                      fontSize: 13.0,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            )
+                        height: 30.0,
+                        child: OutlineButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => CreateSOScreen(orderItem: so,)));
+                          },
+                          child: Text(
+                            "Edit",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 13.0,
+                                color: Colors.black),
+                          ),
+                        ),
+                      )
                           : Container(),
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
@@ -144,7 +144,7 @@ class SalesOrderView extends SalesOrderViewModel {
                         child: RaisedButton(
                           onPressed: null,
                           disabledColor:
-                              DocumentStatusColor().getColor(so.status),
+                          DocumentStatusColor().getColor(so.status),
                           child: Text(
                             so.status,
                             style: TextStyle(

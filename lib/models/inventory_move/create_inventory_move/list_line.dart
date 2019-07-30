@@ -5,18 +5,21 @@ class ListLine {
   String productName;
   int m_locator_id;
   String locatorFrom;
-  int forca_qtyentered = 0;
+  var forca_qtyentered;
   int m_locatorto_id;
   String locatorTo;
-  int movementqty;
+  var movementqty = 0;
   int forca_c_uom_id = 0;
+  String UomName;
+  int idLine;
+	String line_number;
 
   
   ListLine({
 		this.m_product_id,
 		this.m_locator_id,
 		this.m_locatorto_id,
-		this.movementqty,
+		this.forca_qtyentered
 });
 
 	ListLine.fromJsonMap(Map<String, dynamic> map): 
@@ -25,6 +28,8 @@ class ListLine {
 		forca_qtyentered = map["forca_qtyentered"],
 		m_locatorto_id = map["m_locatorto_id"],
 		movementqty = map["movementqty"],
+		idLine = map["m_movementline_id"],
+		line_number = map["line_number"],
 		forca_c_uom_id = map["forca_c_uom_id"];
 
 	Map<String, dynamic> toJson() {
@@ -35,6 +40,7 @@ class ListLine {
 		data['m_locatorto_id'] = m_locatorto_id;
 		data['movementqty'] = movementqty;
 		data['forca_c_uom_id'] = forca_c_uom_id;
+		data['line_number'] = line_number;
 		return data;
 	}
 }

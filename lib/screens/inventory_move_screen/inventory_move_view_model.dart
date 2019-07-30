@@ -6,7 +6,6 @@ import 'package:forca_so/models/inventory_move/inventory_move_detail/inventory_m
 import 'package:forca_so/models/inventory_move/inventory_move_response.dart';
 import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/screens/inventory_move_screen/detail_i_m_screen/detail_i_m_screen.dart';
-import 'package:forca_so/screens/inventory_move_screen/edit_i_m_screen/edit_i_m_screen.dart';
 import 'package:forca_so/screens/inventory_move_screen/inventory_move_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/my_dialog.dart';
@@ -49,7 +48,7 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
         isReq = false;
       });
       print(response.body);
-      if (response.statusCode == 200) {
+        if (response.statusCode == 200) {
         Map res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
           var listData = InventoryMoveResponse.fromJsonMap(res).listIM;
@@ -74,7 +73,8 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
       body: {"m_movement_id": inventorymove.m_movement_id}).catchError((err) {});
   Navigator.pop(context);
   if (response != null) {
-    print(response.body);
+    var isi = response.body;
+    print("iki isine $isi");
     var res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
       var detailResponse = InventoryMoveDetailResponse.fromJsonMap(res);
@@ -104,8 +104,8 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
       if (res["codestatus"] == "S") {
         var detailResponse = InventoryMoveDetailResponse.fromJsonMap(res);
         var inventorymoveDetail = detailResponse.inventorymove_detail;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (c) =>EditIMScreen(inventorymoveDetail)));
+//        Navigator.push(context,
+//            MaterialPageRoute(builder: (c) =>EditIMScreen()));
       } else {
         MyDialog(context, "Failur", res["message"], Status.ERROR).build(() {
           Navigator.pop(context);

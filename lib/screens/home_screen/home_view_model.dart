@@ -19,8 +19,8 @@ abstract class HomeViewModel extends State<HomeScreen> {
     menus.add(
         HomeMenu("SO", "Sales Order", Icons.unarchive, SalesOrderScreen()));
     menus.add(HomeMenu(
-        "MR", "Material Receipt", Icons.view_agenda, MaterialReceiptScreen()));
-    menus.add(HomeMenu("IM", "Inventory Move", Icons.vertical_align_top,
+        "MR", "Material Receipt", Icons.local_shipping, MaterialReceiptScreen()));
+    menus.add(HomeMenu("IM", "Inventory Move", Icons.swap_horizontal_circle,
         InventoryMoveScreen()));
     menus.add(HomeMenu(
         "INFO", "APP Information", Icons.info, AboutAppScreen()));

@@ -36,6 +36,11 @@ const LIST_IM = "/api/ws/transaction/v1/getInventoryMoveList";
 const DETAIL_IM = "/api/ws/transaction/v1/getInventoryMove";
 const LOCATOR = "/api/ws/master/v1/getLocator";
 const CREATE_IM ="/api/ws/transaction/v1/setInventoryMove";
+const DOC_COMPLETED_IM ="/api/ws/transaction/v1/setInventoryMoveComplete";
+const LINE_IM ="/api/ws/transaction/v1/getInventoryMoveLine";
+const SET_IM_LINE ="/api/ws/transaction/v1/setInvetoryMoveLine";
+const DELETE_IM ="/api/ws/transaction/v1/deleteInventoryMove";
+const DELETE_IM_LINE ="/api/ws/transaction/v1/deleteInventoryMoveLine";
 const TITLE_STYLE =
 TextStyle(color: Colors.black, fontFamily: "Title", fontSize: 15.0);
 

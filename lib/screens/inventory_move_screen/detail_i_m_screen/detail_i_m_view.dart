@@ -10,122 +10,218 @@ class DetailIMView extends DetailIMViewModel {
     inventoryMoveDetail.m_movementline.forEach((line) {
       linesWidget.add(_lineItem(line));
     });
-
     return Container(
-      margin: EdgeInsets.only(right: 16.0, left: 16.0),
-      child: ListView(
-        children: <Widget>[
-          forcaLogo(width: 70.0),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      margin: EdgeInsets.all(16.0),
+          child:
+          Stack(
+            alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Text(
-                "Document Number",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              ListView(
+                children: <Widget>[
+                  forcaLogo(width: 70.0),
+                  Container(
+                    margin: EdgeInsets.only(top: 16.0),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Document Number",
+                        style: TextStyle(
+                            color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                      ),
+                      Text(
+                        inventoryMoveDetail.documentno ?? "",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Subtitle",
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Movement Date",
+                        style: TextStyle(
+                            color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                      ),
+                      Text(
+                        inventoryMoveDetail.movementdate ?? "",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Subtitle",
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Sales Rep Name",
+                        style: TextStyle(
+                            color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                      ),
+                      Text(
+                        inventoryMoveDetail.salesrep_name ?? "",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Subtitle",
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Business Partner",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: "Title",
+                        ),
+                      ),
+                      Text(
+                        inventoryMoveDetail.c_bpartner_name ?? "",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Subtitle",
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "In Transit",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: "Title",
+                        ),
+                      ),
+                      Text(
+                        inventoryMoveDetail.istransit.toString() == "true"? "Y" :" N" ?? "",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Subtitle",
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(top: 10.0)),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Description",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontFamily: "Title",
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          inventoryMoveDetail.description ?? "",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontFamily: "Subtitle",
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(top: 20.0)),
+                  Center(
+                    child: Text("Invetory Move Line",
+                        style: TextStyle(
+                            fontFamily: "Title",
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: linesWidget,
+                  ),
+                ],
               ),
-              Text(
-                inventoryMoveDetail.documentno,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
+            Row(
+              children: <Widget>[
+                Flexible(
+                  child: inventoryMoveDetail.status == "Drafted" ?
+                      Container(
+                        child: _buttonAction(),
+                      ) :Container(),
+                )
+              ],
+            )
             ],
+
           ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Movement Date",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
-              ),
-              Text(
-                inventoryMoveDetail.movementdate,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Sales Rep Name",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
-              ),
-              Text(
-                "${inventoryMoveDetail.salesrep_name}",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Business Partner",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontFamily: "Title",
-                ),
-              ),
-              Text(
-                inventoryMoveDetail.c_bpartner_name,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 20.0)),
-          Center(
-            child: Text("Invetory Move Line",
-                style: TextStyle(
-                    fontFamily: "Title",
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold)),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: linesWidget,
-          ),
-        ],
-      ),
     );
   }
 
   _lineItem(M_movementline movementLine) {
     return Container(
-      height: 180,
+      height: 200,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      "Line Number",
+                      style: TextStyle(fontFamily: "Title", fontSize: 15.0),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      movementLine.line_number ?? "",
+                      style: TextStyle(
+                          fontFamily: "Subtitle",
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -140,7 +236,7 @@ class DetailIMView extends DetailIMViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      movementLine.product_name,
+                      movementLine.product_name ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -164,7 +260,7 @@ class DetailIMView extends DetailIMViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      movementLine.m_locator,
+                      movementLine.m_locator ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -234,7 +330,7 @@ class DetailIMView extends DetailIMViewModel {
                         _detail(movementLine);
                       },
                       child: Text(
-                        "Detail",
+                        "Show More",
                         style: TextStyle(fontFamily: "Title"),
                       ),
                     ),
@@ -278,11 +374,28 @@ class DetailIMView extends DetailIMViewModel {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
+                            "Line Number",
+                            style: TextStyle(fontFamily: "Title"),
+                          ),
+                          Text(
+                            movementLine.line_number ?? "",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
                             "Product",
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            movementLine.product_name,
+                            movementLine.product_name ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -299,7 +412,7 @@ class DetailIMView extends DetailIMViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            movementLine.m_locator,
+                            movementLine.m_locator ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -316,7 +429,7 @@ class DetailIMView extends DetailIMViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            movementLine.m_locator_to,
+                            movementLine.m_locator_to ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -334,23 +447,6 @@ class DetailIMView extends DetailIMViewModel {
                           ),
                           Text(
                             movementLine.movementqty ?? "0",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "MovementLine id",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            movementLine.m_movementline_id,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -382,6 +478,31 @@ class DetailIMView extends DetailIMViewModel {
             ),
           );
         });
+  }
+
+  _buttonAction(){
+    return Container(
+      margin: EdgeInsets.only(top: 24.0),
+      height: 50.0,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: forcaButton(forcaText("Delete", color: Colors.white), () {
+              delete();
+            }, color: Colors.red),
+          ),
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: forcaButton(forcaText("Completed", color: Colors.white), () {
+              completedDoc();
+            }),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

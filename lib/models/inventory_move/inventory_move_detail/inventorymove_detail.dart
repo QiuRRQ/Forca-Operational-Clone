@@ -12,6 +12,8 @@ class InventoryMoveDetail {
   String status;
   String docaction;
   Object crm_id;
+  bool istransit;
+ String description;
   List<M_movementline> m_movementline;
 
 
@@ -27,6 +29,8 @@ class InventoryMoveDetail {
 		status = map["status"],
 		docaction = map["docaction"],
 		crm_id = map["crm_id"],
+				istransit = map ["istransit"],
+				description = map["description"],
 		m_movementline = List<M_movementline>.from(map["m_movementline"].map((it) => M_movementline.fromJsonMap(it)));
 
 	Map<String, dynamic> toJson() {
@@ -41,6 +45,8 @@ class InventoryMoveDetail {
 		data['status'] = status;
 		data['docaction'] = docaction;
 		data['crm_id'] = crm_id;
+		data['description'] = description;
+		data['istransit'] = istransit;
 		data['m_movementline'] = m_movementline != null ? 
 			this.m_movementline.map((v) => v.toJson()).toList()
 			: null;

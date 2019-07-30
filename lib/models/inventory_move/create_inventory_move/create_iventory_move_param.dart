@@ -12,7 +12,10 @@ class CreateIventoryMoveParam {
   int c_bpartner_location_id = 0;
   int c_campaign_id = 0;
   int ad_user_id = 0;
-  int m_movement_id = 0;
+  int m_movement_id=0;
+  String isintransit = "";
+  String description = "";
+
 
   CreateIventoryMoveParam();
 
@@ -27,6 +30,8 @@ class CreateIventoryMoveParam {
 		c_bpartner_location_id = map["c_bpartner_location_id"],
 		c_campaign_id = map["c_campaign_id"],
 		ad_user_id = map["ad_user_id"],
+	isintransit = map["isintransit"],
+				description = map["description"],
 		m_movement_id = map["m_movement_id"];
 
 	Map<String, dynamic> toJson() {
@@ -44,6 +49,8 @@ class CreateIventoryMoveParam {
 		data['c_campaign_id'] = c_campaign_id;
 		data['ad_user_id'] = ad_user_id;
 		data['m_movement_id'] = m_movement_id;
+		data["isintransit"] = isintransit;
+		data["description"] = description;
 		return data;
 	}
 }

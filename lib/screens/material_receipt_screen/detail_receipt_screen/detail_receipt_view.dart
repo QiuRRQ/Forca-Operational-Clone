@@ -64,26 +64,6 @@ class DetailReceiptView extends DetailReceiptViewModel {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                "Nominal",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
-              ),
-              Text(
-                docNumer.price == null ? "" : "${docNumer.price}",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
                 "Business Partner",
                 style: TextStyle(
                   color: Colors.black,

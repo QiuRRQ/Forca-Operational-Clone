@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/models/inventory_move/inventory_move.dart';
+import 'package:forca_so/models/inventory_move/inventory_move_detail/inventorymove_detail.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/create_i_m_screen.dart';
-import 'package:forca_so/screens/inventory_move_screen/edit_i_m_screen/edit_i_m_screen.dart';
 import 'package:forca_so/screens/inventory_move_screen/inventory_move_view_model.dart';
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/forca_assets.dart';
-import 'package:forca_so/screens/inventory_move_screen/edit_i_m_screen/edit_i_m_view_model.dart';
 
 class InventoryMoveView extends InventoryMoveViewModel {
   _filter() {
     showModalBottomSheet(
         context: context,
         builder: (c) =>
-            FilterDocument(documentStatus, startDate, endDate, (filterParam) {
+           new FilterDocument(documentStatus, startDate, endDate, (filterParam) {
               Navigator.pop(context);
               page = 1;
               listIM.clear();
@@ -69,7 +68,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${im.movementdate ?? ""}",
+                    "${im.movementdate.replaceAll(new RegExp('00:00:00'),'') ?? ""}",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -101,7 +100,9 @@ class InventoryMoveView extends InventoryMoveViewModel {
                           ? Container(
                               height: 30.0,
                               child: OutlineButton(
-                                onPressed: () => getIMData(im),
+                                onPressed: () {
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateIMScreen(inventoryMove: im,)));
+                                },
                                 child: Text(
                                   "Edit",
                                   style: TextStyle(

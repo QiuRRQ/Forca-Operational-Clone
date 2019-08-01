@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:forca_so/master/select_order.dart';
 import 'package:forca_so/models/locator/locator.dart';
 import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/c_orderline.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/create_mr_line.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -22,16 +24,15 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;
-  int minOutId;
-  var editQTY;
-  bool isSave = false;
-  bool isSavedTwice = false;
-  bool lineInserted = false;
+  SalesOrder selectedOrder;
+
   CreateMrParam mrParam = CreateMrParam();
 
   setParam() {
     mrParam.m_warehouse_id = int.parse(warehouse.warehouseID);
     mrParam.c_bpartner_id = int.parse(bPartner.bPartnerID);
+    mrParam.c_bpartner_location_id = int.parse(bPartner.c_bpartner_location_id);
+    mrParam.c_order_id = int.parse(selectedOrder.orderID);
     mrParam.issotrx = "N";
   }
 
@@ -69,18 +70,23 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
     });
   }
 
+  getOrder() async {
+    if (isNotEmptyHeader()){
+      selectOrderItem(context, warehouse, bPartner, (order) {
+        setState(() {
+          this.selectedOrder = order;
+        });
+        Navigator.pop(context);
+      });
+    }else{
+      print("false");
+    }
+  }
+
   getMasterLine() async {
     if (isNotEmptyHeader()) {
       Loading(context).show();
-      List<SalesOrder> listSO = List();
       List<Locator> listLocator = List();
-
-      await reqOrder(bPartner.bPartnerID, warehouse.warehouseID).then((order) {
-        listSO.addAll(order);
-      }).catchError((err) {
-        print(err.toString());
-      });
-      print("data Order ${listSO.length}");
       await reqLocator(warehouseID:warehouse.warehouseID).then((locatorList) {
         listLocator.addAll(locatorList);
       }).catchError((err) {
@@ -91,13 +97,12 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
 
       showModalBottomSheet(
           context: context,
-          builder: (_) => CreateMRLine(listLocator, (line) {
+          builder: (_) => CreateMRLine(listLocator, selectedOrder.orderID, (line) {
             setState(() {
-              Navigator.pop(context);
               mrParam.list_line.add(line);
+              Navigator.pop(context);
             });
-          }, bPartner, warehouse, minOutId, lineInserted));
-      print(lineInserted);
+          }, warehouse));
     }
   }
 
@@ -109,15 +114,9 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
       var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
       var url = "${ref.getString(BASE_URL)}$CREATE_INOUT";
       print("parameter ${jsonEncode(mrParam)}");
-      var response = await http.post(url, body: {
-        "movementdate": mrParam.movementdate.toString(),
-        "c_bpartner_id": mrParam.c_bpartner_id.toString(),
-        "m_warehouse_id": mrParam.m_warehouse_id.toString(),
-        "issotrx": mrParam.issotrx
-      }, headers: {
+      var response = await http.post(url, body: jsonEncode(mrParam), headers: {
         "Forca-Token": user.token,
-        "Accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/json"
       }).catchError((err) {
         MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
           Navigator.pop(context);
@@ -129,12 +128,8 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
         var res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
           MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
-            minOutId = res['resultdata'][0]['m_inout_id'];//ToDO: this item still null
             Navigator.pop(context);
-            //Navigator.pop(context);
-            //ToDO: cara cek line item masuk atau tidak gimana
-            isSave = true;
-            print("result id : $minOutId");
+            Navigator.pop(context);
           });
         } else {
           MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
@@ -148,6 +143,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   @override
   void initState() {
     var now = DateTime.now();
+    mrParam.list_line= List();
     mrParam.movementdate = "${now.year}-${now.month}-${now.day}";
     super.initState();
   }

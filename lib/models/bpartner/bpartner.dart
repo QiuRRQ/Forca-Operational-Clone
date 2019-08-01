@@ -3,6 +3,7 @@ class BPartner {
 
   String bPartnerID;
   String clientName;
+  String c_bpartner_location_id;
   String value;
   String name;
   String name2;
@@ -15,6 +16,7 @@ class BPartner {
 	BPartner.fromJsonMap(Map<String, dynamic> map): 
 		bPartnerID = map["c_bpartner_id"],
 		clientName = map["client_name"],
+				c_bpartner_location_id = map["c_bpartner_location_id"],
 		value = map["value"],
 		name = map["name"],
 		name2 = map["name2"],
@@ -28,6 +30,7 @@ class BPartner {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
 		data['c_bpartner_id'] = bPartnerID;
 		data['client_name'] = clientName;
+		data['c_bpartner_location_id'] = c_bpartner_location_id;
 		data['value'] = value;
 		data['name'] = name;
 		data['name2'] = name2;

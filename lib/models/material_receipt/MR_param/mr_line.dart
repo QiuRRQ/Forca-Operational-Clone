@@ -6,6 +6,8 @@ class MrLine {
   int m_product_id = 0;
   int m_inoutline_id = 0;
   int c_orderline_id = 0;
+  String line_number = "";
+  String productName;
   String description = "";
   int m_inout_id = 0;
   int qty = 0;
@@ -25,6 +27,7 @@ class MrLine {
         m_locator_id = map["m_locator_id"],
         m_product_id = map["m_product_id"],
         m_inoutline_id = map["m_inoutline_id"],
+        line_number = map["line_number"],
         c_orderline_id = map["c_orderline_id"],
         description = map["description"],
         m_inout_id = map["m_inout_id"],
@@ -38,6 +41,7 @@ class MrLine {
     data['m_inoutline_id'] = m_inoutline_id;
     data['c_orderline_id'] = c_orderline_id;
     data['description'] = description;
+    data['line_number'] = line_number;
     data['m_inout_id'] = m_inout_id;
     data['qty'] = qty;
     return data;

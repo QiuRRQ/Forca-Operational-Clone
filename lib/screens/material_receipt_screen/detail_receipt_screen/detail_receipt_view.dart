@@ -8,7 +8,7 @@ import 'package:forca_so/utils/string.dart';
 class DetailReceiptView extends DetailReceiptViewModel {
   
   _body() {
-    docNumer.m_line.forEach((line) {
+    docNumer.m_inoutline.forEach((line) {
       linesWidget.add(_lineItem(line));
     });
 
@@ -29,7 +29,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                docNumer.movementDate == null ? "" : docNumer.movementDate,
+                docNumer.movementdate == null ? "" : docNumer.movementdate,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -49,7 +49,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
               ),
               Text(
-                docNumer.documentNo == null ? "" : docNumer.documentNo,
+                docNumer.documentno == null ? "" : docNumer.documentno,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -72,7 +72,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 ),
               ),
               Text(
-                docNumer.bPartnerName == null ? "": docNumer.bPartnerName,
+                docNumer.c_bpartner_name == null ? "": docNumer.c_bpartner_name,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -92,7 +92,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                     color: Colors.black, fontSize: 15, fontFamily: "Title"),
               ),
               Text(
-                docNumer.warehouseName == null ? "" : docNumer.warehouseName,
+                docNumer.warehouse == null ? "" : docNumer.warehouse,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,

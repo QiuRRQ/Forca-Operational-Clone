@@ -31,7 +31,7 @@ class _SelectOrderState extends State<SelectOrder> {
   _getOrder() async {
     Loading(context).show();
     await reqOrder(bPartnerID, warehouseID,
-        keyWord: keyword.text.toString(), page: page.toString())
+        documentno: keyword.text.toString(), page: page.toString())
         .then((listOrder) {
       if(listOrder.isNotEmpty){
         setState(() {
@@ -95,7 +95,7 @@ class _SelectOrderState extends State<SelectOrder> {
                     onPressed: () {
                       onSelected(myOrder[i]);
                     },
-                    child: forcaText(myOrder[i].name)),
+                    child: forcaText(myOrder[i].documentNO)),
                 itemCount: myOrder.length,
               )),
           Row(

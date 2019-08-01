@@ -89,7 +89,7 @@ class _SOLineState extends State<CreateSOLine> {
     showDialog(
         context: context,
         builder: (c) => AlertDialog(
-          content: SelectProduct(priceList.priceListID, (product) {
+          content: SelectProduct((product) {
             setState(() {
               selectedProduct = product;
               _onChangedProduct = true;
@@ -105,7 +105,7 @@ class _SOLineState extends State<CreateSOLine> {
               _onChangedUom = true;
               Navigator.pop(context);
             });
-          }),
+          },priceList.priceListID),
         ));
   }
 

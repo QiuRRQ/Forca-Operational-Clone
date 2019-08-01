@@ -33,9 +33,6 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   List<Line> poLines = List();
   List<SoLine> temp = List();
 
-  SoLine addSOLine;
-
-  List ada = List();
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;

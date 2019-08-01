@@ -2,43 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:forca_so/master/master_presenter.dart';
 import 'package:forca_so/models/product/product.dart';
 import 'package:forca_so/models/sales_order/sales_order_detail/c_orderline.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/get_order_line.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/utils/my_dialog.dart';
 
-class SelectProduct extends StatefulWidget {
-  final String priceListID;
-  final ValueChanged<Product> onSelected;
+class SelectProductOrdered extends StatefulWidget {
+  final String orderID;
+  final ValueChanged<getOderLine> onSelected;
 
-  SelectProduct( this.onSelected, [this.priceListID]);
+  SelectProductOrdered( this.onSelected, this.orderID);
 
   @override
   _SelectProductState createState() =>
-      _SelectProductState(this.priceListID, this.onSelected);
+      _SelectProductState(this.orderID, this.onSelected);
 }
 
-class _SelectProductState extends State<SelectProduct> {
-  final ValueChanged<Product> onSelected;
-  final String priceListID;
-  List<Product> myProducts = List();
+class _SelectProductState extends State<SelectProductOrdered> {
+  final ValueChanged<getOderLine> onSelected;
+  final String orderID;
+  List<getOderLine> orderLine = List();
 
-  _SelectProductState(this.priceListID, this.onSelected);
+  _SelectProductState(this.orderID, this.onSelected);
 
   TextEditingController keyword;
   int page = 1;
 
   _getProduct() async {
     Loading(context).show();
-    if(priceListID != ""){
-      await reqProduct(priceListID: priceListID,
-          keyWord: keyword.text.toString(), page: page.toString())
-          .then((listProduct) {
-        setState(() {
-          this.myProducts = listProduct;
-        });
+    await reqOrderLine(orderID,
+        keyWord: keyword.text.toString(), page: page.toString())
+        .then((listProduct) {
+      setState(() {
+        this.orderLine = listProduct;
       });
-    }else{
-
-    }
+    });
     Navigator.pop(context);
   }
 
@@ -71,26 +68,27 @@ class _SelectProductState extends State<SelectProduct> {
                     icon: Icon(Icons.search),
                     onPressed: () {
                       page = 1;
-                      myProducts.clear();
+                      orderLine.clear();
                       _getProduct();
                     })),
           ),
-          myProducts.isEmpty
+          orderLine.isEmpty
               ? Container(
-                  height: 50.0,
-                  child: Center(
-                    child: forcaText("No more data!"),
-                  ),
-                )
+            height: 50.0,
+            child: Center(
+              child: forcaText("No more data!"),
+            ),
+          )
               : Expanded(
-                  child: ListView.builder(
-                  itemBuilder: (c, i) => FlatButton(
-                      onPressed: () {
-                        onSelected(myProducts[i]);
-                      },
-                      child: forcaText(myProducts[i].name)),
-                  itemCount: myProducts.length,
-                )),
+              child: ListView.builder(
+                itemBuilder: (c, i) => FlatButton(
+                    onPressed: () {
+                      onSelected(orderLine[i]);
+                      Navigator.pop(context);
+                    },
+                    child: forcaText(orderLine[i].m_product_name)),
+                itemCount: orderLine.length,
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -98,27 +96,27 @@ class _SelectProductState extends State<SelectProduct> {
                   onPressed: page <= 1
                       ? null
                       : () {
-                          if (page - 1 > 0) {
-                            setState(() {
-                              page--;
-                              _getProduct();
-                            });
-                          }
-                        },
+                    if (page - 1 > 0) {
+                      setState(() {
+                        page--;
+                        _getProduct();
+                      });
+                    }
+                  },
                   child: forcaText("Previus",
                       color: page <= 1 ? Colors.grey : Colors.black,
                       fontWeight: FontWeight.bold)),
               FlatButton(
-                  onPressed: myProducts.isEmpty
+                  onPressed: orderLine.isEmpty
                       ? null
                       : () {
-                          setState(() {
-                            page++;
-                            _getProduct();
-                          });
-                        },
+                    setState(() {
+                      page++;
+                      _getProduct();
+                    });
+                  },
                   child: forcaText("Next",
-                      color: myProducts.isEmpty ? Colors.grey : Colors.black,
+                      color: orderLine.isEmpty ? Colors.grey : Colors.black,
                       fontWeight: FontWeight.bold)),
             ],
           ),

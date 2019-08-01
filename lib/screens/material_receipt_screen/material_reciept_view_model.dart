@@ -5,7 +5,6 @@ import 'package:forca_so/models/material_receipt/detail_material_receipt/detail_
 import 'package:forca_so/models/material_receipt/material_receipt.dart';
 import 'package:forca_so/models/material_receipt/material_receipt_response.dart';
 import 'package:forca_so/models/user/user.dart';
-import 'package:forca_so/screens/material_receipt_screen/edit_material_receipt_screen/edit_material_receipt_screen.dart';
 import 'package:forca_so/screens/material_receipt_screen/material_reciept_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
 import 'package:forca_so/utils/my_dialog.dart';
@@ -104,8 +103,8 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
       if (res["codestatus"] == "S") {
         var detailResponse = DetailMaterialReceiptResponse.fromJsonMap(res);
         var materialReceipt = detailResponse.materialReceipts;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (c) => EditReceiptScreen(materialReceipt, _materialReceipt.inOutID)));
+//        Navigator.push(context,
+//            MaterialPageRoute(builder: (c) => EditReceiptScreen(materialReceipt, _materialReceipt.inOutID)));
       } else {
         MyDialog(context, "Failur", res["message"], Status.ERROR).build(() {
           Navigator.pop(context);

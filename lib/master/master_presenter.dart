@@ -6,6 +6,11 @@ import 'package:forca_so/models/locator/locator_response.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/price_list/price_list_response.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/c_orderline.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/detail_sales_order.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/get_order_line.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/get_order_line_response.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/detail_sales_order_response.dart';
 import 'package:forca_so/models/sales_order/sales_order_reponse.dart';
 import 'package:forca_so/models/tax/tax.dart';
 import 'package:forca_so/models/tax/tax_response.dart';
@@ -227,7 +232,7 @@ Future<List<Locator>> reqLocator({String warehouseID}) async {
 
 
 Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
-    {String keyWord, String page, String perPage}) async {
+    {String documentno, String page, String perPage}) async {
   List<SalesOrder> listSO = List();
   DocumentStatus documentStatus = DocumentStatus.COMPLETED;
   var ref = await SharedPreferences.getInstance();
@@ -240,6 +245,7 @@ Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
     "c_bpartner_id": bPartnerID,
     "page": page.toString()
   };
+  if (documentno != "") myBody.addAll({"documentno": documentno});
   if (page != null) myBody.addAll({"page": page});
   if (perPage != null) myBody.addAll({"perpage": perPage});
   print("myBody $myBody");
@@ -251,6 +257,33 @@ Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {
       return SalesOrderReponse.fromJsonMap(res).listSO;
+    }
+  }
+  return listSO;
+}
+
+Future<List<getOderLine>> reqOrderLine(String orderID,
+    {String keyWord, String page, String perPage}) async {
+  List<getOderLine> listSO = List();
+  var ref = await SharedPreferences.getInstance();
+  var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+  var url = ref.getString(BASE_URL) ?? "";
+  var myBody = {
+    "c_order_id" : orderID
+  };
+  if (page != null) myBody.addAll({"page": page});
+  if (keyWord != "") myBody.addAll({"product_name": keyWord});
+  if (perPage != null) myBody.addAll({"perpage": perPage});
+  print("myBody $myBody");
+  var response = await http.post("$url$ORDER_LINE",
+      body: myBody, headers: {"Forca-Token": usr.token}).catchError((err) {
+    print("error ${err.toString()}");
+  });
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map res = jsonDecode(response.body);
+    if (res["codestatus"] == "S") {
+      return getOrderLineResponse.fromJsonMap(res).getOrderLine;
     }
   }
   return listSO;

@@ -2,146 +2,57 @@ import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt
 
 class DetailMaterialReceipt {
 
-  String inOutID;
-  String clientID;
-  String orgID;
-  int orderID;
-  String dateOrdered;
-  String documentNo;
-  String poReference;
-  String descHeader;
-  String docTypeID;
-  String movementDate;
-  String dateAcct;
-  int bPartnerID;
-  String bPartnerName;
-  String bPartnerLocID;
-  String userID;
-  int warehouseID;
-  String saleRepID;
-  String docStatus;
-  String movementType;
-  String inOutLineID;
-  String orderLineID;
-  String line;
-  String productID;
-  String locatorID;
-  String descDetail;
-  String qtyEntered;
-  String uomID;
-  int warehouseCode;
-  String warehouseName;
-  String clientName;
-  String distributorCode;
-  String distributorName;
-  String customerCode;
-  String sapCode;
-  String createdDate;
-  String productCode;
-  String productName;
-  double qty;
-  String price;
-  String unit;
-  String address;
-// ignore: non_constant_identifier_names
-	List<m_inOutline> m_line;
+	int c_bpartner_id;
+	String c_bpartner_name;
+	String warehouse;
+	int m_warehouse_id;
+	int c_order_id;
+	String documentno;
+	String docstatus;
+	String movementdate;
+	String status;
+	String docaction;
+	Object crm_id;
+	List<m_inOutline> m_inoutline;
+	int profitcenter_id;
+	List<Object> c_project;
 
 //DetailMaterialReceipt();
 
 	DetailMaterialReceipt.fromJsonMap(Map<String, dynamic> map):
-		inOutID = map["m_inout_id"],
-		clientID = map["ad_client_id"],
-		orgID = map["ad_org_id"],
-		orderID = map["c_order_id"],
-		dateOrdered = map["dateordered"],
-		documentNo = map["documentno"],
-		poReference = map["poreference"],
-		descHeader = map["description_header"],
-		docTypeID = map["c_doctype_id"],
-		movementDate = map["movementdate"],
-		dateAcct = map["dateacct"],
-		bPartnerID = map["c_bpartner_id"],
-		bPartnerName = map["c_bpartner_name"],
-		bPartnerLocID = map["c_bpartner_location_id"],
-		userID = map["ad_user_id"],
-		warehouseID = map["m_warehouse_id"],
-		saleRepID = map["salesrep_id"],
-		docStatus = map["docstatus"],
-		movementType = map["movementtype"],
-		inOutLineID = map["m_inoutline_id"],
-		orderLineID = map["c_orderline_id"],
-		line = map["line"],
-		productID = map["m_product_id"],
-		locatorID = map["m_locator_id"],
-		descDetail = map["description_detail"],
-		qtyEntered = map["qtyentered"],
-		uomID = map["c_uom_id"],
-		warehouseName = map["warehouse"],
-		clientName = map["clientname"],
-		distributorCode = map["distributorcode"],
-		distributorName = map["distributorname"],
-		customerCode = map["customercode"],
-		sapCode = map["sapcode"],
-		createdDate = map["createddate"],
-		productCode = map["kodeproduk"],
-		productName = map["productname"],
-		qty = map["qty"],
-		price = map["price"],
-		unit = map["unit"],
-		address = map["address"],
-				m_line = List<m_inOutline>.from(
-						map["m_inoutline"].map((it) => m_inOutline.fromJsonMap(it)))
-		;
-
-
+				c_bpartner_id = map["c_bpartner_id"],
+				c_bpartner_name = map["c_bpartner_name"],
+				warehouse = map["warehouse"],
+				m_warehouse_id = map["m_warehouse_id"],
+				c_order_id = map["c_order_id"],
+				documentno = map["documentno"],
+				docstatus = map["docstatus"],
+				movementdate = map["movementdate"],
+				status = map["status"],
+				docaction = map["docaction"],
+				crm_id = map["crm_id"],
+				m_inoutline = List<m_inOutline>.from(map["m_inoutline"].map((it) => m_inOutline.fromJsonMap(it))),
+				profitcenter_id = map["profitcenter_id"],
+				c_project = map["c_project"];
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['m_inout_id'] = inOutID;
-		data['ad_client_id'] = clientID;
-		data['ad_org_id'] = orgID;
-		data['c_order_id'] = orderID;
-		data['dateordered'] = dateOrdered;
-		data['documentno'] = documentNo;
-		data['poreference'] = poReference;
-		data['description_header'] = descHeader;
-		data['c_doctype_id'] = docTypeID;
-		data['movementdate'] = movementDate;
-		data['dateacct'] = dateAcct;
-		data['c_bpartner_id'] = bPartnerID;
-		data['c_bpartner_name'] = bPartnerName;
-		data['c_bpartner_location_id'] = bPartnerLocID;
-		data['ad_user_id'] = userID;
-		data['m_warehouse_id'] = warehouseID;
-		data['salesrep_id'] = saleRepID;
-		data['docstatus'] = docStatus;
-		data['movementtype'] = movementType;
-		data['m_inoutline_id'] = inOutLineID;
-		data['c_orderline_id'] = orderLineID;
-		data['line'] = line;
-		data['m_product_id'] = productID;
-		data['m_locator_id'] = locatorID;
-		data['description_detail'] = descDetail;
-		data['qtyentered'] = qtyEntered;
-		data['c_uom_id'] = uomID;
-		data['warehousecode'] = warehouseCode;
-		data['warehousename'] = warehouseName;
-		data['clientname'] = clientName;
-		data['distributorcode'] = distributorCode;
-		data['distributorname'] = distributorName;
-		data['customercode'] = customerCode;
-		data['sapcode'] = sapCode;
-		data['createddate'] = createdDate;
-		data['kodeproduk'] = productCode;
-		data['productname'] = productName;
-		data['qty'] = qty;
-		data['price'] = price;
-		data['unit'] = unit;
-		data['address'] = address;
-		data['m_inoutline'] = m_inOutline != null ?
-		this.m_line.map((v) => v.toJson()).toList()
+		data['c_bpartner_id'] = c_bpartner_id;
+		data['c_bpartner_name'] = c_bpartner_name;
+		data['warehouse'] = warehouse;
+		data['m_warehouse_id'] = m_warehouse_id;
+		data['c_order_id'] = c_order_id;
+		data['documentno'] = documentno;
+		data['docstatus'] = docstatus;
+		data['movementdate'] = movementdate;
+		data['status'] = status;
+		data['docaction'] = docaction;
+		data['crm_id'] = crm_id;
+		data['m_inoutline'] = m_inoutline != null ?
+		this.m_inoutline.map((v) => v.toJson()).toList()
 				: null;
-		print(data['m_inoutline']);
+		data['profitcenter_id'] = profitcenter_id;
+		data['c_project'] = c_project;
 		return data;
 	}
 

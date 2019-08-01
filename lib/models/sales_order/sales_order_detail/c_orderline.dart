@@ -1,18 +1,20 @@
 class OrderLine {
-  final String productName;
-  final String productID;
-  final String qty;
-  final String qtyDelivered;
-  final String qtyInvoiced;
-  final String priceEntered;
-  final String discount;
-  final String uomName;
-  final String uomID;
-  final String line_number;
-  final String c_orderline_id;
-  final String taxName;
-  final String taxID;
-  final String total;
+   String productName;
+   String productID;
+   String qty;
+   String qtyDelivered;
+   String qtyInvoiced;
+   String priceEntered;
+   String discount;
+   String uomName;
+   String uomID;
+   String line_number;
+   String c_orderline_id;
+   String taxName;
+   String taxID;
+   String total;
+
+  OrderLine();
 
   OrderLine.fromJsonMap(Map<String, dynamic> map)
       : productName = map["product_name"],

@@ -20,6 +20,7 @@ const LIST_UOM = "/api/ws/master/v1/getUom";
 const LIST_TAX = "/api/ws/master/v1/getTax";
 const LIST_LOCATOR = "/api/ws/master/v1/getLocator";
 const DETAIL_SO = "/api/ws/transaction/v1/getOrder";
+const ORDER_LINE = "/api/ws/transaction/v1/getOrderLine";
 const LIST_SALES_REP = "/api/ws/master/v1/getUser";
 const LIST_PAYMENT_RULE = "/api/ws/master/v1/getPaymentRule";
 const LIST_PRICE_LIST = "/api/ws/master/v1/getPricelist";

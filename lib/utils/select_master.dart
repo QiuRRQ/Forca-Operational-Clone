@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_bussines_partner.dart';
+import 'package:forca_so/master/select_order.dart';
 import 'package:forca_so/master/select_product.dart';
+import 'package:forca_so/master/select_productOrdered.dart';
 import 'package:forca_so/master/select_warehouse.dart';
 import 'package:forca_so/models/payment_rule/payment_rule.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/product/product.dart';
+import 'package:forca_so/models/sales_order/sales_order.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/c_orderline.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/get_order_line.dart';
 import 'package:forca_so/models/warehouse/warehouse.dart';
 import 'package:forca_so/models/bpartner/bpartner.dart';
 import 'package:forca_so/utils/forca_assets.dart';
@@ -59,6 +64,14 @@ selectWarehouse(BuildContext context, ValueChanged<Warehouse> onSelected) {
       ));
 }
 
+selectProductOrdered(BuildContext context, String orderID, ValueChanged<getOderLine> onSelected) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: SelectProductOrdered(onSelected, orderID),
+      ));
+}
+
 selectBPartner(BuildContext context,ValueChanged<BPartner> onSelected) {
   showDialog(
       context: context,
@@ -67,14 +80,23 @@ selectBPartner(BuildContext context,ValueChanged<BPartner> onSelected) {
           ));
 }
 
+selectOrderItem(BuildContext context, Warehouse warehouse,
+BPartner bPartner, ValueChanged<SalesOrder> onSelected) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: SelectOrder(bPartner.bPartnerID, warehouse.warehouseID, onSelected),
+      ));
+}
+
 selectProduct(BuildContext context, String pricelistID,
     ValueChanged<Product> onSelected) {
   showDialog(
       context: context,
       builder: (_) => AlertDialog(
-            content: SelectProduct(pricelistID, (product) {
+            content: SelectProduct((product) {
               onSelected(product);
-            }),
+            },pricelistID),
           ));
 }
 

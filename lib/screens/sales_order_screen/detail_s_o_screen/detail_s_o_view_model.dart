@@ -40,7 +40,8 @@ abstract class DetailSOViewModel extends State<DetailSOScreen> {
       print("res complete ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
-        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+        var message = res['resultdata'][0]['documentno'];
+        MyDialog(context, "Succes",'Completed Documentno $message Succeeded ', Status.SUCCESS).build(() {
           Navigator.pop(context);
           Navigator.pop(context);
         });
@@ -71,7 +72,8 @@ abstract class DetailSOViewModel extends State<DetailSOScreen> {
       print("res del ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
-        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+        var message = res['resultdata']['documentno'];
+        MyDialog(context, "Succes",  "Delete Documentno $message Succeded", Status.SUCCESS).build(() {
           Navigator.pop(context);
           Navigator.pop(context);
         });

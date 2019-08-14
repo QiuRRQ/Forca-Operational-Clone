@@ -78,8 +78,8 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       soParams.paymentRule = paymentRule.value;
     }
     soParams.isSoTrx = "Y";
+    descriptionController.text.isNotEmpty ? soParams.description = descriptionController.text.toString() : "";
   }
-
 
 
   _getLine() {
@@ -168,6 +168,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     soParams.orderID = editOrderInfo.orderID;
     soParams.documentNo = editOrderInfo.documentNo;
     soParams.isSoTrx = "Y";
+    soParams.description = editOrderInfo.description;
   }
 
   bool isNotEmptyHeader() {
@@ -419,7 +420,8 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
         print("hasil ${response.body}");
         var res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
-          MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+          var message = res['resultdata']['documentno'];
+          MyDialog(context, "Succes", 'Insert succeeded with documentno $message', Status.SUCCESS).build(() {
             Navigator.pop(context);
             Navigator.pop(context);
           });
@@ -460,7 +462,8 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       print("delete line result ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
-        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+        var message = res['resultdata'][0]['line_number'];
+        MyDialog(context, "Succes", "Deleted line number $message", Status.SUCCESS).build(() {
           Navigator.pop(context);
           //Navigator.pop(context);
         });
@@ -499,12 +502,14 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
         var res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
           print("param line length after edit ${soParams.lines.length}");
-          MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+          var message = res['resultdata']['documentno'];
+          MyDialog(context, "Succes", 'Update documentno $message succeeded', Status.SUCCESS).build(() {
             Navigator.pop(context);
             Navigator.pop(context);
           });
         } else {
           MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+            Navigator.pop(context);
             Navigator.pop(context);
           });
         }
@@ -553,7 +558,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       print("line result ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
-        MyDialog(context, "Sukses", res["message"], Status.SUCCESS).build(() {
+        MyDialog(context, "Succes", res["message"], Status.SUCCESS).build(() {
           Navigator.pop(context);
           //Navigator.pop(context);
         });

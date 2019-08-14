@@ -23,7 +23,6 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
   String endDate = "Select Date";
 
   getIMList() async {
-
     isReq = true;
     var ref = await SharedPreferences.getInstance();
     var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));

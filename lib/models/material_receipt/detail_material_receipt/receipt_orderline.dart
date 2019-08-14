@@ -11,12 +11,12 @@ class m_inOutline {
 	String uom_name;
 	String c_orderline_id;
 	String isinvoiced;
-	String total;
+	var total;
 	String qtyentered;
 	String qtydelivered;
 	String qtyinvoiced;
 	String discount;
-	String priceentered;
+	var priceentered;
 
 	m_inOutline.fromJsonMap(Map<String, dynamic> map):
 				line_number = map["line_number"],

@@ -37,12 +37,14 @@ abstract class DetailIMViewModel extends State<DetailIMScreen>{
      var res = jsonDecode(response.body);
      if(res["codestatus"]== "S"){
        print(res);
-       MyDialog(context, "Succes", res["message"], Status.SUCCESS).build(() {
+       var message = res['resultdata']['documentno'];
+       MyDialog(context, "Succes", "Delete Documentno $message Succeded", Status.SUCCESS).build(() {
          Navigator.pop(context);
          Navigator.pop(context);
        });
      }else{
        MyDialog(context,"Failed",res["message"],Status.ERROR).build((){
+         Navigator.pop(context);
          Navigator.pop(context);
        });
      }
@@ -65,13 +67,14 @@ abstract class DetailIMViewModel extends State<DetailIMScreen>{
      var res = jsonDecode(response.body);
      if(res["codestatus"]== "S"){
        print(res);
-       var message = res['resultdata']['m_movement_id'];
-       MyDialog(context, "Succes", 'Insert succeeded with m_movement_id $message', Status.SUCCESS).build(() {
+       var message = res['resultdata'][0]['documentno'];
+       MyDialog(context, "Succes", 'Completed Documentno $message Succeeded ', Status.SUCCESS).build(() {
          Navigator.pop(context);
          Navigator.pop(context);
        });
      }else{
        MyDialog(context,"Failed",res["message"],Status.ERROR).build((){
+         Navigator.pop(context);
          Navigator.pop(context);
        });
      }

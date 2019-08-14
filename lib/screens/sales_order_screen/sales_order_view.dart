@@ -26,7 +26,7 @@ class SalesOrderView extends SalesOrderViewModel {
 
   _item(SalesOrder so) {
     return Container(
-      height: 140.0,
+      height: 160.0,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(7.0),
@@ -36,7 +36,7 @@ class SalesOrderView extends SalesOrderViewModel {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "${so.docDate}",
+                    "Doc Number",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -45,6 +45,28 @@ class SalesOrderView extends SalesOrderViewModel {
                   ),
                   Text(
                     "${so.documentNO}",
+                    style: TextStyle(
+                        fontFamily: "Title",
+                        fontSize: 13.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Doc Date",
+                    style: TextStyle(
+                        fontFamily: "Title",
+                        fontSize: 13.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${so.docDate.replaceAll(new RegExp('00:00:00'), '')}",
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 13.0,
@@ -197,7 +219,7 @@ class SalesOrderView extends SalesOrderViewModel {
 
   _data() {
     return ListView.builder(
-      controller: _controller,
+//      controller: _controller,
       itemBuilder: (c, i) => _item(listSO[i]),
       itemCount: listSO.length,
     );
@@ -241,9 +263,20 @@ class SalesOrderView extends SalesOrderViewModel {
           },
           child: Icon(Icons.add),
         ),
-        body: Container(
-          margin: EdgeInsets.only(right: 8.0, left: 8.0),
-          child: isReq && listSO.isEmpty ? _loading() : !isReq && listSO.isEmpty ? _noData() : _data(),
+        body: RefreshIndicator(
+          child: Container(
+            margin: EdgeInsets.only(right: 8.0, left: 8.0),
+            child: isReq && listSO.isEmpty ? _loading() : !isReq && listSO.isEmpty ? _noData() : _data(),
+          ),
+            //todo : refresh method kendala refresh muter muter tok ,
+          onRefresh: (){
+            _loading();
+            setDefault();
+            getSOList();
+            print("iki melbu refresh");
+            return isReq ? Future.value(null) :  null;
+          },
+
         ));
   }
 }

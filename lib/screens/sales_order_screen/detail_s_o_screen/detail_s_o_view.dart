@@ -12,189 +12,268 @@ class DetailSOView extends DetailSOViewModel {
 
     return Container(
       margin: EdgeInsets.only(right: 16.0, left: 16.0),
-      child: ListView(
+      child:
+      Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          forcaLogo(width: 70.0),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ListView(
             children: <Widget>[
-              Text(
-                "Document Date",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              forcaLogo(width: 70.0),
+              Container(
+                margin: EdgeInsets.only(top: 16.0),
               ),
-              Text(
-                salesOrder.dateOrdered,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                DOC_NUMBER,
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Document Date",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    salesOrder.dateOrdered,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                salesOrder.documentNo,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Nominal",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    DOC_NUMBER,
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    salesOrder.documentNo,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                "${salesOrder.nominal}",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Business Partner",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontFamily: "Title",
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Nominal",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    "${salesOrder.nominal}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Business Partner",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Title",
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      salesOrder.partnerName ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: "Subtitle",
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
-              Text(
-                salesOrder.partnerName,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "WareHouse",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15, fontFamily: "Title"),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "WareHouse",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15, fontFamily: "Title"),
+                  ),
+                  Text(
+                    salesOrder.warehouse,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitile",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                salesOrder.warehouse,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitile",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Sale Rep",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Sale Rep",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    salesOrder.salesRepName,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                salesOrder.salesRepName,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Price List",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Price List",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    salesOrder.priceList,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                salesOrder.priceList,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Payment Rule",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Payment Rule",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    salesOrder.paymentRule,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                salesOrder.paymentRule,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Description",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Title",
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      salesOrder.description ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: "Subtitle",
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 20.0)),
+              Center(
+                child: Text("SO LINE",
+                    style: TextStyle(
+                        fontFamily: "Title",
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: linesWidget,
+              ),
             ],
           ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 20.0)),
-          Text("SO LINE",
-              style: TextStyle(
-                  fontFamily: "Title",
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold)),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: linesWidget,
+          Row(
+            children: <Widget>[
+              Flexible(
+                  child: salesOrder.status == "Drafted" ?
+              Container(
+                child: _buttonAction() ,
+              ) : Container())
+            ],
+          )
+        ],
+      ),
+    );
+  }
+  _buttonAction(){
+    return Container(
+      margin: EdgeInsets.only(top: 24.0),
+      height: 50.0,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: forcaButton(forcaText("Delete", color: Colors.white), () {
+              deleteOrder();
+            }, color: Colors.red),
+          ),
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: forcaButton(forcaText("Completed", color: Colors.white), () {
+              setComplete();
+            }),
           ),
         ],
       ),
     );
   }
-
   _lineItem(OrderLine orderLine) {
     return Container(
       height: 180,
@@ -495,28 +574,6 @@ class DetailSOView extends DetailSOViewModel {
               flex: 9,
               child: _body(),
             ),
-            Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    forcaButton(forcaText("Set Completed", color: Colors.white), () {
-                      setComplete();
-                    },
-                        color: Colors.blue,
-                        height: 50.0,
-                        width: 150.0,
-                        margin: EdgeInsets.only(top: 20.0)),
-                    forcaButton(forcaText("Delete Order", color: Colors.white), () {
-                      deleteOrder();
-                    },
-                        color: Colors.red,
-                        height: 50.0,
-                        width: 150.0,
-                        margin: EdgeInsets.only(top: 20.0)),
-                  ],
-                )
-            )
           ],
         ),
       ),

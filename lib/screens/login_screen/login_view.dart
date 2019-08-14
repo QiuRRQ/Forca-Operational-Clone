@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/screens/login_screen/login_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
-import 'package:flutter_crashlytics/flutter_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class LoginView extends LoginViewModel {
 
   _makeError() {
-    FlutterCrashlytics()
-        .reportCrash("Error title", StackTrace.fromString("Error message"));
+    Crashlytics().log("report error di login view");
   }
 
   _body() {

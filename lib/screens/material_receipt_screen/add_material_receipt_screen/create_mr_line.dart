@@ -26,12 +26,13 @@ class CreateMRLine extends StatefulWidget {
   final String orderID;
   final ValueChanged<MrLine> line;
   final Warehouse warehouse;
+  final MrLine mrLine;
 
 
-  CreateMRLine(this.listLocator, this.orderID, this.line,  this.warehouse);
+  CreateMRLine(this.listLocator, this.orderID, this.line,  this.warehouse,[this.mrLine]);
 
   @override
-  _MRLineState createState() => _MRLineState(listLocator, orderID, line, warehouse);
+  _MRLineState createState() => _MRLineState(listLocator, orderID, line, warehouse,mrLine);
 }
 
 class _MRLineState extends State<CreateMRLine> {
@@ -45,25 +46,53 @@ class _MRLineState extends State<CreateMRLine> {
   final Warehouse warehouse;
   final ValueChanged<MrLine> line;
   MrLine myline = MrLine();
+  MrLine mrLine;
   var qtyController,
       productController,
       uomController;
   bool _onChangedUom = false;
+  bool _onChangeProduct = false;
+  bool _inputQtyWarning = false;
 
 
-  _MRLineState(this.listLocator, this.orderID, this.line, this.warehouse);
+  _MRLineState(this.listLocator, this.orderID, this.line, this.warehouse,this.mrLine);
 
+  setLine() {
+    myline.line_number = null ?? "";
+    _onChangeProduct ? myline.m_product_id = int.parse(selectedOrderLine.m_product_id) :"";
+      _onChangeProduct ? myline.productName = selectedOrderLine.m_product_name : "";
+    _onChangedUom ? myline.uom_name = selectedUom.name : "";
+    _onChangedUom ? myline.c_uom_id = int.parse(selectedUom.uomID) : "";
+    myline.m_locator_id = int.parse(selectedLocator.m_locator_id);
+    myline.m_product_id = int.parse(selectedOrderLine.m_product_id);
+    myline.productName = selectedOrderLine.m_product_name;
+    myline.c_uom_id = int.parse(selectedOrderLine.c_uom_id);
+    myline.c_orderline_id = int.parse(selectedOrderLine.c_orderline_id);
+    myline.qty = int.parse(qtyController.text.toString());
+    myline.locator_name = selectedLocator.locator_name;
+    qtyController.text.isNotEmpty ? myline.qty = int.parse(qtyController.text.toString()) : "";
+    print("${myline.qty}");
 
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+  }
+  _initEditLine(){
+    myline.m_inoutline_id = mrLine.m_inoutline_id;
+    myline.m_product_id = mrLine.m_product_id;
+    myline.m_locator_id = mrLine.m_locator_id;
+    listLocator.forEach((g)=>int.parse(g.m_locator_id) == mrLine.m_locator_id ? selectedLocator = g :"");
+    myline.locator_name = mrLine.locator_name;
+    myline.productName = mrLine.productName;
+    myline.qty = mrLine.qty;
+    myline.c_uom_id = mrLine.c_uom_id;
+    mrLine.uom_name = mrLine.uom_name;
   }
 
   @override
   void initState() {
-    selectedLocator = listLocator[0];
+    if(mrLine != null){
+      _initEditLine();
+    }else{
+      selectedLocator = listLocator[0];
+    }
     qtyController = TextEditingController();
     productController = TextEditingController();
     uomController = TextEditingController();
@@ -81,23 +110,40 @@ class _MRLineState extends State<CreateMRLine> {
     });
   }
 
-  setLine() {
-    myline.m_locator_id = int.parse(selectedLocator.m_locator_id);
-    myline.m_product_id = int.parse(selectedOrderLine.m_product_id);
-    myline.productName = selectedOrderLine.m_product_name;
-    myline.c_uom_id = int.parse(selectedOrderLine.c_uom_id);
-    myline.c_orderline_id = int.parse(selectedOrderLine.c_orderline_id);
-    myline.qty = int.parse(qtyController.text.toString());
+
+
+  _showProducts() {
+    showDialog(
+        context: context,
+        builder: (c) => AlertDialog(
+          content: SelectProduct((product) {
+            setState(() {
+              selectedProduct = product;
+              _onChangeProduct = true;
+              productController.text = selectedProduct.name;
+              print(selectedProduct.productID);
+              listUom.clear();
+              listUom.addAll(selectedProduct.uom);
+              listUom.addAll(selectedProduct.uomConversion);
+              uomController.text =
+              listUom.isEmpty ? '' : listUom[0].realName;
+              selectedUom = listUom.isEmpty ? Uom() : listUom[0];
+              _onChangedUom = true;
+              Navigator.pop(context);
+            });
+          }),
+        ));
   }
-
-
   _getProduct() async {
     Loading(context).show();
+    print("masuk get product");
     await reqProduct(productID: selectedOrderLine.m_product_id)
         .then((listProduct) {
       setState(() {
         selectedProduct = listProduct[0];
+        _onChangeProduct = true;
         productController.text = selectedProduct.name;
+        listUom.clear();
         listUom.addAll(selectedProduct.uom);
         listUom.addAll(selectedProduct.uomConversion);
         uomController.text =
@@ -170,7 +216,7 @@ class _MRLineState extends State<CreateMRLine> {
                     height: 50.0,
                     color: Colors.blue[600],
                     child: Center(
-                      child: forcaText("Create MR Line", color: Colors.white),
+                      child: forcaText(widget.mrLine == null ? "Create MR Line" : "Edit MR Line", color: Colors.white),
                     ),
                   ),
                   Container(
@@ -195,7 +241,7 @@ class _MRLineState extends State<CreateMRLine> {
                                   TextFormField(
                                     controller: productController,
                                     decoration: InputDecoration(
-                                        hintText: "Select Product",
+                                        hintText: mrLine == null ? "Select Product" :mrLine.productName,
                                         suffixIcon: IconButton(
                                             icon: Icon(Icons.arrow_drop_down),
                                             onPressed: () => _getOrderLineItem())),
@@ -221,12 +267,14 @@ class _MRLineState extends State<CreateMRLine> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   TextFormField(
+                                    enabled: false,
                                     controller: uomController,
                                     decoration: InputDecoration(
-                                        hintText: "Select UOM",
-                                        suffixIcon: IconButton(
-                                            icon: Icon(Icons.arrow_drop_down),
-                                            onPressed: () => _selectUOM())),
+                                        hintText: mrLine == null ? "Select UOM" : mrLine.uom_name,
+//                                        suffixIcon: IconButton(
+//                                            icon: Icon(Icons.arrow_drop_down),
+//                                            onPressed: () => _selectUOM())
+                                    ),
                                   ),
                                   Container(
                                     height: 1.0,
@@ -306,7 +354,8 @@ class _MRLineState extends State<CreateMRLine> {
                                         color: Colors.black,
                                         fontSize: 14.0),
                                     decoration: InputDecoration(
-                                        hintText: 'Enter QTY of product'),
+                                        hintText: selectedOrderLine == null ?'Enter QTY of product' : selectedOrderLine.qtyentered,
+                                    errorText:_inputQtyWarning ?"qty input > qty po" :null ),
                                   ))
                             ],
                           ),
@@ -319,12 +368,20 @@ class _MRLineState extends State<CreateMRLine> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: RaisedButton(
                       onPressed: () {
-                        try {
-                          setLine();
-                          line(myline);
-                        } catch (exception) {
-                          print("eception ${exception.toString()}");
-                        }
+                          try {
+                            setLine();
+                            if(myline.qty > double.parse(selectedOrderLine.qtyentered)){
+                              print("iki bener");
+                              setState(() {
+                                _inputQtyWarning = true;
+                                print(_inputQtyWarning);
+                              });
+                            }else{
+                              line(myline);
+                            }
+                          } catch (exception) {
+                            print("eception ${exception.toString()}");
+                          }
                       },
                       child: Text(
                         "Save",

@@ -9,11 +9,20 @@ import 'package:forca_so/utils/forca_assets.dart';
 
 class MaterialReceiptView extends MaterialReceiptViewModel {
   _body() {
-    return Container(
-      margin: EdgeInsets.only(right: 8.0, left: 8.0),
-      child: isReq && listMaterialReceipt.isEmpty
-          ? _loading()
-          : !isReq && listMaterialReceipt.isEmpty ? _noData() : _data(),
+    return RefreshIndicator(
+      child: Container(
+        margin: EdgeInsets.only(right: 8.0, left: 8.0),
+        child: isReq && listMaterialReceipt.isEmpty
+            ? _loading()
+            : !isReq && listMaterialReceipt.isEmpty ? _noData() : _data(),
+      ),
+      onRefresh: (){
+        _loading();
+        setDefault();
+        print("iki refersh");
+        getMaterialReceipts();
+        return isReq ? Future.value(null) : null;
+      },
     );
   }
 
@@ -107,10 +116,7 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
                   Container(
                     height: 30.0,
                     child: OutlineButton(
-                      onPressed: () {
-//                        Navigator.push(context,
-//                            MaterialPageRoute(builder: (c) => DetailReceiptScreen()));
-                      },
+                      onPressed: () => getDetail(materialReceipt),
                       child: Text(
                         "Detail",
                         style: TextStyle(
@@ -126,9 +132,8 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
                           ? Container(
                               height: 30.0,
                               child: OutlineButton(
-                                onPressed: () {
-                                  getDetailForEdit(materialReceipt);
-                                },
+                                onPressed: () => Navigator.push(context,
+                                    MaterialPageRoute(builder: (c) => AddMaterialReceiptScreen(materialReceipt: materialReceipt,))),
                                 child: Text(
                                   "Edit",
                                   style: TextStyle(

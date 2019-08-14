@@ -5,13 +5,16 @@ class DetailMaterialReceipt {
 	int c_bpartner_id;
 	String c_bpartner_name;
 	String warehouse;
+	int m_inout_id;
 	int m_warehouse_id;
 	int c_order_id;
 	String documentno;
 	String docstatus;
 	String movementdate;
 	String status;
+	int c_bpartner_location_id;
 	String docaction;
+	String description;
 	Object crm_id;
 	List<m_inOutline> m_inoutline;
 	int profitcenter_id;
@@ -30,7 +33,10 @@ class DetailMaterialReceipt {
 				movementdate = map["movementdate"],
 				status = map["status"],
 				docaction = map["docaction"],
+				description = map["description"],
 				crm_id = map["crm_id"],
+				c_bpartner_location_id = map["c_bpartner_location_id"],
+				m_inout_id = map["m_inout_id"],
 				m_inoutline = List<m_inOutline>.from(map["m_inoutline"].map((it) => m_inOutline.fromJsonMap(it))),
 				profitcenter_id = map["profitcenter_id"],
 				c_project = map["c_project"];
@@ -47,7 +53,10 @@ class DetailMaterialReceipt {
 		data['movementdate'] = movementdate;
 		data['status'] = status;
 		data['docaction'] = docaction;
+		data['description'] = description;
+		data ['c_bpartner_location_id'] = c_bpartner_location_id;
 		data['crm_id'] = crm_id;
+		data['m_inout_id'] = m_inout_id;
 		data['m_inoutline'] = m_inoutline != null ?
 		this.m_inoutline.map((v) => v.toJson()).toList()
 				: null;

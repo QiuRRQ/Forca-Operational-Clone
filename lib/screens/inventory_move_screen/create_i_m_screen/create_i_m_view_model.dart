@@ -184,7 +184,6 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     }
   }
 
-  //todo: diarahkan ke createImLine
   getEditMasterLine(ListLine line, int index) async {
     Loading(context).show();
     List<Locator> listLocator = List();
@@ -402,11 +401,11 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     if (response != null) {
       print("hasil ${response.body}");
       var res = jsonDecode(response.body);
-      var message = res["resultdata"]['documentno'];
       if (res["codestatus"] == "S") {
         print("line lengt ${imParam.list_line.length}");
+        var message = res["resultdata"]['documentno'];
         MyDialog(
-            context, "Succes", 'Update succeeded with documentno $message',
+            context, "Succes", 'Update documentno $message succeeded',
             Status.SUCCESS).build(() {
           Navigator.pop(context);
           Navigator.pop(context);

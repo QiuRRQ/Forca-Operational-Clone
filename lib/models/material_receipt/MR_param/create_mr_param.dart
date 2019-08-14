@@ -5,7 +5,7 @@ class CreateMrParam {
   int c_order_id = 0;
   int c_bpartner_id = 0;
   int m_warehouse_id = 0;
-  List<MrLine> list_line = new List();
+  List<MrLine> list_line;
   int crm_id = 0;
   int ad_org_id = 0;
   int ad_orgtrx_id = 0;

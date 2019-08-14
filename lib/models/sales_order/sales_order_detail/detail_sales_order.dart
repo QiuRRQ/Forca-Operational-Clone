@@ -15,6 +15,7 @@ class DetailSalesOrder {
   final String docAction;
   final String paymentRule;
   final List<OrderLine> orderLine;
+  final String description;
 
   DetailSalesOrder.fromJsonMap(Map<String, dynamic> map)
       : bPartnerID = map["c_bpartner_id"],
@@ -30,6 +31,7 @@ class DetailSalesOrder {
         status = map["status"],
         docAction = map["docaction"],
         paymentRule = map["paymentrule"],
+        description = map['description'],
         orderLine = List<OrderLine>.from(
             map["c_orderline"].map((it) => OrderLine.fromJsonMap(it)));
 
@@ -48,6 +50,7 @@ class DetailSalesOrder {
     data['status'] = status;
     data['docaction'] = docAction;
     data["paymentrule"] = paymentRule;
+    data['description'] = description;
     data['c_orderline'] = orderLine != null
         ? this.orderLine.map((v) => v.toJson()).toList()
         : null;

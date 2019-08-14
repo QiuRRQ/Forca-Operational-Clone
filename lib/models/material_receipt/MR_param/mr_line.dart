@@ -11,6 +11,8 @@ class MrLine {
   String description = "";
   int m_inout_id = 0;
   int qty = 0;
+  String uom_name;
+  String locator_name;
 
   MrLine(
       {this.m_locator_id,
@@ -31,6 +33,8 @@ class MrLine {
         c_orderline_id = map["c_orderline_id"],
         description = map["description"],
         m_inout_id = map["m_inout_id"],
+        uom_name = map["uom_name"],
+        locator_name = map["locator_name"],
         qty = map["qty"];
 
   Map<String, dynamic> toJson() {
@@ -43,6 +47,8 @@ class MrLine {
     data['description'] = description;
     data['line_number'] = line_number;
     data['m_inout_id'] = m_inout_id;
+    data['uom_name'] = uom_name;
+    data['locator_name'] = locator_name;
     data['qty'] = qty;
     return data;
   }

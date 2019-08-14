@@ -172,7 +172,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
 
   _data() {
     return ListView.builder(
-      controller: _controller,
+//      controller: _controller,
       itemBuilder: (c, i) => _item(listIM[i]),
       itemCount: listIM.length,
     );
@@ -212,11 +212,20 @@ class InventoryMoveView extends InventoryMoveViewModel {
         },
         child: Icon(Icons.add),
       ),
-      body: Container(
-        margin: EdgeInsets.only(right: 8.0, left: 8.0),
-        child: isReq && listIM.isEmpty
-            ? _loading()
-            : !isReq && listIM.isEmpty ? _noData() : _data(),
+      body:  RefreshIndicator(
+        child: Container(
+          margin: EdgeInsets.only(right: 8.0, left: 8.0),
+          child: isReq && listIM.isEmpty
+              ? _loading()
+              : !isReq && listIM.isEmpty ? _noData() : _data(),
+        ),
+        onRefresh: (){
+          _loading();
+          setDefault();
+          getIMList();
+          print("refresh iki");
+          return isReq ? Future.value(null) : null;
+        }
       ),
     );
   }

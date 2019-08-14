@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'detail_receipt_screen/detail_receipt_screen.dart';
 
 abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
-  DocumentStatus documentStatus = DocumentStatus.COMPLETED;
+  DocumentStatus documentStatus = DocumentStatus.DRAFTED;
   bool isReq = true;
   int page = 1;
   String startDate = "Select Date";

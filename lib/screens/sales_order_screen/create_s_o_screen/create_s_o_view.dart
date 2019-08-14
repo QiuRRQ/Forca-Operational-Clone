@@ -303,72 +303,47 @@ class CreateSOView extends CreateSOViewModel {
               ],
             ),
           ),
-//          Container(
-//            width: MediaQuery.of(context).size.width / 2 - 20,
-//            margin: EdgeInsets.only(top: 16.0),
-//            child: Container(
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.start,
-//                children: <Widget>[
-//                  Text(
-//                    "Documaent Status",
-//                    style: TextStyle(
-//                        fontFamily: "Title",
-//                        fontSize: 15.0,
-//                        fontWeight: FontWeight.bold),
-//                  ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                    children: <Widget>[
-//                      Container(
-//                        width: MediaQuery.of(context).size.width - 32,
-//                        child: DropdownButtonHideUnderline(
-//                            child: ButtonTheme(
-//                              alignedDropdown: true,
-//                              child: new DropdownButton(
-//                                value: currentStatus,
-//                                items: dropDownMenuItems,
-//                                onChanged: changedDropDownItem,
-//                              )
-//                            )
-//                        )
-//                      ),
-//
-//                    ],
-//                  ),
-//                  Container(
-//                    height: 1.0,
-//                    color: Colors.grey[600],
-//                  ),
-//                ],
-//              ),
-//            ),
-//          ),
-//          Padding(padding: EdgeInsets.only(top: 20)),
-//          Container(
-//            width: MediaQuery.of(context).size.width,
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                Text(
-//                  "Description",
-//                  style: TextStyle(
-//                      fontFamily: "Title",
-//                      fontSize: 15.0,
-//                      fontWeight: FontWeight.bold),
-//                ),
-//                TextField(
-//                  controller: descriptionController,
-//                  decoration: InputDecoration(
-//                      hintText: 'Input description of Material Receipt'),
-//                  style: TextStyle(
-//                    fontFamily: "Title",
-//                    fontSize: 14.0,
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Description ",
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width /1 -37,
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                          controller: descriptionController,
+                          style: TextStyle(
+                              fontSize:  14.0,
+                              color: Colors.black,
+                              fontFamily: "Title"
+                          ),decoration: InputDecoration(
+                          hintText: soParams.description == "" ? "description" : soParams.description,
+                        ),
+
+                        )
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 1.0,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
             width: MediaQuery.of(context).size.width,

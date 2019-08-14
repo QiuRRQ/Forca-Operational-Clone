@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_date.dart';
 import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
+import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt_orderline.dart';
 import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/add_material_receipt_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
@@ -206,6 +207,47 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
               ),
             ],
           ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Description ",
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width /1 -37,
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                          controller: descriptionController,
+                          style: TextStyle(
+                              fontSize:  14.0,
+                              color: Colors.black,
+                              fontFamily: "Title"
+                          ),decoration: InputDecoration(
+                          hintText: mrParam.description == null ? "description" : mrParam.description,
+                        ),
+
+                        )
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 1.0,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+          ),
 //          Container(
 //            width: MediaQuery.of(context).size.width / 2 - 20,
 //            margin: EdgeInsets.only(top: 16.0),
@@ -303,7 +345,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
 
   _lineItem(MrLine line, {int index}) {
     return Container(
-      height: 180,
+      height: 190,
       child: Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
@@ -395,50 +437,89 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      "Locator",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      line.locator_name ?? "",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      "UOM",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: Text(
+                      line.uom_name ?? "",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: 75.0,
                     height: 30.0,
-                    child: OutlineButton(
+                    child: RaisedButton(
+                      color: Colors.red,
                       onPressed: () {
-//                        _detailLine(line);
+                            delete(line);
                       },
                       child: Text(
-                        "Detail",
+                        "Delete",
+                        style: TextStyle(
+                            fontFamily: "Title", color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 75.0,
+                    height: 30.0,
+                    child: OutlineButton(
+                      onPressed: () => getEditMasterLine(line, index),
+                      child: Text(
+                        "Edit",
                         style: TextStyle(fontFamily: "Title"),
                       ),
                     ),
                   ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 75.0,
-                        height: 30.0,
-                        child: OutlineButton(
-                          onPressed: () {
-//                            editMasterLine(line, index);
-                          },
-                          child: Text(
-                            "Edit",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 10.0)),
-                      Container(
-                        width: 75.0,
-                        height: 30.0,
-                        child: RaisedButton(
-                          color: Colors.red,
-                          onPressed: () {
-//                            delete(line);
-                          },
-                          child: Text(
-                            "Delete",
-                            style: TextStyle(
-                                fontFamily: "Title", color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ],
@@ -448,7 +529,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
     );
   }
 
-  _detailLine(SoLine line) {
+  _detailLine(MrLine line) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -495,62 +576,11 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "Price",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.price.toString() ?? "0",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "QTY",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.qty.toString() ?? "0",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Discount",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.discount.toString() ?? "0",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
                             "UOM",
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.uomName ?? " ",
+                            line.uom_name ?? " ",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -559,39 +589,6 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                         ],
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "TAX",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.taxName ?? " ",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Total",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            (line.price * line.qty).toString() ?? "0",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      )
                     ],
                   ),
                 )
@@ -609,7 +606,8 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Create MR",
+          widget.materialReceipt == null ?
+          "Create MR" : "Edit MR",
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
@@ -631,15 +629,20 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
             ),
             Expanded(
               flex: 1,
-              child: forcaButton(forcaText("Create MR", color: Colors.white), () {
-                 if (mrParam.list_line.isNotEmpty) {
+              child: forcaButton(forcaText( widget.materialReceipt == null ?"Create MR" : "Save MR", color: Colors.white), () {
+                if(widget.materialReceipt == null){
+                  if (mrParam.list_line.isNotEmpty) {
                     createMR();
                   } else {
-                   MyDialog(context, "FAILED", "Please add line", Status.ERROR)
+                    MyDialog(context, "FAILED", "Please add line", Status.ERROR)
                         .build(() {
-                     Navigator.pop(context);
+                      Navigator.pop(context);
                     });
-                 }
+                  }
+                }else{
+                  updateMR();
+                }
+
 //            if(widget.orderItem == null){ //create SO
 //                  if (mrParam.list_line.isNotEmpty) {
 //                    createMR();

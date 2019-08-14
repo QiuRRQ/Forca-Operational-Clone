@@ -13,107 +13,160 @@ class DetailReceiptView extends DetailReceiptViewModel {
     });
 
     return Container(
-      margin: EdgeInsets.only(right: 16.0, left: 16.0),
-      child: ListView(
+      margin: EdgeInsets.all(16.0),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          forcaLogo(width: 70.0),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ListView(
             children: <Widget>[
-              Text(
-                "Document Date",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              forcaLogo(width: 70.0),
+              Container(
+                margin: EdgeInsets.only(top: 16.0),
               ),
-              Text(
-                docNumer.movementdate == null ? "" : docNumer.movementdate,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                DOC_NUMBER,
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Document Date",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    docNumer.movementdate == null ? "" : docNumer.movementdate.replaceAll(new RegExp('00:00:00.0'),''),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                docNumer.documentno == null ? "" : docNumer.documentno,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Business Partner",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontFamily: "Title",
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    DOC_NUMBER,
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15.0, fontFamily: "Title"),
+                  ),
+                  Text(
+                    docNumer.documentno == null ? "" : docNumer.documentno,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitle",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Business Partner",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Title",
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      docNumer.c_bpartner_name ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: "Subtitle",
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
-              Text(
-                docNumer.c_bpartner_name == null ? "": docNumer.c_bpartner_name,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitle",
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 10.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "WareHouse",
-                style: TextStyle(
-                    color: Colors.black, fontSize: 15, fontFamily: "Title"),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "WareHouse",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 15, fontFamily: "Title"),
+                  ),
+                  Text(
+                    docNumer.warehouse == null ? "" : docNumer.warehouse,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontFamily: "Subtitile",
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              Text(
-                docNumer.warehouse == null ? "" : docNumer.warehouse,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontFamily: "Subtitile",
-                    fontWeight: FontWeight.bold),
-              )
+              Divider(),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Description",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: "Title",
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      docNumer.description ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontFamily: "Subtitle",
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              Divider(),
+              Padding(padding: EdgeInsets.only(top: 20.0)),
+              Center(
+                child: Text("Material Receipt LINE",
+                    style: TextStyle(
+                        fontFamily: "Title",
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: linesWidget,
+              ),
             ],
           ),
-          Divider(),
-          Padding(padding: EdgeInsets.only(top: 20.0)),
-          Text("Material Receipt LINE",
-              style: TextStyle(
-                  fontFamily: "Title",
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold)),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: linesWidget,
-          ),
+          Row(
+            children: <Widget>[
+            Flexible(child: docNumer.status == "Drafted"?
+            Container(
+              child:_buttonAction(),
+            ) : Container())
+          ],)
         ],
       ),
+
     );
   }
 
@@ -131,7 +184,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.product_name,
+                      "Line Number",
                       style: TextStyle(fontFamily: "Title", fontSize: 15.0),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -139,7 +192,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.priceentered,
+                      orderLine.line_number ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -156,14 +209,14 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
-                    child: Text("QTY",
+                    child: Text("Product",
                         style: TextStyle(fontFamily: "Title", fontSize: 15.0),
                         overflow: TextOverflow.ellipsis),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.qtyentered,
+                      orderLine.product_name ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -180,14 +233,14 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
-                    child: Text("Discount",
+                    child: Text("locator",
                         style: TextStyle(fontFamily: "Title", fontSize: 15.0),
                         overflow: TextOverflow.ellipsis),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.discount ?? "",
+                      orderLine.locator_name ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -209,7 +262,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                         _detailLine(orderLine);
                       },
                       child: Text(
-                        "Detail",
+                        "Show More",
                         style: TextStyle(fontFamily: "Title"),
                       ),
                     ),
@@ -257,7 +310,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.product_name,
+                            line.product_name ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -266,23 +319,23 @@ class DetailReceiptView extends DetailReceiptViewModel {
                         ],
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Price",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.priceentered,
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
+//                      Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Text(
+//                            "Price",
+//                            style: TextStyle(fontFamily: "Title"),
+//                          ),
+//                          Text(
+//                            line.priceentered.toString() ?? "",
+//                            style: TextStyle(
+//                                fontFamily: "Title",
+//                                color: Colors.black,
+//                                fontWeight: FontWeight.bold),
+//                          )
+//                        ],
+//                      ),
+//                      Padding(padding: EdgeInsets.only(top: 10.0)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -291,7 +344,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.qtyentered,
+                            line.movementqty ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -325,7 +378,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.uom_name,
+                            line.uom_name ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -334,22 +387,22 @@ class DetailReceiptView extends DetailReceiptViewModel {
                         ],
                       ),
                       Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Total",
-                            style: TextStyle(fontFamily: "Title"),
-                          ),
-                          Text(
-                            line.total,
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      )
+//                      Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Text(
+//                            "Total",
+//                            style: TextStyle(fontFamily: "Title"),
+//                          ),
+//                          Text(
+//                            line.total.toString() ?? "",
+//                            style: TextStyle(
+//                                fontFamily: "Title",
+//                                color: Colors.black,
+//                                fontWeight: FontWeight.bold),
+//                          )
+//                        ],
+//                      )
                     ],
                   ),
                 )
@@ -357,6 +410,31 @@ class DetailReceiptView extends DetailReceiptViewModel {
             ),
           );
         });
+  }
+
+  _buttonAction(){
+    return Container(
+      margin: EdgeInsets.only(top: 24.0),
+      height: 50.0,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: forcaButton(forcaText("Delete", color: Colors.white), () {
+            deleteDocumentDraft();
+            }, color: Colors.red),
+          ),
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: forcaButton(forcaText("Completed", color: Colors.white), () {
+            completeDocumentDraft();
+            }),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

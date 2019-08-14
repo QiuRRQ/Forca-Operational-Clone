@@ -212,11 +212,16 @@ Future<List<Locator>> reqLocator({String warehouseID}) async {
   List<Locator> locatorList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
-  var myBody = {
-    "m_warehouse_id": warehouseID
-  };
   var url = "${ref.getString(BASE_URL)}$LOCATOR";
-  var response = await http.post(url,body: myBody, headers: {"Forca-Token": user.token});
+  var response;
+  if (warehouseID != null){
+    var myBody = {
+      "m_warehouse_id": warehouseID
+    };
+    response = await http.post(url,body: myBody, headers: {"Forca-Token": user.token});
+  } else{
+    response = await http.post(url, headers: {"Forca-Token": user.token});
+  }
   print(response.body);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
@@ -243,9 +248,8 @@ Future<List<SalesOrder>> reqOrder(String bPartnerID, String warehouseID,
     "status": StatusDocument(documentStatus).getName(),
     "m_warehouse_id": warehouseID,
     "c_bpartner_id": bPartnerID,
-    "page": page.toString()
   };
-  if (documentno != "") myBody.addAll({"documentno": documentno});
+  if (documentno != "" && documentno != null) myBody.addAll({"documentno": documentno});
   if (page != null) myBody.addAll({"page": page});
   if (perPage != null) myBody.addAll({"perpage": perPage});
   print("myBody $myBody");
@@ -279,7 +283,7 @@ Future<List<getOderLine>> reqOrderLine(String orderID,
       body: myBody, headers: {"Forca-Token": usr.token}).catchError((err) {
     print("error ${err.toString()}");
   });
-  print(response.body);
+  print("isine reqorderline ${response.body}");
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
     if (res["codestatus"] == "S") {

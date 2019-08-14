@@ -82,26 +82,34 @@ class DetailIMView extends DetailIMViewModel {
                   ),
                   Divider(),
                   Padding(padding: EdgeInsets.only(top: 10.0)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Business Partner",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.0,
-                          fontFamily: "Title",
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Business Partner",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontFamily: "Title",
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Text(
-                        inventoryMoveDetail.c_bpartner_name ?? "",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            fontFamily: "Subtitle",
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
+                        Text(
+                          inventoryMoveDetail.c_bpartner_name ?? "",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontFamily: "Subtitle",
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
                   Divider(),
                   Padding(padding: EdgeInsets.only(top: 10.0)),

@@ -13,7 +13,7 @@ import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/screens/sales_order_screen/detail_s_o_screen/detail_s_o_screen.dart';
 
 abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
-  DocumentStatus documentStatus = DocumentStatus.COMPLETED;
+  DocumentStatus documentStatus = DocumentStatus.DRAFTED;
   bool isReq = true;
   List<SalesOrder> listSO = List();
   int page = 1;

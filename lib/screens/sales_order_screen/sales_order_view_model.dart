@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:forca_so/utils/string.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/screens/sales_order_screen/detail_s_o_screen/detail_s_o_screen.dart';
+import 'package:toast/toast.dart';
 
 abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
   DocumentStatus documentStatus = DocumentStatus.DRAFTED;
@@ -19,6 +20,7 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
   int page = 1;
   String startDate = "Select Date";
   String endDate = "Select Date";
+  bool isFilter= false;
 
   getSOList() async {
     isReq = true;
@@ -56,6 +58,8 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
               listSO.addAll(SalesOrderReponse.fromJsonMap(res).listSO);
             });
           }
+          var totaldata = res['pagination']['totaldata'];
+          Toast.show("total document ${totaldata} ",context,duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
         } else {}
       }
     }

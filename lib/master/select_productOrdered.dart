@@ -86,7 +86,7 @@ class _SelectProductState extends State<SelectProductOrdered> {
                       onSelected(orderLine[i]);
                       Navigator.pop(context);
                     },
-                    child: forcaText(orderLine[i].m_product_name)),
+                    child: forcaText(orderLine[i].m_product_name ?? "")),
                 itemCount: orderLine.length,
               )),
           Row(

@@ -12,12 +12,14 @@ import 'package:forca_so/utils/my_dialog.dart';
 import 'package:forca_so/utils/string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
   // Add your state and logic here
   DocumentStatus documentStatus = DocumentStatus.DRAFTED;
   bool isReq = true;
-  List<InventoryMove> listIM = List();
+  bool isFilter = false;
+  List<InventoryMove> listInventoryMove = List();
   int page = 1;
   String startDate = "Select Date";
   String endDate = "Select Date";
@@ -54,9 +56,11 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
           if (listData.isNotEmpty) {
             setState(() {
               page++;
-              listIM.addAll(InventoryMoveResponse.fromJsonMap(res).listIM);
+              listInventoryMove.addAll(InventoryMoveResponse.fromJsonMap(res).listIM);
             });
           }
+          var totaldata = res['pagination']['totaldata'];
+          Toast.show("total document ${totaldata} ",context,duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
         } else {}
       }
     }
@@ -115,7 +119,7 @@ abstract class InventoryMoveViewModel extends State<InventoryMoveScreen> {
 
 
   setDefault() {
-    listIM.clear();
+    listInventoryMove.clear();
     page = 1;
   }
 

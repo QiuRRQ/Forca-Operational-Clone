@@ -15,6 +15,7 @@ class DetailMaterialReceipt {
 	int c_bpartner_location_id;
 	String docaction;
 	String description;
+	String documentno_order;
 	Object crm_id;
 	List<m_inOutline> m_inoutline;
 	int profitcenter_id;
@@ -37,6 +38,7 @@ class DetailMaterialReceipt {
 				crm_id = map["crm_id"],
 				c_bpartner_location_id = map["c_bpartner_location_id"],
 				m_inout_id = map["m_inout_id"],
+				documentno_order = map ["documentno_order"],
 				m_inoutline = List<m_inOutline>.from(map["m_inoutline"].map((it) => m_inOutline.fromJsonMap(it))),
 				profitcenter_id = map["profitcenter_id"],
 				c_project = map["c_project"];
@@ -49,6 +51,7 @@ class DetailMaterialReceipt {
 		data['m_warehouse_id'] = m_warehouse_id;
 		data['c_order_id'] = c_order_id;
 		data['documentno'] = documentno;
+		data['documentno_order'] = documentno_order;
 		data['docstatus'] = docstatus;
 		data['movementdate'] = movementdate;
 		data['status'] = status;

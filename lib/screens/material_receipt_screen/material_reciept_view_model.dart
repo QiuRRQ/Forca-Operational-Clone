@@ -11,12 +11,14 @@ import 'package:forca_so/utils/my_dialog.dart';
 import 'package:forca_so/utils/string.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 import 'detail_receipt_screen/detail_receipt_screen.dart';
 
 abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
   DocumentStatus documentStatus = DocumentStatus.DRAFTED;
   bool isReq = true;
+  bool isFilter = false;
   int page = 1;
   String startDate = "Select Date";
   String endDate = "Select Date";
@@ -40,17 +42,30 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
         .catchError((err) => print("${err.toString()}"));
     setState(() {
       if (context != null && response != null) {
-        isReq = false;
+        setState(() {
+          isReq = false;
+        });
         var res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
-          MaterialReceiptResponse materialReceiptResponse =
-              MaterialReceiptResponse.fromJsonMap(res);
 
-          listMaterialReceipt
-              .addAll(materialReceiptResponse.listMaterialReceipt);
+          var listData = MaterialReceiptResponse.fromJsonMap(res).listMaterialReceipt;
+          if(listData.isNotEmpty){
+            setState(() {
+              page++;
+              listMaterialReceipt.addAll(MaterialReceiptResponse.fromJsonMap(res).listMaterialReceipt);
+            });
+          }
+          var totaldata = res['pagination']['totaldata'];
+          Toast.show("total document ${totaldata} ",context,duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
+          print("response receipt ${listMaterialReceipt.length}");
+//          MaterialReceiptResponse materialReceiptResponse =
+//              MaterialReceiptResponse.fromJsonMap(res);
+//
+//          listMaterialReceipt
+//              .addAll(materialReceiptResponse.listMaterialReceipt);
 
+        } else{
         }
-        print("response receipt ${listMaterialReceipt.length}");
       }
     });
   }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:forca_so/master/select_order.dart';
 import 'package:forca_so/models/locator/locator.dart';
 import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
 import 'package:forca_so/models/material_receipt/detail_material_receipt/detail_material_receipt.dart';
@@ -7,7 +6,6 @@ import 'package:forca_so/models/material_receipt/detail_material_receipt/detail_
 import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt_orderline.dart';
 import 'package:forca_so/models/material_receipt/material_receipt.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
-import 'package:forca_so/models/sales_order/sales_order_detail/c_orderline.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/create_mr_line.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -125,7 +123,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
 
   _getOrder()async{
   Loading(context).show();
-  await reqOrder(editInfoMaterialReceipt.c_bpartner_id.toString(), editInfoMaterialReceipt.m_warehouse_id.toString(),).then((listOder){
+  await reqOrder(editInfoMaterialReceipt.c_bpartner_id.toString(), editInfoMaterialReceipt.m_warehouse_id.toString(),documentno: editInfoMaterialReceipt.documentno_order ).then((listOder){
     setState(() {
       this.selectedOrder = listOder[0];
     });
@@ -187,14 +185,12 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
           setState(() {
             Navigator.pop(context);
             if(editInfoMaterialReceipt !=null){
-              //todo updateline
               updateLine(newline);
             }
             mrParam.list_line[index] = newline;
           });
         }, warehouse,line));
   }
-
 
   updateLine(MrLine line)async{
    Loading(context).show();
@@ -249,6 +245,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
      Navigator.pop(context);
    }
   }
+
   _getLine(){
     editInfoMaterialReceipt.m_inoutline.forEach((g)=> _initLine(g));
   }
@@ -264,7 +261,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
     item.uom_name = outline.uom_name;
     item.m_locator_id = int.parse(outline.m_locator_id);
     item.locator_name = outline.locator_name;
-    item.qty = int.parse(outline.qtyentered);
+    item.qty = outline.qtyreserved;
 
     setState(() {
       mrParam.list_line.add(item);
@@ -395,7 +392,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
           print(err);
     });
     if (response != null) {
-      print(response.body);
+      print('ini getdetail response ${response.body}');
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
         var detailResponse = DetailMaterialReceiptResponse.fromJsonMap(res);

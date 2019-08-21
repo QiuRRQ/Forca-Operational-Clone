@@ -19,6 +19,7 @@ class SalesOrderView extends SalesOrderViewModel {
           endDate = filterParam.endDate;
           setState(() {
             isReq = true;
+            isFilter= true;
           });
           getSOList();
         }));
@@ -219,7 +220,7 @@ class SalesOrderView extends SalesOrderViewModel {
 
   _data() {
     return ListView.builder(
-//      controller: _controller,
+    controller: isFilter? null : _controller,
       itemBuilder: (c, i) => _item(listSO[i]),
       itemCount: listSO.length,
     );
@@ -268,7 +269,6 @@ class SalesOrderView extends SalesOrderViewModel {
             margin: EdgeInsets.only(right: 8.0, left: 8.0),
             child: isReq && listSO.isEmpty ? _loading() : !isReq && listSO.isEmpty ? _noData() : _data(),
           ),
-            //todo : refresh method kendala refresh muter muter tok ,
           onRefresh: (){
             _loading();
             setDefault();

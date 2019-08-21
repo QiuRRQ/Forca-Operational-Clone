@@ -95,11 +95,12 @@ Future<List<Product>> reqProduct(
   await http.post(url, headers: {"Forca-Token": user.token}, body: myBody);
   if (response.statusCode == 200) {
     Map res = jsonDecode(response.body);
+    print("iki isine response $res");
     if (res["codestatus"] == "S") {
       return ProductResponse.fromJsonMap(res).products;
     }
   }
-  print("${products.length} | product ${response.body}");
+  print("${products.length} | isine product ${response.body}");
   return products;
 }
 

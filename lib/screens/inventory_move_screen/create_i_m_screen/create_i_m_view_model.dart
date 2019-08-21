@@ -50,7 +50,7 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     });
   }
 
-  //todo: instransit, description
+
   initialParam() {
     imParam.salerep_name = editInventoryMoveInfo.salesrep_name;
     imParam.c_bpartner_id = editInventoryMoveInfo.c_bpartner_id;

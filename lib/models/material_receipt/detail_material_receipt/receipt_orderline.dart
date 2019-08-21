@@ -16,6 +16,7 @@ class m_inOutline {
 	String qtydelivered;
 	String qtyinvoiced;
 	String discount;
+	var qtyreserved;
 	var priceentered;
 
 	m_inOutline.fromJsonMap(Map<String, dynamic> map):
@@ -35,6 +36,7 @@ class m_inOutline {
 				qtydelivered = map["qtydelivered"],
 				qtyinvoiced = map["qtyinvoiced"],
 				discount = map["discount"],
+				qtyreserved = map ["qtyreserved"],
 				priceentered = map["priceentered"];
 
 	Map<String, dynamic> toJson() {
@@ -55,6 +57,7 @@ class m_inOutline {
 		data['qtydelivered'] = qtydelivered;
 		data['qtyinvoiced'] = qtyinvoiced;
 		data['discount'] = discount;
+		data['qtyreserved'] = qtyreserved;
 		data['priceentered'] = priceentered;
 		return data;
 	}

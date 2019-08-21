@@ -15,12 +15,13 @@ class InventoryMoveView extends InventoryMoveViewModel {
            new FilterDocument(documentStatus, startDate, endDate, (filterParam) {
               Navigator.pop(context);
               page = 1;
-              listIM.clear();
+              listInventoryMove.clear();
               documentStatus = filterParam.documentStatus;
               startDate = filterParam.startDate;
               endDate = filterParam.endDate;
               setState(() {
                 isReq = true;
+                isFilter = true;
               });
               getIMList();
             }));
@@ -172,9 +173,9 @@ class InventoryMoveView extends InventoryMoveViewModel {
 
   _data() {
     return ListView.builder(
-//      controller: _controller,
-      itemBuilder: (c, i) => _item(listIM[i]),
-      itemCount: listIM.length,
+      controller:isFilter ? null :  _controller,
+      itemBuilder: (c, i) => _item(listInventoryMove[i]),
+      itemCount: listInventoryMove.length,
     );
   }
 
@@ -215,9 +216,9 @@ class InventoryMoveView extends InventoryMoveViewModel {
       body:  RefreshIndicator(
         child: Container(
           margin: EdgeInsets.only(right: 8.0, left: 8.0),
-          child: isReq && listIM.isEmpty
+          child: isReq && listInventoryMove.isEmpty
               ? _loading()
-              : !isReq && listIM.isEmpty ? _noData() : _data(),
+              : !isReq && listInventoryMove.isEmpty ? _noData() : _data(),
         ),
         onRefresh: (){
           _loading();

@@ -1,4 +1,6 @@
 
+import 'package:forca_so/models/sales_order/sales_order_detail/uom_conversion.dart';
+
 class getOderLine {
 
   String c_order_id;
@@ -14,6 +16,7 @@ class getOderLine {
   String m_warehouse_id;
   String m_warehouse_name;
   String qtyentered;
+  var qtyreserved;
   String c_uom_id;
   String c_uom_name;
   String priceentered;
@@ -21,6 +24,8 @@ class getOderLine {
   String priceactual;
   String c_tax_id;
   String c_tax_name;
+  List<UomConversion> uomConversion;
+
 
 	getOderLine();
 
@@ -44,7 +49,9 @@ class getOderLine {
 		pricelist = map["pricelist"],
 		priceactual = map["priceactual"],
 		c_tax_id = map["c_tax_id"],
-		c_tax_name = map["c_tax_name"];
+		qtyreserved = map["qtyreserved"],
+		c_tax_name = map["c_tax_name"],
+   uomConversion = List<UomConversion>.from(map["uom_conversion"].map((it)=> UomConversion.fromJsonMap(it)));
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -61,6 +68,7 @@ class getOderLine {
 		data['m_warehouse_id'] = m_warehouse_id;
 		data['m_warehouse_name'] = m_warehouse_name;
 		data['qtyentered'] = qtyentered;
+		data['qtyreserved'] = qtyreserved;
 		data['c_uom_id'] = c_uom_id;
 		data['c_uom_name'] = c_uom_name;
 		data['priceentered'] = priceentered;

@@ -28,6 +28,7 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
 
   _data() {
     return ListView.builder(
+      controller: isFilter ? null : _controller,
       itemCount: listMaterialReceipt.length,
       itemBuilder: (_, i) => _item(listMaterialReceipt[i]),
     );
@@ -173,6 +174,13 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
     );
   }
 
+  _loadMore() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      getMaterialReceipts();
+    }
+  }
+
   _loading() {
     return Container(
       child: Center(
@@ -208,12 +216,18 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
           endDate = filterParam.endDate;
           setState(() {
             isReq = true;
+            isFilter = true;
           });
           getMaterialReceipts();
         }));
   }
+
+  ScrollController _controller;
+
   @override
   void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_loadMore);
     getMaterialReceipts();
     super.initState();
   }

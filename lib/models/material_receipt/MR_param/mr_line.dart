@@ -10,7 +10,7 @@ class MrLine {
   String productName;
   String description = "";
   int m_inout_id = 0;
-  int qty = 0;
+  var qty;
   String uom_name;
   String locator_name;
 

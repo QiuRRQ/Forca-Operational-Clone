@@ -13,6 +13,7 @@ class MrLine {
   var qty;
   String uom_name;
   String locator_name;
+  String qtyConversion;
 
   MrLine(
       {this.m_locator_id,
@@ -22,7 +23,8 @@ class MrLine {
         this.m_inout_id,
         this.qty,
         this.m_inoutline_id,
-        this.m_product_id});
+        this.m_product_id,
+      this.qtyConversion});
 
   MrLine.fromJsonMap(Map<String, dynamic> map):
         c_uom_id = map["c_uom_id"],

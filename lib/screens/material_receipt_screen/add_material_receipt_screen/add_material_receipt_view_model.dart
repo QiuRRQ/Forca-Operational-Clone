@@ -28,6 +28,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   BPartner bPartner;
   SalesOrder selectedOrder;
   DetailMaterialReceipt editInfoMaterialReceipt;
+
   var descriptionController;
 
   CreateMrParam mrParam = CreateMrParam();
@@ -204,7 +205,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
      "m_inout_id" : mrParam.m_inout_id.toString(),
       "m_inoutline_id" : line.m_inoutline_id.toString(),
        "m_locator_id" : line.m_locator_id.toString(),
-       "qty" : line.qty.toString(),
+       "qty" : line.qtyConversion != null ? line.qtyConversion.toString() : line.qty.toString(),
        "m_product_id" : line.m_product_id.toString(),
        "c_uom_id" : line.c_uom_id.toString(),
        "c_orderline": line.c_orderline_id.toString(),
@@ -213,17 +214,16 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
      mybody ={
        "m_inout_id" : mrParam.m_inout_id.toString(),
        "m_locator_id" : line.m_locator_id.toString(),
-       "qty" : line.qty.toString(),
+       "qty" : line.qtyConversion != null ? line.qtyConversion.toString() : line.qty.toString(),
        "m_product_id" : line.m_product_id.toString(),
        "c_uom_id" : line.c_uom_id.toString(),
        "c_orderline": line.c_orderline_id.toString(),
      };
    }
-
+   print(" param updateline $mybody");
    var response = await http.post(url,body: mybody, headers:{"Forca-Token": user.token}).catchError((
        err) {
      print("error ${err.toString()}");
-     print(mybody);
      Navigator.pop(context);
    });
 
@@ -261,7 +261,7 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
     item.uom_name = outline.uom_name;
     item.m_locator_id = int.parse(outline.m_locator_id);
     item.locator_name = outline.locator_name;
-    item.qty = outline.qtyreserved;
+    item.qty = outline.movementqty;
 
     setState(() {
       mrParam.list_line.add(item);

@@ -40,7 +40,7 @@ class _MRLineState extends State<CreateMRLine> {
   getOderLine selectedOrderLine = getOderLine();
   Product selectedProduct = Product();
   Uom selectedUom = Uom();
-  UomConversion selectedUomConversion = UomConversion();
+  UomConversion selectedUomTo,selectedUomFrom = UomConversion();
   final List<Locator> listLocator;
   final String orderID;
   List<Uom> listUom = List();
@@ -52,10 +52,10 @@ class _MRLineState extends State<CreateMRLine> {
   MrLine mrLine;
   var qtyController,
       productController,
-      uomController;
+      uomController,qtyConversionController;
   bool _onChangedUom = false;
   bool _onChangeProduct = false;
-  bool _inputQtyWarning = false;
+  bool _inputQtyEmptyWarning = false;
 
 
 
@@ -65,20 +65,21 @@ class _MRLineState extends State<CreateMRLine> {
     myline.line_number = null ?? "";
     _onChangeProduct ? myline.m_product_id = int.parse(selectedOrderLine.m_product_id) :"";
       _onChangeProduct ? myline.productName = selectedOrderLine.m_product_name : "";
-    _onChangedUom ? myline.uom_name = selectedUomConversion.uomName : "";
-    _onChangedUom ? myline.c_uom_id = int.parse(selectedUomConversion.uomId) : "";
+    _onChangedUom ? myline.uom_name = selectedUomTo.uomName : "";
+    _onChangedUom ? myline.c_uom_id = int.parse(selectedUomTo.uomId) : myline.c_uom_id = int.parse(selectedOrderLine.c_uom_id);;
     myline.m_locator_id = int.parse(selectedLocator.m_locator_id);
     myline.m_product_id = int.parse(selectedOrderLine.m_product_id);
     myline.productName = selectedOrderLine.m_product_name;
-    myline.c_uom_id = int.parse(selectedOrderLine.c_uom_id);
+
     myline.c_orderline_id = int.parse(selectedOrderLine.c_orderline_id);
-    myline.qty = int.parse(qtyController.text.toString());
+    myline.qty = qtyController.text.toString();
+    qtyConversionController.text.isNotEmpty ? myline.qtyConversion = qtyConversionController.text.toString() : "";
     myline.locator_name = selectedLocator.locator_name;
-    qtyController.text.isNotEmpty ? myline.qty = int.parse(qtyController.text.toString()) : "";
-    print("${myline.qty}");
+    qtyController.text.isNotEmpty ? myline.qty = qtyController.text.toString() : "";
+    print("iki myline qty ${myline.qty}");
 
   }
-  _initEditLine(){
+  _initEditLine()async{
     myline.m_inoutline_id = mrLine.m_inoutline_id;
     myline.m_product_id = mrLine.m_product_id;
     myline.m_locator_id = mrLine.m_locator_id;
@@ -86,21 +87,26 @@ class _MRLineState extends State<CreateMRLine> {
     myline.locator_name = mrLine.locator_name;
     myline.productName = mrLine.productName;
     myline.productName = selectedOrderLine.m_product_name;
-    myline.qty = mrLine.qty;
+    myline.qty = mrLine.qty.toString();
+    qtyController.text = myline.qty;
     myline.c_uom_id = mrLine.c_uom_id;
     mrLine.uom_name = mrLine.uom_name;
+    selectedUomFrom.uomId = mrLine.c_uom_id.toString();
+
+    await _getProduct();
   }
 
   @override
   void initState() {
+    qtyConversionController = TextEditingController();
+    qtyController = TextEditingController();
+    productController = TextEditingController();
+    uomController = TextEditingController();
     if(mrLine != null){
       _initEditLine();
     }else{
       selectedLocator = listLocator[0];
     }
-    qtyController = TextEditingController();
-    productController = TextEditingController();
-    uomController = TextEditingController();
     super.initState();
   }
 
@@ -111,61 +117,20 @@ class _MRLineState extends State<CreateMRLine> {
         this.selectedOrderLine = orderline;
         productController.text = orderline.m_product_name;
         uomController.text = orderline.c_uom_name;
+        selectedUomFrom.uomId = orderline.c_uom_id;
         listUomConversion.addAll(selectedOrderLine.uomConversion);
-//      _getProduct();
       });
-//      Navigator.pop(context);
     });
-   await reqProduct(productID: selectedOrderLine.m_product_id);
   }
-
-
-
-  _showProducts() {
-    showDialog(
-        context: context,
-        builder: (c) => AlertDialog(
-          content: SelectProduct((product) {
-            setState(() {
-              selectedProduct = product;
-              _onChangeProduct = true;
-              productController.text = selectedProduct.name;
-              print(selectedProduct.productID);
-              listUom.clear();
-              listUom.addAll(selectedProduct.uom);
-              listUom.addAll(selectedProduct.uomConversion);
-              uomController.text =
-              listUom.isEmpty ? '' : listUom[0].realName;
-              selectedUom = listUom.isEmpty ? Uom() : listUom[0];
-              _onChangedUom = true;
-              Navigator.pop(context);
-            });
-          }),
-        ));
-  }
-
-  //todo: check setelah SetState
   _getProduct() async {
-    Loading(context).show();
-    print("masuk get product");
-    await reqProduct(productID: selectedOrderLine.m_product_id)
+    await reqOrderLine(orderID)
         .then((listProduct) {
       setState(() {
-        print(listProduct);
-//        selectedProduct = listProduct[0];
-//        _onChangeProduct = true;
-//        productController.text = selectedProduct.name;
-//        listUom.clear();
-//        listUom.addAll(selectedProduct.uom);
-//        listUom.addAll(selectedProduct.uomConversion);
-//        uomController.text =
-//        listUom.isEmpty ? '' : listUom[0].realName;
-//        selectedUom = listUom.isEmpty ? Uom() : listUom[0];
-//        _onChangedUom = true;
+        this.selectedOrderLine = listProduct[0];
+        listUomConversion.addAll(selectedOrderLine.uomConversion);
       });
     });
   }
-
 
   _selectUOM() {
     showModalBottomSheet(
@@ -190,7 +155,10 @@ class _MRLineState extends State<CreateMRLine> {
                       setState(() {
                         _onChangedUom = true;
                         uomController.text = listUomConversion[i].uomName;
-                        selectedUomConversion = listUomConversion[i];
+                        selectedUomFrom.uomId != listUomConversion[i].uomId ? selectedUomTo = listUomConversion[i] : "";
+                        selectedUomTo.uomId != null?selectedUomFrom = selectedUomTo :"";
+                        qtyController.text =="" ? _inputQtyEmptyWarning = true : "";
+                        qtyController.text.isNotEmpty ? calculateUomConversion() : "";
                         Navigator.pop(context);
                       });
                     },
@@ -209,6 +177,40 @@ class _MRLineState extends State<CreateMRLine> {
             ],
           ),
         ));
+  }
+
+  calculateUomConversion()async{
+    Loading(context).show();
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$CALCULATED_UOM_CONVERSION";
+    print("iki url calucalte $url");
+    var mybody = {
+        "m_product_id" : selectedOrderLine.m_product_id.toString(),
+        "c_uom_from_id" : mrLine != null ? selectedUomFrom.uomId.toString() : selectedOrderLine.c_uom_id.toString(),
+        "c_uom_to_id" : selectedUomTo.uomId.toString(),
+        "qty" : qtyController.text,
+      };
+    print("iki mybody calculated $mybody");
+    var response = await http.post(url,body: mybody, headers:{"Forca-Token": user.token}).catchError((
+        err) {
+      print("error ${err.toString()}");
+      Navigator.pop(context);
+    });
+    print("iki response calculated ${response.body}");
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if(res["codestatus"] == "S"){
+        var  message = res["resultdata"][0]["qty"];
+      qtyConversionController.text =message.toString();
+      }
+      Navigator.pop(context);
+    } else {
+      print(response.statusCode);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+
   }
 
   @override
@@ -267,33 +269,35 @@ class _MRLineState extends State<CreateMRLine> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width / 2 - 30,
-                              child: Column(
+                              child:Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    "UOM",
+                                    "QTY",
                                     style: TextStyle(
                                         fontFamily: "Title",
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  TextFormField(
-                                    controller: uomController,
-                                    decoration: InputDecoration(
-                                        hintText: mrLine == null ? "Select UOM" : mrLine.uom_name,
-                                        suffixIcon: IconButton(
-                                            icon: Icon(Icons.arrow_drop_down),
-                                            onPressed: () => _selectUOM())
-                                    ),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.0),
                                   ),
                                   Container(
-                                    height: 1.0,
-                                    color: Colors.grey[600],
-                                  ),
+                                      width:
+                                      MediaQuery.of(context).size.width / 2 - 30,
+                                      child: TextField(
+                                        controller: qtyController,
+                                        keyboardType: TextInputType.number,
+                                        style: TextStyle(
+                                            fontFamily: "Title",
+                                            color: Colors.black,
+                                            fontSize: 14.0),
+                                        decoration: InputDecoration(
+                                            hintText: selectedOrderLine.c_orderline_id == null? "Input Qty" : selectedUomTo == null ? myline.qty: selectedUomTo.qtyreserved.toString() ,
+                                            errorText:_inputQtyEmptyWarning ?"isi qty dulu" : null
+                                        ),
+                                      ))
                                 ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ],
@@ -343,70 +347,69 @@ class _MRLineState extends State<CreateMRLine> {
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 2 - 30,
-                          child:Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text(
-                                "QTY",
+                                "UOM",
                                 style: TextStyle(
                                     fontFamily: "Title",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.0),
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextFormField(
+                                readOnly: true,
+                                controller: uomController,
+                                decoration: InputDecoration(
+                                    hintText: mrLine == null ? "Select UOM" : mrLine.uom_name,
+                                    suffixIcon: IconButton(
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        onPressed: () => mrLine == null ?_selectUOM(): "")
+                                ),
                               ),
                               Container(
-                                  width:
-                                  MediaQuery.of(context).size.width / 2 - 30,
-                                  child: TextField(
-                                    controller: qtyController,
-                                    keyboardType: TextInputType.number,
-                                    style: TextStyle(
-                                        fontFamily: "Title",
-                                        color: Colors.black,
-                                        fontSize: 14.0),
-                                    decoration: InputDecoration(
-                                        hintText: selectedOrderLine == null? "Input Qty" : selectedUomConversion.qtyreserved == null ? selectedOrderLine.qtyreserved: selectedUomConversion.qtyreserved.toString() ,
-//                                    errorText:_inputQtyWarning ?"qty input > qty po" : null
-                                    ),
-                                  ))
+                                height: 1.0,
+                                color: Colors.grey[600],
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(top: 20.0)),
                   Container(
-                    margin: EdgeInsets.only(right: 16.0, left: 16.0, top: 10.0),
-                    child: Column(
+                    margin: EdgeInsets.only(right: 16.0, left: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2 - 30,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Qty Conversion",
-                                    style: TextStyle(
-                                        fontFamily: "Title",
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  TextFormField(
-                                    controller: qtyController,
-
-                                  ),
-                                  Container(
-                                    height: 1.0,
-                                    color: Colors.grey[600],
-                                  ),
-                                ],
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2 - 30,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                "Movement Qty",
+                                style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ),
-                          ],
+                              Container(
+                                  width:
+                                  MediaQuery.of(context).size.width / 2 - 30,
+                                  child: TextField(
+                                    readOnly: true,
+                                    controller: qtyConversionController,
+                                  )),
+                              Container(
+                                height: 1.0,
+                                color: Colors.grey[600],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -418,15 +421,6 @@ class _MRLineState extends State<CreateMRLine> {
                       onPressed: () {
                           try {
                             setLine();
-//                            if(myline.qty > double.parse(selectedOrderLine.qtyreserved)){
-//                              print("iki bener");
-//                              setState(() {
-//                                _inputQtyWarning = true;
-//                                print(_inputQtyWarning);
-//                              });
-//                            }else{
-//                              line(myline);
-//                            }
                           line(myline);
                           } catch (exception) {
                             print("eception ${exception.toString()}");

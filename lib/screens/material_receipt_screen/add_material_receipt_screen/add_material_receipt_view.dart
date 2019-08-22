@@ -421,7 +421,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      line.qty.toString() ?? "",
+                    line.qty.toString()  ?? "",
                       style: TextStyle(
                           fontFamily: "Title",
                           fontSize: 14.0,

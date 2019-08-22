@@ -34,6 +34,7 @@ const CREATE_INOUTLINE = "/api/ws/transaction/v1/setInOutLine";
 const DEL_INOUT = "/api/ws/transaction/v1/deleteInOut";
 const DEL_INOUTLINE = "/api/ws/transaction/v1/deleteInOutLine";
 const DOC_COMPLETED_MR ="/api/ws/transaction/v1/setInOutComplete";
+const CALCULATED_UOM_CONVERSION = "/api/ws/transaction/v1/calculateUOMConversion";
 const MATERIAL_RECEIPT = "/api/ws/transaction/v1/getInOutList";
 const DETAIL_RECEIPT = "/api/ws/transaction/v1/getInOut";
 const LIST_IM = "/api/ws/transaction/v1/getInventoryMoveList";

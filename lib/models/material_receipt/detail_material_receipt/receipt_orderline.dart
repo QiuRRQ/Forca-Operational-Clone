@@ -7,14 +7,15 @@ class m_inOutline {
 	String m_product_id;
 	String c_uom_id;
 	String product_name;
-	String movementqty;
+	var movementqty;
+	var inout_qtyentered;
 	String uom_name;
 	String c_orderline_id;
 	String isinvoiced;
 	var total;
-	String qtyentered;
-	String qtydelivered;
-	String qtyinvoiced;
+	var qtyentered;
+	var qtydelivered;
+	var qtyinvoiced;
 	String discount;
 	var qtyreserved;
 	var priceentered;
@@ -32,6 +33,7 @@ class m_inOutline {
 				c_orderline_id = map["c_orderline_id"],
 				isinvoiced = map["isinvoiced"],
 				total = map["total"],
+				inout_qtyentered = map["inout_qtyentered"],
 				qtyentered = map["qtyentered"],
 				qtydelivered = map["qtydelivered"],
 				qtyinvoiced = map["qtyinvoiced"],

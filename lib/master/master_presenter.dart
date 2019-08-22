@@ -277,7 +277,7 @@ Future<List<getOderLine>> reqOrderLine(String orderID,
     "c_order_id" : orderID
   };
   if (page != null) myBody.addAll({"page": page});
-  if (keyWord != "") myBody.addAll({"product_name": keyWord});
+  if (keyWord != null && keyWord != "") myBody.addAll({"product_name": keyWord});
   if (perPage != null) myBody.addAll({"perpage": perPage});
   print("myBody $myBody");
   var response = await http.post("$url$ORDER_LINE",

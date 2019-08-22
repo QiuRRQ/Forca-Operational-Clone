@@ -86,7 +86,7 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
         body:myBody ).catchError((err) {});
     Navigator.pop(context);
     if (response != null) {
-      print(response.body);
+      print("iki isine response getDetail ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
         var detailResponse = DetailMaterialReceiptResponse.fromJsonMap(res);
@@ -102,31 +102,31 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
     }
   }
 
-  getDetailForEdit(MaterialReceipt _materialReceipt) async {
-    Loading(context).show();
-    var ref = await SharedPreferences.getInstance();
-    var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
-    var url = ref.getString(BASE_URL) ?? "";
-    var myBody = {"m_inout_id": _materialReceipt.inOutID};
-    var response = await http.post("$url$DETAIL_RECEIPT",
-        headers: {"Forca-Token": usr.token},
-        body:myBody ).catchError((err) {});
-    Navigator.pop(context);
-    if (response != null) {
-      print(response.body);
-      var res = jsonDecode(response.body);
-      if (res["codestatus"] == "S") {
-        var detailResponse = DetailMaterialReceiptResponse.fromJsonMap(res);
-        var materialReceipt = detailResponse.materialReceipts;
-//        Navigator.push(context,
-//            MaterialPageRoute(builder: (c) => EditReceiptScreen(materialReceipt, _materialReceipt.inOutID)));
-      } else {
-        MyDialog(context, "Failur", res["message"], Status.ERROR).build(() {
-          Navigator.pop(context);
-        });
-      }
-    }
-  }
+//  getDetailForEdit(MaterialReceipt _materialReceipt) async {
+//    Loading(context).show();
+//    var ref = await SharedPreferences.getInstance();
+//    var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+//    var url = ref.getString(BASE_URL) ?? "";
+//    var myBody = {"m_inout_id": _materialReceipt.inOutID};
+//    var response = await http.post("$url$DETAIL_RECEIPT",
+//        headers: {"Forca-Token": usr.token},
+//        body:myBody ).catchError((err) {});
+//    Navigator.pop(context);
+//    if (response != null) {
+//      print("iki getdetailedit ${response.body}");
+//      var res = jsonDecode(response.body);
+//      if (res["codestatus"] == "S") {
+//        var detailResponse = DetailMaterialReceiptResponse.fromJsonMap(res);
+//        var materialReceipt = detailResponse.materialReceipts;
+////        Navigator.push(context,
+////            MaterialPageRoute(builder: (c) => EditReceiptScreen(materialReceipt, _materialReceipt.inOutID)));
+//      } else {
+//        MyDialog(context, "Failur", res["message"], Status.ERROR).build(() {
+//          Navigator.pop(context);
+//        });
+//      }
+//    }
+//  }
 
   @override
   void initState() {

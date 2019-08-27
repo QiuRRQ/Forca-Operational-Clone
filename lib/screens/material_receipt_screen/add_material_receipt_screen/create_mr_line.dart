@@ -93,6 +93,7 @@ class _MRLineState extends State<CreateMRLine> {
     mrLine.uom_name = mrLine.uom_name;
     selectedUomFrom.uomId = mrLine.c_uom_id.toString();
 
+    await _getProductOrdered();
     await _getProduct();
   }
 
@@ -122,7 +123,7 @@ class _MRLineState extends State<CreateMRLine> {
       });
     });
   }
-  _getProduct() async {
+  _getProductOrdered() async {
     await reqOrderLine(orderID)
         .then((listProduct) {
       setState(() {
@@ -130,6 +131,21 @@ class _MRLineState extends State<CreateMRLine> {
         listUomConversion.addAll(selectedOrderLine.uomConversion);
       });
     });
+  }
+
+  _getProduct() async{
+    if(myline.m_product_id != null){
+      await reqProduct(productID: myline.m_product_id.toString()).then((listProduct){
+        setState(() {
+          selectedProduct = listProduct[0];
+          selectedUomFrom.uomId = selectedProduct.uom[0].uomID;
+          selectedUomFrom.uomName = selectedProduct.uom[0].realName;
+          listUom.clear();
+          listUom.addAll(selectedProduct.uom);
+          listUom.addAll(selectedProduct.uomConversion);
+        });
+      });
+    }
   }
 
   _selectUOM() {
@@ -180,7 +196,7 @@ class _MRLineState extends State<CreateMRLine> {
   }
 
   calculateUomConversion()async{
-    Loading(context).show();
+//    Loading(context).show();
     var ref = await SharedPreferences.getInstance();
     var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
     var url = "${ref.getString(BASE_URL)}$CALCULATED_UOM_CONVERSION";
@@ -204,7 +220,7 @@ class _MRLineState extends State<CreateMRLine> {
         var  message = res["resultdata"][0]["qty"];
       qtyConversionController.text =message.toString();
       }
-      Navigator.pop(context);
+
     } else {
       print(response.statusCode);
       Navigator.pop(context);
@@ -286,6 +302,13 @@ class _MRLineState extends State<CreateMRLine> {
                                       child: TextField(
                                         controller: qtyController,
                                         keyboardType: TextInputType.number,
+                                        onChanged: (qty){
+                                          selectedUomFrom != null && selectedUomTo != null ?
+                                              selectedUomFrom != selectedUomTo ?
+                                              calculateUomConversion() :
+                                             qtyConversionController.text = qtyController.text :
+                                          qtyConversionController.text = qtyController.text ;
+                                        },
                                         style: TextStyle(
                                             fontFamily: "Title",
                                             color: Colors.black,

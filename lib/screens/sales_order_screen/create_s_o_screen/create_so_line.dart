@@ -38,7 +38,7 @@ class _SOLineState extends State<CreateSOLine> {
   final List<Tax> listTax;
   final PriceList priceList;
   final ValueChanged<SoLine> line;
-  SoLine myline = SoLine();
+    SoLine myline = SoLine();
   SoLine lineItem;
   bool _onChangedTax = false;
   bool _inputQtyEmptyWarning = false;

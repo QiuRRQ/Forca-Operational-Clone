@@ -451,7 +451,7 @@ class CreateSOView extends CreateSOViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      line.price.toString(),
+                      line.priceDisplay.toString(),
                       style: TextStyle(
                           fontFamily: "Title",
                           fontSize: 14.0,
@@ -600,7 +600,7 @@ class CreateSOView extends CreateSOViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.price.toString() ?? "0",
+                            line.priceDisplay.toString() ?? "0",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -685,7 +685,7 @@ class CreateSOView extends CreateSOViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            (line.price * line.qty).toString() ?? "0",
+                            line.total ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,

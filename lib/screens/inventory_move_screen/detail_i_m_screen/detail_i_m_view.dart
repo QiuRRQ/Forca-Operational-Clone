@@ -180,16 +180,7 @@ class DetailIMView extends DetailIMViewModel {
                   ),
                 ],
               ),
-            Row(
-              children: <Widget>[
-                Flexible(
-                  child: inventoryMoveDetail.status == "Drafted" ?
-                      Container(
-                        child: _buttonAction(),
-                      ) :Container(),
-                )
-              ],
-            )
+
             ],
 
           ),
@@ -523,7 +514,21 @@ class DetailIMView extends DetailIMViewModel {
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),
-      body: _body(),
+      body: Container(
+        margin: EdgeInsets.only(bottom: 16.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 9,
+              child: _body(),
+            ),
+            Expanded(
+              flex: 1,
+              child: inventoryMoveDetail.status == "Drafted" ? _buttonAction() : Container(height: 10,),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -157,13 +157,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
               ),
             ],
           ),
-          Row(
-            children: <Widget>[
-            Flexible(child: docNumer.status == "Drafted"?
-            Container(
-              child:_buttonAction(),
-            ) : Container())
-          ],)
+
         ],
       ),
 
@@ -446,7 +440,21 @@ class DetailReceiptView extends DetailReceiptViewModel {
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),
-      body: _body(),
+      body: Container(
+        margin: EdgeInsets.only(bottom: 16.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 9,
+              child: _body(),
+            ),
+            Expanded(
+              flex: 1,
+              child: docNumer.status == "Drafted" ? _buttonAction() : Container(height: 10,),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

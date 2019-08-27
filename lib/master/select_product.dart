@@ -7,21 +7,23 @@ import 'package:forca_so/utils/my_dialog.dart';
 
 class SelectProduct extends StatefulWidget {
   final String priceListID;
+  final String dateFrom;
   final ValueChanged<Product> onSelected;
 
-  SelectProduct( this.onSelected, [this.priceListID]);
+  SelectProduct( this.onSelected, [this.priceListID, this.dateFrom]);
 
   @override
   _SelectProductState createState() =>
-      _SelectProductState(this.priceListID, this.onSelected);
+      _SelectProductState(this.priceListID, this.dateFrom, this.onSelected);
 }
 
 class _SelectProductState extends State<SelectProduct> {
   final ValueChanged<Product> onSelected;
   final String priceListID;
+  final String dateFrom;
   List<Product> myProducts = List();
 
-  _SelectProductState(this.priceListID, this.onSelected);
+  _SelectProductState(this.priceListID, this.dateFrom, this.onSelected);
 
   TextEditingController keyword;
   int page = 1;
@@ -29,7 +31,7 @@ class _SelectProductState extends State<SelectProduct> {
   _getProduct() async {
     Loading(context).show();
     if(priceListID != ""){
-      await reqProduct(priceListID: priceListID,
+      await reqProduct(priceListID: priceListID, dateFrom: dateFrom,
           keyWord: keyword.text.toString(), page: page.toString())
           .then((listProduct) {
         setState(() {

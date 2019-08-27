@@ -237,15 +237,7 @@ class DetailSOView extends DetailSOViewModel {
               ),
             ],
           ),
-          Row(
-            children: <Widget>[
-              Flexible(
-                  child: salesOrder.status == "Drafted" ?
-              Container(
-                child: _buttonAction() ,
-              ) : Container())
-            ],
-          )
+
         ],
       ),
     );
@@ -312,7 +304,7 @@ class DetailSOView extends DetailSOViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.productName,
+                      orderLine.productName ?? "",
                       style: TextStyle(fontFamily: "Title", fontSize: 15.0),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -506,7 +498,7 @@ class DetailSOView extends DetailSOViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.uomName,
+                            line.uomName ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -574,6 +566,10 @@ class DetailSOView extends DetailSOViewModel {
               flex: 9,
               child: _body(),
             ),
+            Expanded(
+              flex: 1,
+              child: salesOrder.status == "Drafted" ? _buttonAction() : Container(height: 10,),
+            )
           ],
         ),
       ),

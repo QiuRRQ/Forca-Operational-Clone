@@ -1,10 +1,18 @@
+import 'dart:convert';
+
+import 'package:forca_so/master/master_presenter.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:forca_so/models/inventory_move/create_inventory_move/list_line.dart';
 import 'package:forca_so/models/locator/locator.dart';
 import 'package:forca_so/models/product/product.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/uom_conversion.dart';
 import 'package:forca_so/models/uom/uom.dart';
+import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/product.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/utils/string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateIMLine extends StatefulWidget {
   final ValueChanged<ListLine> line;
@@ -20,16 +28,17 @@ class _CreateIMLineState extends State<CreateIMLine> {
   Product selectedProduct = Product();
   Locator selectedLocatorFrom = Locator();
   Locator selectedLocatorTo = Locator();
+  UomConversion selectedUomTo, selectedUomFrom = UomConversion();
   Uom selectedUOM = Uom();
   List<Uom> listUom = List();
   ListLine lineItem;
  final ValueChanged<ListLine> line;
  bool _onChangeProduct = false;
  bool _onChangeUom = false;
-
+ bool _inputQtyEmptyWarning = false;
   final List<Locator> listLocator;
   ListLine myLine = ListLine();
-  var productController, movementQtyController, uomController;
+  var productController, QtyController, uomController, QtyConversionController;
 
   _CreateIMLineState(this.listLocator, this.line,this.lineItem);
 
@@ -43,10 +52,12 @@ class _CreateIMLineState extends State<CreateIMLine> {
     myLine.m_locator_id = int.parse(selectedLocatorFrom.m_locator_id);
     myLine.m_locatorto_id = int.parse(selectedLocatorTo.m_locator_id);
     myLine.locatorTo = selectedLocatorTo.locator_name;
-    movementQtyController.text.isNotEmpty ? myLine.forca_qtyentered = int.parse(movementQtyController.text.toString()) :"";
+    QtyController.text.isNotEmpty ? myLine.forca_qtyentered = QtyController.text.toString() :"";
+
+    QtyConversionController.text.isNotEmpty ? myLine.qtyConversion = QtyConversionController.text.toString() : "";
   }
 
-  _initEditLine(){
+  _initEditLine() async{
    myLine.idLine = lineItem.idLine;
    myLine.m_locator_id = lineItem.m_locator_id;
    myLine.m_locatorto_id = lineItem.m_locatorto_id;
@@ -59,23 +70,81 @@ class _CreateIMLineState extends State<CreateIMLine> {
    myLine.forca_qtyentered = lineItem.forca_qtyentered;
 //   myLine.movementqty = lineItem.movementqty;
    myLine.UomName = lineItem.UomName;
+//   QtyController.text = lineItem.movementqty.toString();
    myLine.forca_c_uom_id = lineItem.forca_c_uom_id;
+   print("isine line item uom id ${lineItem.forca_c_uom_id}");
+   selectedUomTo.uomId = lineItem.forca_c_uom_id.toString();
+  await _getProduct();
+  }
+
+  calculateUomConversion()async{
+//    Loading(context).show();
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$CALCULATED_UOM_CONVERSION";
+    print("iki url calucalte $url");
+    var mybody = {
+      "m_product_id" : selectedProduct.productID.toString(),
+      "c_uom_from_id" : selectedUomFrom.uomId.toString(),
+      "c_uom_to_id" : selectedUomTo.uomId.toString(),
+      "qty" : QtyController.text == "" ? "0" : QtyController.text,
+    };
+    print("iki mybody calculated $mybody");
+    var response = await http.post(url,body: mybody, headers:{"Forca-Token": user.token}).catchError((
+        err) {
+      print("error ${err.toString()}");
+      Navigator.pop(context);
+    });
+    print("iki response calculated ${response.body}");
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if(res["codestatus"] == "S"){
+        if(res["resultdata"][0] != null){
+          var  message = res["resultdata"][0]["qty"];
+          setState(() {
+            QtyConversionController.text = message.toString();
+          });
+        }
+      }
+//      Navigator.pop(context);
+    } else {
+      print(response.statusCode);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+
   }
 
   @override
   void initState() {
     // TODO: implement initState
-
+    QtyConversionController = TextEditingController();
+    productController = TextEditingController();
+    QtyController = TextEditingController();
+    uomController = TextEditingController();
     if(lineItem != null){
       _initEditLine();
     } else{
       selectedLocatorFrom = listLocator[0];
       selectedLocatorTo = listLocator[0];
     }
-    productController = TextEditingController();
-    movementQtyController = TextEditingController();
-    uomController = TextEditingController();
     super.initState();
+  }
+
+  _getProduct() async {
+    if(myLine.m_product_id != null){
+      await reqProduct(productID: myLine.m_product_id.toString())
+          .then((listProduct) {
+        setState(() {
+          selectedProduct = listProduct[0];
+          selectedUomFrom.uomId = selectedProduct.uom[0].uomID;
+          selectedUomFrom.uomName = selectedProduct.uom[0].realName;
+          listUom.clear();
+          listUom.addAll(selectedProduct.uom);
+          listUom.addAll(selectedProduct.uomConversion);
+        });
+      });
+    }
   }
 
   _showProducts() {
@@ -94,6 +163,7 @@ class _CreateIMLineState extends State<CreateIMLine> {
                   uomController.text =
                       listUom.isEmpty ? '' : listUom[0].realName;
                   selectedUOM = listUom.isEmpty ? Uom() : listUom[0];
+                  selectedUomFrom.uomId = selectedUOM.uomID;
                   _onChangeUom = true;
                   Navigator.pop(context);
                 });
@@ -125,6 +195,11 @@ class _CreateIMLineState extends State<CreateIMLine> {
                                 _onChangeUom = true;
                                 uomController.text = listUom[i].realName;
                                 selectedUOM = listUom[i];
+                                selectedUomTo.uomId = selectedUOM.uomID;
+                                print("iki isine selecteduomto ${selectedUomTo.uomId}");
+                                selectedUomFrom.uomId == selectedUomTo.uomId ? QtyConversionController.text = QtyController.text : "";
+                                QtyController.text =="" ? _inputQtyEmptyWarning = true : "";
+                                QtyController.text.isNotEmpty && selectedUomFrom.uomId != selectedUomTo.uomId ? calculateUomConversion() : "";
                                 Navigator.pop(context);
                               });
                             },
@@ -289,7 +364,7 @@ class _CreateIMLineState extends State<CreateIMLine> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Movement Qty",
+                                    "Qty",
                                     style: TextStyle(
                                         fontFamily: "Title",
                                         fontSize: 15.0,
@@ -297,17 +372,23 @@ class _CreateIMLineState extends State<CreateIMLine> {
                                   ),
                                   Container(
                                     width:
-                                        MediaQuery.of(context).size.width / 2 -
-                                            30,
+                                        MediaQuery.of(context).size.width / 2 - 30,
                                     child: TextField(
                                       keyboardType: TextInputType.number,
-                                      controller: movementQtyController,
+                                      onChanged: (qty){
+                                       selectedUomFrom.uomId != null && selectedUomTo.uomId != null ?
+                                       selectedUomFrom.uomId != selectedUomTo.uomId ?
+                                       calculateUomConversion()
+                                       : QtyConversionController.text = QtyController.text : "";
+                                      },
+                                      controller: QtyController,
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           color: Colors.black,
                                           fontFamily: "Title"),
                                       decoration: InputDecoration(
-                                        hintText: lineItem ==  null ?"Enter movement qty" : lineItem.forca_qtyentered.toString(),
+                                        hintText: lineItem ==  null ?"Enter qty" : lineItem.forca_qtyentered.toString(),
+                                        errorText: _inputQtyEmptyWarning ? " isi qty dulu" : null
                                       ),
                                     ),
                                   ),
@@ -329,26 +410,74 @@ class _CreateIMLineState extends State<CreateIMLine> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Text(
-                          "UOM",
-                          style: TextStyle(
-                              fontFamily: "Title",
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          child: TextField(
-                            controller: uomController,
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Title"),
-                            decoration: InputDecoration(
-                                hintText: lineItem == null ? "Select UOM" : lineItem.UomName,
-                                suffixIcon: IconButton(
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    onPressed: () => _selectUOM())),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2 - 30,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "UOM",
+                                    style: TextStyle(
+                                        fontFamily: "Title",
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  TextField(
+                                    controller: uomController,
+                                    enabled: lineItem == null ? true : false,
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black,
+                                        fontFamily: "Title"),
+                                    decoration: InputDecoration(
+                                        hintText: lineItem == null ? "Select UOM" : lineItem.UomName,
+                                        suffixIcon: IconButton(
+                                            icon: Icon(Icons.arrow_drop_down),
+                                            onPressed: () => _selectUOM())),
+                                  ),
+                                  Container(
+                                    height: 1.0,
+                                    color: Colors.grey[600],
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2 - 30,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Movement Qty",
+                                    style: TextStyle(
+                                        fontFamily: "Title",
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Container(
+                                    width:
+                                    MediaQuery.of(context).size.width / 2 -
+                                        30,
+                                    child: TextField(
+                                      readOnly: true,
+                                      controller: QtyConversionController,
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                          fontFamily: "Title"),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 1.0,
+                                    color: Colors.grey[600],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

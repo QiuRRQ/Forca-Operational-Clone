@@ -13,13 +13,16 @@ class ListLine {
   String UomName;
   int idLine;
 	String line_number;
+	String qtyConversion;
 
   
   ListLine({
 		this.m_product_id,
 		this.m_locator_id,
 		this.m_locatorto_id,
-		this.forca_qtyentered
+		this.forca_qtyentered,
+		this.qtyConversion,
+		this.forca_c_uom_id
 });
 
 	ListLine.fromJsonMap(Map<String, dynamic> map): 

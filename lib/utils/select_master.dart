@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_bussines_partner.dart';
 import 'package:forca_so/master/select_order.dart';
+import 'package:forca_so/master/select_pricelist.dart';
 import 'package:forca_so/master/select_product.dart';
 import 'package:forca_so/master/select_productOrdered.dart';
 import 'package:forca_so/master/select_warehouse.dart';
@@ -182,43 +183,10 @@ selectPaymentRule(BuildContext context, List<PaymentRule> paymentRules,
           ));
 }
 
-selectPriceList(BuildContext context, List<PriceList> priceLists,
-    ValueChanged<PriceList> onSelected) {
-  showModalBottomSheet(
+selectPriceList(BuildContext context, ValueChanged<PriceList> onSelected, String isSoPriceList) {
+  showDialog(
       context: context,
-      builder: (c) => Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  height: 40.0,
-                  color: Colors.blue,
-                  child: Center(
-                    child: forcaText("Select Price List",
-                        fontSize: 20.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                    child: ListView.builder(
-                  itemBuilder: (c, i) => Container(
-                        margin: EdgeInsets.only(right: 8.0, left: 8.0),
-                        width: MediaQuery.of(context).size.width,
-                        height: 30.0,
-                        color: i % 2 == 1 ? Colors.grey[300] : Colors.white,
-                        child: InkWell(
-                          onTap: () {
-                            onSelected(priceLists[i]);
-                          },
-                          child: Center(
-                            child: forcaText(priceLists[i].name),
-                          ),
-                        ),
-                      ),
-                  itemCount: priceLists.length,
-                ))
-              ],
-            ),
-          ));
+      builder: (_) => AlertDialog(
+        content: SelectPricelist(onSelected, isSoPriceList),
+      ));
 }

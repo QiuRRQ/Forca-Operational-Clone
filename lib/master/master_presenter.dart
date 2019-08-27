@@ -80,17 +80,19 @@ Future<List<BPartner>> reqBPartner(
 }
 
 Future<List<Product>> reqProduct(
-    {String priceListID,String keyWord, String page, String productID, String perPage}) async {
+    {String priceListID, String dateFrom, String keyWord, String page, String productID, String perPage}) async {
   List<Product> products = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRODUCT";
   var myBody = {"showpricelist": "Y"};
   if (priceListID != null) myBody.addAll({"m_pricelist_id": priceListID});
+  if (dateFrom != null) myBody.addAll({"datefrom": dateFrom});
   if (keyWord != null) if (keyWord.isNotEmpty) myBody.addAll({"name": keyWord});
   if (page != null) myBody.addAll({"page": page});
   if (perPage != null) myBody.addAll({"perpage": perPage});
   if (productID != null) myBody.addAll({"m_product_id": productID});
+  print("product param $myBody");
   var response =
   await http.post(url, headers: {"Forca-Token": user.token}, body: myBody);
   if (response.statusCode == 200) {
@@ -152,20 +154,20 @@ Future<List<PaymentRule>> reqPaymentRule([String name]) async {
   return paymentRules;
 }
 
-Future<List<PriceList>> reqPriceList([String name]) async {
+Future<List<PriceList>> reqPriceList({String keyWord, String page, String isSoPriceList, String perPage, String priceListId}) async {
   List<PriceList> priceList = List();
   var ref = await SharedPreferences.getInstance();
   var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
   var url = "${ref.getString(BASE_URL)}$LIST_PRICE_LIST";
   var response;
-  if(name != null){
-    var myBody = {
-      "name": name
-    };
-    response = await http.post(url,body: myBody , headers: {"Forca-Token": user.token});
-  }else{
-    response = await http.post(url, headers: {"Forca-Token": user.token});
-  }
+  var myBody = {
+    "page": (page ?? 1).toString(),
+    "perpage": (perPage ?? 25).toString(),
+    "issopricelist": isSoPriceList,
+    "name": keyWord ?? ""
+  };
+  if (priceListId != null) myBody.addAll({"m_pricelist_id": priceListId});
+  response = await http.post(url,body: myBody , headers: {"Forca-Token": user.token});
 
   print(response.body);
   if (response.statusCode == 200) {

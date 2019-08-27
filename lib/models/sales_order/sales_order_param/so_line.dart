@@ -5,11 +5,14 @@ class SoLine {
   int taxID;
   String taxName;
   String lineNo;
-  int qty;
-  double price;
+  var qty;
+  var price; // receive type string
+  String priceDisplay;
   int uomID;
   int idLine;
   String uomName;
+  String qtyConversion;
+  String total;
 
   SoLine(
       {this.discount,
@@ -19,7 +22,10 @@ class SoLine {
         this.lineNo,
         this.qty,
         this.price,
-        this.uomID});
+        this.uomID,
+        this.priceDisplay,
+        this.qtyConversion,
+        this.total});
 
   SoLine.fromJsonMap(Map<String, dynamic> map)
       : discount = map["discount"],

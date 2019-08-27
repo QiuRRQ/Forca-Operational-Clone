@@ -1,11 +1,19 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:forca_so/master/master_presenter.dart';
 import 'package:forca_so/master/select_product.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/product/product.dart';
+import 'package:forca_so/models/sales_order/sales_order_detail/uom_conversion.dart';
 import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 import 'package:forca_so/models/tax/tax.dart';
 import 'package:forca_so/models/uom/uom.dart';
+import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/utils/forca_assets.dart';
+import 'package:forca_so/utils/my_dialog.dart';
+import 'package:forca_so/utils/string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateSOLine extends StatefulWidget {
   final List<Tax> listTax;
@@ -22,19 +30,23 @@ class CreateSOLine extends StatefulWidget {
 class _SOLineState extends State<CreateSOLine> {
   Product selectedProduct = Product();
   Uom selectedUom = Uom();
+  UomConversion selectedUomTo = UomConversion();
+  UomConversion selectedUomFrom = UomConversion();
   Tax selectedTax = Tax();
   List<Uom> listUom = List();
+  List<UomConversion> listUomConversion = List();
   final List<Tax> listTax;
   final PriceList priceList;
   final ValueChanged<SoLine> line;
   SoLine myline = SoLine();
   SoLine lineItem;
   bool _onChangedTax = false;
+  bool _inputQtyEmptyWarning = false;
   bool _onChangedProduct = false;
   bool _onChangedUom = false;
 
   var priceController,
-      qtyController,
+      QtyController, qtyConvertController,
       discountController,
       productController,
       uomController;
@@ -49,11 +61,14 @@ class _SOLineState extends State<CreateSOLine> {
     _onChangedUom ? myline.uomID = int.parse(selectedUom.uomID) : "";
     _onChangedUom ? myline.uomName = selectedUom.realName : "";
     priceController.text.isNotEmpty ? myline.price = double.parse(priceController.text.toString()) : "";
-    qtyController.text.isNotEmpty ? myline.qty = int.parse(qtyController.text.toString()) : "";
+    QtyController.text.isNotEmpty ? myline.qty = QtyController.text.toString() : "";
     discountController.text.isNotEmpty ? myline.discount = int.parse(discountController.text.toString()) : "";
+
+    qtyConvertController.text.isNotEmpty ? myline.qtyConversion = qtyConvertController.text.toString() : "";
+    QtyController.text.isNotEmpty ? myline.qty = QtyController.text.toString() : "";
   }
 
-  _initEditLine(){
+  _initEditLine() {
     myline.idLine = lineItem.idLine;
     myline.lineNo = lineItem.lineNo;
     myline.taxName = lineItem.taxName;
@@ -64,25 +79,44 @@ class _SOLineState extends State<CreateSOLine> {
     myline.uomName = lineItem.uomName;
     myline.price = lineItem.price;
     myline.qty = lineItem.qty;
+    myline.priceDisplay = lineItem.priceDisplay;
+    QtyController.text = lineItem.qty.toString();
     myline.discount = lineItem.discount;
     listTax.forEach((t) => int.parse(t.taxID) == lineItem.taxID ? selectedTax = t : ""); //lupa gunanya buat apa????
+    selectedUomTo.uomId = lineItem.uomID.toString();
+    _getProduct();
   }
 
   @override
   void initState() {
-
-    if(lineItem != null){
-      _initEditLine();
-    }
-
     selectedTax = listTax[0];
     priceController = TextEditingController();
-    qtyController = TextEditingController();
+    QtyController = TextEditingController();
+    qtyConvertController = TextEditingController();
     discountController = TextEditingController();
     productController = TextEditingController();
     uomController = TextEditingController();
     selectedProduct.priceList = List();
+    if(lineItem != null){
+      _initEditLine();
+    }
     super.initState();
+  }
+
+  _getProduct() async {
+    if(myline.productID != null){
+      await reqProduct(productID: myline.productID.toString())
+          .then((listProduct) {
+        setState(() {
+          selectedProduct = listProduct[0];
+          selectedUomFrom.uomId = selectedProduct.uom[0].uomID;
+          selectedUomFrom.uomName = selectedProduct.uom[0].realName;
+          listUom.clear();
+          listUom.addAll(selectedProduct.uom);
+          listUom.addAll(selectedProduct.uomConversion);
+        });
+      });
+    }
   }
 
   _showProducts() {
@@ -94,18 +128,18 @@ class _SOLineState extends State<CreateSOLine> {
               selectedProduct = product;
               _onChangedProduct = true;
               productController.text = selectedProduct.name;
-              priceController.text =
-                  selectedProduct.priceList[0].standartPrice;
+              selectedProduct.priceList[0].standartPrice != "0.0" ? priceController.text = selectedProduct.priceList[0].standartPrice : "";
               listUom.clear();
-              listUom.addAll(selectedProduct.uom);
-              listUom.addAll(selectedProduct.uomConversion);
+              listUom.addAll(selectedProduct.uom);//ini uom default product
+              listUom.addAll(selectedProduct.uomConversion);//ini berisi uom conversi nya
               uomController.text =
               listUom.isEmpty ? '' : listUom[0].realName;
-              selectedUom = listUom.isEmpty ? Uom() : listUom[0];
+              selectedUom = listUom.isEmpty ? Uom() : listUom[0]; // index 0 karena uom di product diselect pertama
+              selectedUomFrom.uomId = selectedUom.uomID;
               _onChangedUom = true;
               Navigator.pop(context);
             });
-          },priceList.priceListID),
+          },priceList.priceListID, ),
         ));
   }
 
@@ -133,6 +167,12 @@ class _SOLineState extends State<CreateSOLine> {
                         _onChangedUom = true;
                         uomController.text = listUom[i].realName;
                         selectedUom = listUom[i];
+                        selectedUomTo.uomId = selectedUom.uomID;
+                        selectedUomFrom.uomId == selectedUomTo.uomId ? qtyConvertController.text = QtyController.text : "";
+                        //ToDO: check on API can i submit the same uom from and uom to ?
+                        QtyController.text =="" ? _inputQtyEmptyWarning = true : "";
+                        QtyController.text.isNotEmpty && selectedUomFrom.uomId != selectedUomTo.uomId ? calculateUomConversion() : "";
+
                         Navigator.pop(context);
                       });
                     },
@@ -151,6 +191,44 @@ class _SOLineState extends State<CreateSOLine> {
             ],
           ),
         ));
+  }
+
+  calculateUomConversion()async{
+//    Loading(context).show();
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$CALCULATED_UOM_CONVERSION";
+    print("iki url calucalte $url");
+    var mybody = {
+      "m_product_id" : selectedProduct.productID.toString(),
+      "c_uom_from_id" : selectedUomFrom.uomId.toString(),
+      "c_uom_to_id" : selectedUomTo.uomId.toString(),
+      "qty" : QtyController.text == "" ? "0" : QtyController.text,
+    };
+    print("iki mybody calculated $mybody");
+    var response = await http.post(url,body: mybody, headers:{"Forca-Token": user.token}).catchError((
+        err) {
+      print("error ${err.toString()}");
+      Navigator.pop(context);
+    });
+    print("iki response calculated ${response.body}");
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if(res["codestatus"] == "S"){
+        if(res["resultdata"][0] != null){
+          var  message = res["resultdata"][0]["qty"];
+          setState(() {
+            qtyConvertController.text = message.toString();
+          });
+        }
+      }
+//      Navigator.pop(context);
+    } else {
+      print(response.statusCode);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+
   }
 
   @override
@@ -207,33 +285,42 @@ class _SOLineState extends State<CreateSOLine> {
                                 ],
                               ),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2 - 30,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    "UOM",
-                                    style: TextStyle(
-                                        fontFamily: "Title",
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  TextFormField(
-                                    controller: uomController,
-                                    decoration: InputDecoration(
-                                        hintText: lineItem == null ? "Select UOM" : lineItem.uomName,
-                                        suffixIcon: IconButton(
-                                            icon: Icon(Icons.arrow_drop_down),
-                                            onPressed: () => _selectUOM())),
-                                  ),
-                                  Container(
-                                    height: 1.0,
-                                    color: Colors.grey[600],
-                                  ),
-                                ],
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "QTY",
+                                  style: TextStyle(
+                                      fontFamily: "Title",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.0),
+                                ),
+                                Container(
+                                    width:
+                                    MediaQuery.of(context).size.width / 2 - 30,
+                                    child: TextField(
+                                      controller: QtyController,
+                                      onChanged: (qty){
+                                        print("qty changed $qty");
+                                        print(QtyController.text);
+                                        selectedUomFrom.uomId != null && selectedUomTo.uomId != null
+                                            ? selectedUomFrom.uomId != selectedUomTo.uomId
+                                            ? calculateUomConversion()
+                                            : qtyConvertController.text = QtyController.text
+                                            : "";
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      style: TextStyle(
+                                          fontFamily: "Title",
+                                          color: Colors.black,
+                                          fontSize: 14.0),
+                                      decoration: InputDecoration(
+                                          hintText: lineItem == null ? 'Enter QTY of product' : lineItem.qty.toString(),
+                                          errorText:_inputQtyEmptyWarning ?"isi qty dulu" : null
+                                      ),
+                                    ))
+                              ],
                             ),
                           ],
                         ),
@@ -263,12 +350,13 @@ class _SOLineState extends State<CreateSOLine> {
                                 child: TextField(
                                   keyboardType: TextInputType.number,
                                   controller: priceController,
-                                  enabled: selectedProduct.priceList.isEmpty
-                                      ? false
-                                      : selectedProduct
-                                      .priceList[0].standartPrice !=
+                                  enabled: selectedProduct.priceList.isNotEmpty
+                                      ? selectedProduct
+                                      .priceList[0].standartPrice ==
+                                      "0.0" || selectedProduct.priceList[0].standartPrice ==
                                       "0"
-                                      ? false
+                                      ? true
+                                      : false
                                       : true,
                                   style: TextStyle(
                                       fontFamily: "Title",
@@ -279,31 +367,36 @@ class _SOLineState extends State<CreateSOLine> {
                                 ))
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              "QTY",
-                              style: TextStyle(
-                                  fontFamily: "Title",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.0),
-                            ),
-                            Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 30,
-                                child: TextField(
-                                  controller: qtyController,
-                                  keyboardType: TextInputType.number,
-                                  style: TextStyle(
-                                      fontFamily: "Title",
-                                      color: Colors.black,
-                                      fontSize: 14.0),
-                                  decoration: InputDecoration(
-                                      hintText: lineItem == null ? 'Enter QTY of product' : lineItem.qty.toString()),
-                                ))
-                          ],
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2 - 30,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                "UOM",
+                                style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextFormField(
+                                controller: uomController,
+                                enabled: lineItem == null ? true : false,
+                                decoration: InputDecoration(
+                                    hintText: lineItem == null ? "Select UOM" : lineItem.uomName,
+                                    suffixIcon: IconButton(
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        onPressed: () => _selectUOM(),
+                                    )
+                                ),
+                              ),
+                              Container(
+                                height: 1.0,
+                                color: Colors.grey[600],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -377,6 +470,46 @@ class _SOLineState extends State<CreateSOLine> {
                                 ))
                           ],
                         )
+                      ],
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 20.0)),
+                  Container(
+                    margin: EdgeInsets.only(right: 16.0, left: 16.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2 - 30,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Convertion QTY",
+                                    style: TextStyle(
+                                        fontFamily: "Title",
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Container(
+                                      width:
+                                      MediaQuery.of(context).size.width / 2 - 30,
+                                      child: TextField(
+                                        controller: qtyConvertController,
+                                        readOnly: true,
+                                      )),
+                                  Container(
+                                    height: 1.0,
+                                    color: Colors.grey[600],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
                       ],
                     ),
                   ),

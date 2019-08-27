@@ -97,10 +97,12 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     item.productName = c.productName;
     item.uomID = int.parse(c.uomID);
     item.uomName = c.uomName;
-    var _price = c.priceEntered;
-    List _temp = _price.split(" ");
-    item.price = double.parse(_temp[1]);
+    var _price = c.priceEntered.replaceAll(new RegExp(r"[^\s\w]"),'');
+    item.priceDisplay = c.priceEntered;//for displaying user friendly
+    List _temp = _price.split(" "); // take out currency
+    item.price = _temp[1]; // just taking the number
     item.qty = int.parse(c.qty);
+    item.total = c.total;
 
     setState(() {
       soParams.lines.add(item);
@@ -141,7 +143,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
 
   _getPriceList() async {
     //Loading(context).show();
-    await reqPriceList(editOrderInfo.priceList).then((price) {
+    await reqPriceList(keyWord : editOrderInfo.priceList, isSoPriceList: "Y").then((price) {
       //Navigator.pop(context);
       setState(() {
         this.priceList = price[0];
@@ -262,7 +264,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       List<Product> listProduct = List();
       List<Tax> listTax = List();
 
-      await reqProduct(priceListID: priceList.priceListID).then((products) {
+      await reqProduct(priceListID: priceList.priceListID, dateFrom: soParams.dateOrdered).then((products) {
         listProduct.addAll(products);
       }).catchError((err) {
         print(err.toString());
@@ -313,7 +315,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       List<Product> listProduct = List();
       List<Tax> listTax = List();
 
-      await reqProduct(priceListID: priceList.priceListID).then((products) {
+      await reqProduct(priceListID: priceList.priceListID, dateFrom: soParams.dateOrdered).then((products) {
         listProduct.addAll(products);
       }).catchError((err) {
         print(err.toString());
@@ -387,16 +389,12 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   }
 
   getPriceList() async {
-    Loading(context).show();
-    await reqPriceList().then((priceLists) {
-      Navigator.pop(context);
-      selectPriceList(context, priceLists, (priceList) {
-        setState(() {
-          this.priceList = priceList;
-        });
-        Navigator.pop(context);
+    selectPriceList(context, (priceList) {
+      setState(() {
+        this.priceList = priceList;
       });
-    });
+      Navigator.pop(context);
+    }, "Y");
   }
 
   createSO() async {

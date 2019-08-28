@@ -28,7 +28,8 @@ class _CreateIMLineState extends State<CreateIMLine> {
   Product selectedProduct = Product();
   Locator selectedLocatorFrom = Locator();
   Locator selectedLocatorTo = Locator();
-  UomConversion selectedUomTo, selectedUomFrom = UomConversion();
+  UomConversion selectedUomFrom = UomConversion();
+  UomConversion selectedUomTo = UomConversion();
   Uom selectedUOM = Uom();
   List<Uom> listUom = List();
   ListLine lineItem;

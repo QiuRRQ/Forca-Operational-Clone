@@ -502,7 +502,7 @@ class CreateSOView extends CreateSOViewModel {
                         _detailLine(line);
                       },
                       child: Text(
-                        "Detail",
+                        "Show More",
                         style: TextStyle(fontFamily: "Title"),
                       ),
                     ),
@@ -702,6 +702,17 @@ class CreateSOView extends CreateSOViewModel {
         });
   }
 
+  _title(){
+    return Column (
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text( widget.orderItem == null? "Create Inventory Move": "Edit Inventory Move",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
+        Text( widget.orderItem == null? "" : widget.orderItem.documentNO,)
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -709,10 +720,7 @@ class CreateSOView extends CreateSOViewModel {
       key: scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          widget.orderItem == null ? "Create SO" : "Edit SO",
-          style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
-        ),
+        title: _title(),
         actions: <Widget>[
           IconButton(
               icon: Icon(

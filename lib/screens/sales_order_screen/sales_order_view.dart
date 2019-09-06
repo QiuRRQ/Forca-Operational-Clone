@@ -220,6 +220,7 @@ class SalesOrderView extends SalesOrderViewModel {
 
   _data() {
     return ListView.builder(
+      physics: AlwaysScrollableScrollPhysics(),
     controller: isFilter? null : _controller,
       itemBuilder: (c, i) => _item(listSO[i]),
       itemCount: listSO.length,

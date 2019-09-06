@@ -180,7 +180,7 @@ class DetailIMView extends DetailIMViewModel {
                   ),
                 ],
               ),
-
+            inventoryMoveDetail.status == "Drafted" ? _buttonAction() : Container(height: 10,)
             ],
 
           ),
@@ -307,7 +307,7 @@ class DetailIMView extends DetailIMViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      movementLine.movementqty ?? "",
+                      movementLine.forca_qtyentered ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -335,7 +335,7 @@ class DetailIMView extends DetailIMViewModel {
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -445,7 +445,7 @@ class DetailIMView extends DetailIMViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            movementLine.movementqty ?? "0",
+                            movementLine.forca_qtyentered ?? "0",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -514,21 +514,22 @@ class DetailIMView extends DetailIMViewModel {
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(bottom: 16.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 9,
-              child: _body(),
-            ),
-            Expanded(
-              flex: 1,
-              child: inventoryMoveDetail.status == "Drafted" ? _buttonAction() : Container(height: 10,),
-            )
-          ],
-        ),
-      ),
+      body:_body()
+//      Container(
+//        margin: EdgeInsets.only(bottom: 16.0),
+//        child: Column(
+//          children: <Widget>[
+//            Expanded(
+//              flex: 9,
+//              child: _body(),
+//            ),
+//            Expanded(
+//              flex: 1,
+//              child: inventoryMoveDetail.status == "Drafted" ? _buttonAction() : Container(height: 10,),
+//            )
+//          ],
+//        ),
+//      ),
     );
   }
 }

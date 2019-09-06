@@ -11,7 +11,7 @@ class DetailSOView extends DetailSOViewModel {
     });
 
     return Container(
-      margin: EdgeInsets.only(right: 16.0, left: 16.0),
+      margin: EdgeInsets.all(16.0),
       child:
       Stack(
         alignment: Alignment.bottomCenter,
@@ -237,7 +237,7 @@ class DetailSOView extends DetailSOViewModel {
               ),
             ],
           ),
-
+          salesOrder.status == "Drafted" ? _buttonAction() : Container(height: 10,)
         ],
       ),
     );
@@ -336,7 +336,7 @@ class DetailSOView extends DetailSOViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      orderLine.qty,
+                      orderLine.qtyEntered ?? "",
                       style: TextStyle(
                           fontFamily: "Subtitle",
                           fontSize: 15.0,
@@ -382,7 +382,7 @@ class DetailSOView extends DetailSOViewModel {
                         _detailLine(orderLine);
                       },
                       child: Text(
-                        "Detail",
+                        "Show More",
                         style: TextStyle(fontFamily: "Title"),
                       ),
                     ),
@@ -464,7 +464,7 @@ class DetailSOView extends DetailSOViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.qty,
+                            line.qtyEntered,
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -558,21 +558,22 @@ class DetailSOView extends DetailSOViewModel {
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(bottom: 16.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 9,
-              child: _body(),
-            ),
-            Expanded(
-              flex: 1,
-              child: salesOrder.status == "Drafted" ? _buttonAction() : Container(height: 10,),
-            )
-          ],
-        ),
-      ),
+      body: _body()
+//      Container(
+//        margin: EdgeInsets.only(bottom: 16.0),
+//        child: Column(
+//          children: <Widget>[
+//            Expanded(
+//              flex: 9,
+//              child: _body(),
+//            ),
+//            Expanded(
+//              flex: 1,
+//              child: salesOrder.status == "Drafted" ? _buttonAction() : Container(height: 10,),
+//            )
+//          ],
+//        ),
+//      ),
     );
   }
 }

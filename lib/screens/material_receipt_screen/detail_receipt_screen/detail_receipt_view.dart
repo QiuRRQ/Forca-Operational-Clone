@@ -157,10 +157,9 @@ class DetailReceiptView extends DetailReceiptViewModel {
               ),
             ],
           ),
-
+          docNumer.status == "Drafted" ? _buttonAction() : Container(height: 10,)
         ],
       ),
-
     );
   }
 
@@ -338,7 +337,7 @@ class DetailReceiptView extends DetailReceiptViewModel {
                             style: TextStyle(fontFamily: "Title"),
                           ),
                           Text(
-                            line.movementqty ?? "",
+                            line.inout_qtyentered ?? "",
                             style: TextStyle(
                                 fontFamily: "Title",
                                 color: Colors.black,
@@ -440,21 +439,22 @@ class DetailReceiptView extends DetailReceiptViewModel {
           style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(bottom: 16.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 9,
-              child: _body(),
-            ),
-            Expanded(
-              flex: 1,
-              child: docNumer.status == "Drafted" ? _buttonAction() : Container(height: 10,),
-            )
-          ],
-        ),
-      ),
+      body:_body()
+//      Container(
+//        margin: EdgeInsets.only(bottom: 16.0),
+//        child: Column(
+//          children: <Widget>[
+//            Expanded(
+//              flex: 9,
+//              child: _body(),
+//            ),
+//            Expanded(
+//              flex: 1,
+//              child: docNumer.status == "Drafted" ? _buttonAction() : Container(height: 10,),
+//            )
+//          ],
+//        ),
+//      ),
     );
   }
 }

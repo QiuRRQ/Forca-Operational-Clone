@@ -173,6 +173,7 @@ class InventoryMoveView extends InventoryMoveViewModel {
 
   _data() {
     return ListView.builder(
+      physics: AlwaysScrollableScrollPhysics(),
       controller:isFilter ? null :  _controller,
       itemBuilder: (c, i) => _item(listInventoryMove[i]),
       itemCount: listInventoryMove.length,

@@ -428,7 +428,7 @@ class _CreateIMLineState extends State<CreateIMLine> {
                                   ),
                                   TextField(
                                     controller: uomController,
-                                    enabled: lineItem == null ? true : false,
+//                                    enabled: lineItem == null ? true : false,
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.black,

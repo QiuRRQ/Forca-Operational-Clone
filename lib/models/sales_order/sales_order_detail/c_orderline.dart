@@ -13,6 +13,7 @@ class OrderLine {
    String taxName;
    String taxID;
    String total;
+   String qtyEntered;
 
   OrderLine();
 
@@ -24,6 +25,7 @@ class OrderLine {
         c_orderline_id = map["c_orderline_id"],
         qtyDelivered = map["qtydelivered"],
         qtyInvoiced = map["qtyinvoiced"],
+        qtyEntered = map['qtyentered'],
         priceEntered = map["priceentered"],
         discount = map["discount"],
         uomName = map["uom_name"],

@@ -598,6 +598,17 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
         });
   }
 
+  _title(){
+    return Column (
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text( widget.materialReceipt == null? "Create Inventory Move": "Edit Inventory Move",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
+        Text( widget.materialReceipt == null? "" : widget.materialReceipt.documentNo,)
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -605,11 +616,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
       key: scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          widget.materialReceipt == null ?
-          "Create MR" : "Edit MR",
-          style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
-        ),
+        title: _title(),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -642,19 +649,6 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                 }else{
                   updateMR();
                 }
-
-//            if(widget.orderItem == null){ //create SO
-//                  if (mrParam.list_line.isNotEmpty) {
-//                    createMR();
-//                  } else {
-//                    MyDialog(context, "FAILED", "Please add line", Status.ERROR)
-//                        .build(() {
-//                      Navigator.pop(context);
-//                    });
-//                  }
-//                }else{//update SO
-//                  updateSO();
-//                }
               },
                   color: Colors.blue,
                   height: 50.0,

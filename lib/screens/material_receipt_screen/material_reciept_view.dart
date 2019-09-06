@@ -28,6 +28,7 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
 
   _data() {
     return ListView.builder(
+      physics: AlwaysScrollableScrollPhysics(),
       controller: isFilter ? null : _controller,
       itemCount: listMaterialReceipt.length,
       itemBuilder: (_, i) => _item(listMaterialReceipt[i]),

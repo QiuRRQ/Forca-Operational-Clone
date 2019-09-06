@@ -359,7 +359,7 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
         body: {"m_movement_id": inventoryMove.m_movement_id}).catchError((err) {
     });
     if (response != null) {
-      print(response.body);
+      print("iki response geteditdetail ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
         var detailResponse = InventoryMoveDetailResponse.fromJsonMap(res);

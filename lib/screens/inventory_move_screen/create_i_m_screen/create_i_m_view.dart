@@ -216,7 +216,8 @@ class CreateIMView extends CreateIMViewModel {
                   children: <Widget>[
                     Container(
                         width: MediaQuery.of(context).size.width /1 -37,
-                        child: TextField(
+                        child:
+                        TextField(
                           keyboardType: TextInputType.multiline,
                           maxLines: 3,
                           controller: descriptionController,
@@ -340,7 +341,7 @@ class CreateIMView extends CreateIMViewModel {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 30,
                     child: Text(
-                      "Movement qty",
+                      "Qty",
                       style: TextStyle(
                           fontFamily: "Title",
                           fontSize: 14.0,
@@ -590,16 +591,22 @@ class CreateIMView extends CreateIMViewModel {
     });
   }
 
+  _title(){
+    return Column (
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text( widget.inventoryMove == null? "Create Inventory Move": "Edit Inventory Move",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
+        Text( widget.inventoryMove == null? "" : widget.inventoryMove.documentno,)
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.inventoryMove == null ?
-          "Create Inventory Move" : "Edit Inventory Move",
-          style: TextStyle(fontFamily: "Title", fontWeight: FontWeight.bold),
-        ),
+        title: _title(),
         actions: <Widget>[
           IconButton(
               icon: Icon(

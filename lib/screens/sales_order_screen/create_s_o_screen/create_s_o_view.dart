@@ -707,7 +707,7 @@ class CreateSOView extends CreateSOViewModel {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text( widget.orderItem == null? "Create Inventory Move": "Edit Inventory Move",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
+        Text( widget.orderItem == null? "Create Sales Order": "Edit Sales Order",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
         Text( widget.orderItem == null? "" : widget.orderItem.documentNO,)
       ],
     );

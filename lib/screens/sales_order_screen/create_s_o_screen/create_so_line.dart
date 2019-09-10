@@ -466,7 +466,7 @@ class _SOLineState extends State<CreateSOLine> {
                                       color: Colors.black,
                                       fontSize: 14.0),
                                   decoration: InputDecoration(
-                                      hintText: lineItem.discount == null ? 'Enter Discount Product' : lineItem.discount.toString()),
+                                      hintText: lineItem == null ? 'Enter Discount Product' : lineItem.discount.toString()),
                                 ))
                           ],
                         )

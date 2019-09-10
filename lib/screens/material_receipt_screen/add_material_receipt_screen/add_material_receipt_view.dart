@@ -603,7 +603,7 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text( widget.materialReceipt == null? "Create Inventory Move": "Edit Inventory Move",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
+        Text( widget.materialReceipt == null? "Create Material Receipt": "Edit Material Receipt",style: TextStyle(fontFamily: "Title",fontWeight: FontWeight.bold),),
         Text( widget.materialReceipt == null? "" : widget.materialReceipt.documentNo,)
       ],
     );

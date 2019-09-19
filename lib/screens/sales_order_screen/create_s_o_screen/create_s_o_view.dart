@@ -304,6 +304,104 @@ class CreateSOView extends CreateSOViewModel {
             ),
           ),
           Container(
+            margin: EdgeInsets.only(top: 16.0),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Doc. Status *",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width / 2 - 70,
+                                child: Text(
+                                  selectedDocStatus == null
+                                      ? 'Select Document status'
+                                      : selectedDocStatus,
+                                  style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 14.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.expand_more),
+                                  onPressed: () {
+                                    getDocumentStatus();
+                                  }),
+                            ],
+                          ),
+                          Container(
+                            height: 1.0,
+                            color: Colors.grey[600],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Doc. Type *",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width / 2 - 70,
+                                child: Text(
+                                  paymentRule == null
+                                      ? 'Select Document Type'
+                                      : paymentRule.name,
+                                  style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 14.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.expand_more),
+                                  onPressed: () {
+//                                    getDocumentType();
+                                  }),
+                            ],
+                          ),
+                          Container(
+                            height: 1.0,
+                            color: Colors.grey[600],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.only(top: 16.0),
             child: Column(
@@ -344,6 +442,7 @@ class CreateSOView extends CreateSOViewModel {
               ],
             ),
           ),
+
           Container(
             margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
             width: MediaQuery.of(context).size.width,

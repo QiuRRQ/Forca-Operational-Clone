@@ -32,6 +32,11 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
   bool checkTransit;
   var descriptionController;
 
+  int lineNumber = 0; // this for MSC attribute
+  int movementLineID = 0;
+  String selectedDocStatus;
+  int movementID = 0;//end of msc attribute
+
   setParam() {
     saleRep == null
         ? imParam.salerep_name = editInventoryMoveInfo.salesrep_name
@@ -168,19 +173,20 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
       }
       showModalBottomSheet(
           context: context,
-          builder: (_) =>
-              CreateIMLine(
-                  listLocator,
-                      (line) {
-                    setState(() {
-                      Navigator.pop(context);
-                      if(editInventoryMoveInfo != null){
-                        _updateLine(line);
-                      }
-                      imParam.list_line.add(line);
-                    });
-                  }
-              ));
+          builder: (_) => CreateIMLine(listLocator, (line) async {
+                setState(() {
+                  Navigator.pop(context);
+                });
+                if(editInventoryMoveInfo != null){
+                  await _updateLine(line);
+                }
+                setState(() {
+                  line.idLine = movementLineID;
+                  line.line_number = lineNumber.toString();
+                  imParam.list_line.add(line);
+                });
+              }
+          ));
     }
   }
 
@@ -203,18 +209,29 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     }
     showModalBottomSheet(context: context, builder: (_) =>
         CreateIMLine(
-            listLocator, (newline) {
+            listLocator, (newline) async {
           setState(() {
             Navigator.pop(context);
-            if (editInventoryMoveInfo != null) {
-              _updateLine(newline);
-            }
+          });
+          if (editInventoryMoveInfo != null) {
+            await _updateLine(newline);
+          }
+          setState(() {
+            newline.idLine = movementLineID;
+            newline.line_number = lineNumber.toString();
             imParam.list_line[index] = newline;
-//          imParam.list_line.remove(line);
-//          imParam.list_line.add(newline);
-
           });
         }, line));
+  }
+
+  getDocumentStatus() {
+    List<String> docStatus = ["Completed", "Drafted"];
+    selectDocumentStatus(context, docStatus, (selectedDocStatus) {
+      setState(() {
+        this.selectedDocStatus = selectedDocStatus;
+      });
+      Navigator.pop(context);
+    });
   }
 
   _updateLine(ListLine listLine) async{
@@ -258,12 +275,14 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     if (response.statusCode == 200) {
       var res = jsonDecode(response.body);
       if(res["codestatus"] == "S"){
+        setState(() {
+          lineNumber = res['resultdata'][0]['line_number'];
+          movementLineID = res['resultdata'][0]['m_movementline_id'];
+        });
         MyDialog(context,"Succeed", res["message"],Status.SUCCESS).build((){
           Navigator.pop(context);
         });
-        if(listLine.idLine == null){
-          return res['resultdata'];
-        }
+
       }
     } else {
       print(response.statusCode);
@@ -313,6 +332,38 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     }
   }
 
+  completedDoc() async{
+    Loading(context).show();
+    var ref = await SharedPreferences.getInstance();
+    var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = ref.getString(BASE_URL) ?? "";
+    var response = await http.post("$url$DOC_COMPLETED_IM",
+        headers: {"Forca-Token": usr.token},
+        body: {"m_movement_id": widget.inventoryMove == null? movementID.toString() : imParam.m_movement_id.toString()}).catchError((err) {
+      print(err.toString());
+    });
+    Navigator.pop(context);
+    if(response !=null){
+      print(response.body);
+      var res = jsonDecode(response.body);
+      if(res["codestatus"]== "S"){
+        print(res);
+        var message = res['resultdata'][0]['documentno'];
+        MyDialog(context, "Succes", 'Completed Documentno $message Succeeded ', Status.SUCCESS).build(() {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      }else{
+        MyDialog(context,"Failed",res["message"],Status.ERROR).build((){
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      }
+    }
+
+  }
+
   createImDraft()async {
     if (isNotEmptyHeader()) {
       setParam();
@@ -338,13 +389,17 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
             Navigator.pop(context);
             Navigator.pop(context);
           });
+
         } else {
           var message = res['resultdata']['documentno'];
+          this.movementID = res['resultdata']['m_movement_id'];
           MyDialog(context, "Succes",'Insert succeeded with documentno $message', Status.SUCCESS).build(() {
             Navigator.pop(context);
             Navigator.pop(context);
           });
-
+          if(selectedDocStatus == "Completed"){
+            completedDoc();
+          }
         }
       }
   }
@@ -410,6 +465,9 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
           Navigator.pop(context);
           Navigator.pop(context);
         });
+        if(selectedDocStatus == "Completed"){
+          completedDoc();
+        }
       } else {
         MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
           Navigator.pop(context);

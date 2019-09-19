@@ -29,6 +29,11 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
   SalesOrder selectedOrder;
   DetailMaterialReceipt editInfoMaterialReceipt;
 
+  int lineNumber = 0; // this for MSC attribute
+  int inOutLineID = 0;
+  String selectedDocStatus;
+  int inOutID = 0;//end of msc attribute
+
   var descriptionController;
 
   CreateMrParam mrParam = CreateMrParam();
@@ -89,6 +94,16 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
     });
     Navigator.pop(context);
  }
+
+  getDocumentStatus(){
+    List<String> docStatus = ["Completed", "Drafted"];
+    selectDocumentStatus(context, docStatus, (selectedDocStatus) {
+      setState(() {
+        this.selectedDocStatus = selectedDocStatus;
+      });
+      Navigator.pop(context);
+    });
+  }
 
   getBPartner() {
     selectBPartner(context, (bPartner) {
@@ -151,15 +166,19 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
       }
       showModalBottomSheet(
           context: context,
-          builder: (_) => CreateMRLine(listLocator, selectedOrder.orderID, (newline) {
+          builder: (_) => CreateMRLine(listLocator, selectedOrder.orderID, (newline) async {
             setState(() {
               Navigator.pop(context);
-              if(editInfoMaterialReceipt != null){
-                updateLine(newline);
-              }
-              mrParam.list_line.add(newline);
-             
             });
+            if(editInfoMaterialReceipt != null){
+              await updateLine(newline);
+            }
+            setState(() {
+              newline.m_inoutline_id = inOutLineID;
+              newline.line_number = lineNumber.toString();
+              mrParam.list_line.add(newline);
+            });
+
           }, warehouse));
     }
   }
@@ -182,14 +201,19 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
     }
     showModalBottomSheet(
         context: context,
-        builder: (_) => CreateMRLine(listLocator, selectedOrder.orderID, (newline) {
+        builder: (_) => CreateMRLine(listLocator, selectedOrder.orderID, (newline) async {
           setState(() {
             Navigator.pop(context);
-            if(editInfoMaterialReceipt !=null){
-              updateLine(newline);
-            }
+          });
+          if(editInfoMaterialReceipt !=null){
+            await updateLine(newline);
+          }
+          setState(() {
+            newline.m_inoutline_id = inOutLineID;
+            newline.line_number = lineNumber.toString();
             mrParam.list_line[index] = newline;
           });
+
         }, warehouse,line));
   }
 
@@ -232,12 +256,13 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
    if (response.statusCode == 200) {
      var res = jsonDecode(response.body);
      if(res["codestatus"] == "S"){
+       setState(() {
+         lineNumber = res['resultdata'][0]['line_number'];
+         inOutLineID = res['resultdata'][0]['m_inoutline_id'];
+       });
        MyDialog(context,"Succeed", res["message"],Status.SUCCESS).build((){
          Navigator.pop(context);
        });
-       if(line.m_inoutline_id == null){
-         return res['resultdata'];
-       }
      }
    } else {
      print(response.statusCode);
@@ -269,6 +294,38 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
 
   }
 
+  completeDocumentDraft()async{
+    Loading(context).show();
+    var ref = await SharedPreferences.getInstance();
+    var usr = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = ref.getString(BASE_URL) ?? "";
+    var response = await http.post("$url$DOC_COMPLETED_MR",
+        headers: {"Forca-Token": usr.token},
+        body:{"m_inout_id": widget.materialReceipt == null ? inOutID.toString() : mrParam.m_inout_id.toString()}).catchError((errr){
+      print(errr);
+    });
+    Navigator.pop(context);
+    if(response !=null){
+      print(response.body);
+      var res = jsonDecode(response.body);
+      if(res["codestatus"]== "S"){
+        // todo: perlu di check
+        var message = res['resultdata'][0]['documentno'];
+        MyDialog(context, "Succes", 'Completed Documentno $message succeeded ', Status.SUCCESS).build(() {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      }else{
+        MyDialog(context,"Failed",res["message"],Status.ERROR).build((){
+          Navigator.pop(context);
+          Navigator.pop(context);
+
+        });
+      }
+    }
+  }
+
   createMR() async {
     if (isNotEmptyHeader()) {
       setParam();
@@ -295,10 +352,17 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
             Navigator.pop(context);
             Navigator.pop(context);
           });
+
         } else {
-          MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
-            Navigator.pop(context);
-          });
+          if(res["message"] == "Error caused by : java.lang.Exception: Quantity of inout cannot exceed the quantity of order"){
+            MyDialog(context, "Failed", "Quantity of inout cannot exceed the quantity of order", Status.ERROR).build(() {
+              Navigator.pop(context);
+            });
+          }else{
+            MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+              Navigator.pop(context);
+            });
+          }
         }
       }
     }
@@ -328,10 +392,14 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
         var message = res['resultdata']['documentno'];
+        this.inOutID = res['resultdata']['m_inout_id'];
         MyDialog(context, "Succes", 'Update documentno $message succeeded', Status.SUCCESS).build(() {
           Navigator.pop(context);
           Navigator.pop(context);
         });
+        if(selectedDocStatus == "Completed"){
+          completeDocumentDraft();
+        }
       } else {
         MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
           Navigator.pop(context);

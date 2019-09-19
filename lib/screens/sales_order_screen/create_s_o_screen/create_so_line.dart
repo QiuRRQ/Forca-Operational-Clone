@@ -63,7 +63,6 @@ class _SOLineState extends State<CreateSOLine> {
     priceController.text.isNotEmpty ? myline.price = double.parse(priceController.text.toString()) : "";
     QtyController.text.isNotEmpty ? myline.qty = QtyController.text.toString() : "";
     discountController.text.isNotEmpty ? myline.discount = int.parse(discountController.text.toString()) : "";
-
     qtyConvertController.text.isNotEmpty ? myline.qtyConversion = qtyConvertController.text.toString() : "";
     QtyController.text.isNotEmpty ? myline.qty = QtyController.text.toString() : "";
   }

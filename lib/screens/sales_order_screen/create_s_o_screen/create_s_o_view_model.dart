@@ -33,6 +33,11 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   List<Line> poLines = List();
   List<SoLine> temp = List();
 
+  int lineNumber = 0; // this for MSC attribute
+  int orderLineID = 0;
+  String selectedDocStatus;
+  int orderID = 0;//end of msc attribute
+
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;
@@ -296,12 +301,16 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       }
       showModalBottomSheet(
           context: context,
-          builder: (_) => CreateSOLine(listTax, (line) {
+          builder: (_) => CreateSOLine(listTax, (line) async {
             setState(() {
               Navigator.pop(context);
-              if(editOrderInfo != null){
-                _updateLine(line);
-              }
+            });
+            if(editOrderInfo != null){
+              await _updateLine(line);
+            }
+            setState(() {
+              line.lineNo = lineNumber.toString();
+              line.idLine = orderLineID;
               soParams.lines[index] = line;
             });
           }, priceList, lineItem));
@@ -347,12 +356,16 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       }
       await showModalBottomSheet(
           context: context,
-          builder: (_) => CreateSOLine(listTax, (line) {
+          builder: (_) => CreateSOLine(listTax, (line) async {
             setState(() {
               Navigator.pop(context);
-              if(editOrderInfo != null){
-                _updateLine(line);
-              }
+            });
+            if(editOrderInfo != null){
+              await _updateLine(line);
+            }
+            setState(() {
+              line.lineNo = lineNumber.toString();
+              line.idLine = orderLineID;
               soParams.lines.add(line);
             });
           }, priceList));
@@ -388,6 +401,16 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
     });
   }
 
+  getDocumentStatus() {
+    List<String> docStatus = ["Completed", "Drafted"];
+    selectDocumentStatus(context, docStatus, (selectedDocStatus) {
+      setState(() {
+        this.selectedDocStatus = selectedDocStatus;
+      });
+      Navigator.pop(context);
+    });
+  }
+
   getPriceList() async {
     selectPriceList(context, (priceList) {
       setState(() {
@@ -395,6 +418,39 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       });
       Navigator.pop(context);
     }, "Y");
+  }
+
+  setComplete()async{
+    var ref = await SharedPreferences.getInstance();
+    var user = User.fromJsonMap(jsonDecode(ref.getString(USER)));
+    var url = "${ref.getString(BASE_URL)}$SET_SOCOMPLETE";
+    var myBody = {
+      "c_order_id": widget.orderItem == null ? orderID.toString() : soParams.orderID.toString()
+    };
+    print("line param : $myBody");
+    var response = await http.post(url, body: myBody, headers: {
+      "Forca-Token": user.token
+    }).catchError((err) {
+      MyDialog(context, "Failed", err.toString(), Status.ERROR).build(() {
+        Navigator.pop(context);
+      });
+    });
+    if (response != null) {
+      print("res complete ${response.body}");
+      var res = jsonDecode(response.body);
+      if (res["codestatus"] == "S") {
+        var message = res['resultdata'][0]['documentno'];
+        MyDialog(context, "Succes",'Completed Documentno $message Succeeded ', Status.SUCCESS).build(() {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      } else {
+        MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
+          Navigator.pop(context);
+        });
+      }
+    }
   }
 
   createSO() async {
@@ -419,10 +475,14 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
         var res = jsonDecode(response.body);
         if (res["codestatus"] == "S") {
           var message = res['resultdata']['documentno'];
+          this.orderID = res['resultdata']['c_order_id'];
           MyDialog(context, "Succes", 'Insert succeeded with documentno $message', Status.SUCCESS).build(() {
             Navigator.pop(context);
             Navigator.pop(context);
           });
+          if(selectedDocStatus == "Completed"){
+            setComplete();
+          }
         } else {
           MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
             Navigator.pop(context);
@@ -460,8 +520,8 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       print("delete line result ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
-        var message = res['resultdata'][0]['line_number'];
-        MyDialog(context, "Succes", "Deleted line number $message", Status.SUCCESS).build(() {
+        var message = res['resultdata']['line_number'];
+        MyDialog(context, "Succes", "Deleted line number ${message.toString()}", Status.SUCCESS).build(() {
           Navigator.pop(context);
           //Navigator.pop(context);
         });
@@ -505,6 +565,9 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
             Navigator.pop(context);
             Navigator.pop(context);
           });
+          if(selectedDocStatus == "Completed"){
+            setComplete();
+          }
         } else {
           MyDialog(context, "Failed", res["message"], Status.ERROR).build(() {
             Navigator.pop(context);
@@ -556,13 +619,14 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
       print("line result ${response.body}");
       var res = jsonDecode(response.body);
       if (res["codestatus"] == "S") {
+        setState(() {
+          lineNumber = res['resultdata']['line_number'];
+          orderLineID = res['resultdata']['c_orderline_id'];
+        });
         MyDialog(context, "Succes", res["message"], Status.SUCCESS).build(() {
           Navigator.pop(context);
           //Navigator.pop(context);
         });
-        if(c.idLine == null){
-          return res["resultdata"];
-        }
       } else {
         if(res["message"] == "Error caused by : org.adempiere.exceptions.AdempiereException: Error: : NotAllowedZeroPrice"){
           MyDialog(context, "Failed", "check price at Line No ${c.lineNo}", Status.ERROR).build(() {

@@ -142,6 +142,47 @@ selectSaleRep(BuildContext context, List<SaleRep> saleReps,
           ));
 }
 
+selectDocumentStatus(BuildContext context, List<String> docStatus,
+    ValueChanged<String> onSelected) {
+  showModalBottomSheet(
+      context: context,
+      builder: (c) => Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              height: 40.0,
+              color: Colors.blue,
+              child: Center(
+                child: forcaText("Select Document Status",
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+                child: ListView.builder(
+                  itemBuilder: (c, i) => Container(
+                    margin: EdgeInsets.only(right: 8.0, left: 8.0),
+                    width: MediaQuery.of(context).size.width,
+                    height: 30.0,
+                    color: i % 2 == 1 ? Colors.grey[300] : Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        onSelected(docStatus[i]);
+                      },
+                      child: Center(
+                        child: forcaText(docStatus[i]),
+                      ),
+                    ),
+                  ),
+                  itemCount: docStatus.length,
+                ))
+          ],
+        ),
+      ));
+}
+
 selectPaymentRule(BuildContext context, List<PaymentRule> paymentRules,
     ValueChanged<PaymentRule> onSelected) {
   showModalBottomSheet(

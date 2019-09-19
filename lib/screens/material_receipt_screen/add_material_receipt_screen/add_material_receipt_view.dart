@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_date.dart';
 import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
-import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt_orderline.dart';
-import 'package:forca_so/models/sales_order/sales_order_param/so_line.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/add_material_receipt_view_model.dart';
 import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/utils/my_dialog.dart';
@@ -214,6 +212,50 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
+                  "Doc. Status *",
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width:
+                      MediaQuery.of(context).size.width -80,
+                      child: Text(
+                        selectedDocStatus == null
+                            ? 'Select Document status'
+                            : selectedDocStatus,
+                        style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.expand_more),
+                        onPressed: () {
+                          getDocumentStatus();
+                        }),
+                  ],
+                ),
+                Container(
+                  height: 1.0,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
                   "Description ",
                   style: TextStyle(
                       fontFamily: "Title",
@@ -248,72 +290,6 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
               ],
             ),
           ),
-//          Container(
-//            width: MediaQuery.of(context).size.width / 2 - 20,
-//            margin: EdgeInsets.only(top: 16.0),
-//            child: Container(
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.start,
-//                children: <Widget>[
-//                  Text(
-//                    "Documaent Status",
-//                    style: TextStyle(
-//                        fontFamily: "Title",
-//                        fontSize: 15.0,
-//                        fontWeight: FontWeight.bold),
-//                  ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                    children: <Widget>[
-//                      Container(
-//                        width: MediaQuery.of(context).size.width - 32,
-//                        child: DropdownButtonHideUnderline(
-//                            child: ButtonTheme(
-//                              alignedDropdown: true,
-//                              child: new DropdownButton(
-//                                value: currentStatus,
-//                                items: dropDownMenuItems,
-//                                onChanged: changedDropDownItem,
-//                              )
-//                            )
-//                        )
-//                      ),
-//
-//                    ],
-//                  ),
-//                  Container(
-//                    height: 1.0,
-//                    color: Colors.grey[600],
-//                  ),
-//                ],
-//              ),
-//            ),
-//          ),
-//          Padding(padding: EdgeInsets.only(top: 20)),
-//          Container(
-//            width: MediaQuery.of(context).size.width,
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                Text(
-//                  "Description",
-//                  style: TextStyle(
-//                      fontFamily: "Title",
-//                      fontSize: 15.0,
-//                      fontWeight: FontWeight.bold),
-//                ),
-//                TextField(
-//                  controller: descriptionController,
-//                  decoration: InputDecoration(
-//                      hintText: 'Input description of Material Receipt'),
-//                  style: TextStyle(
-//                    fontFamily: "Title",
-//                    fontSize: 14.0,
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
           Container(
             margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
             width: MediaQuery.of(context).size.width,

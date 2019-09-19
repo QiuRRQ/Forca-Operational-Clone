@@ -205,6 +205,50 @@ class CreateIMView extends CreateIMViewModel {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
+                  "Doc. Status *",
+                  style: TextStyle(
+                      fontFamily: "Title",
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width:
+                      MediaQuery.of(context).size.width -80,
+                      child: Text(
+                        selectedDocStatus == null
+                            ? 'Select Document status'
+                            : selectedDocStatus,
+                        style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 14.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.expand_more),
+                        onPressed: () {
+                          getDocumentStatus();
+                        }),
+                  ],
+                ),
+                Container(
+                  height: 1.0,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
                   "Description ",
                   style: TextStyle(
                       fontFamily: "Title",

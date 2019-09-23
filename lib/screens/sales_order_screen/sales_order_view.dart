@@ -10,19 +10,22 @@ class SalesOrderView extends SalesOrderViewModel {
   _filter() {
     showModalBottomSheet(
         context: context,
-        builder: (c) => FilterDocument(documentStatus,startDate,endDate,(filterParam) {
+        isScrollControlled: true,
+        builder: (c) => FilterDocument(documentStatus,startDate,endDate,documentNo,(filterParam) {
           Navigator.pop(context);
           page = 1;
           listSO.clear();
           documentStatus = filterParam.documentStatus;
           startDate = filterParam.startDate;
           endDate = filterParam.endDate;
+          documentNo = filterParam.documentNo;
           setState(() {
             isReq = true;
             isFilter= true;
           });
           getSOList();
-        }));
+        })
+    );
   }
 
   _item(SalesOrder so) {

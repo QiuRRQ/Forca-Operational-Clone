@@ -22,6 +22,7 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
   int page = 1;
   String startDate = "Select Date";
   String endDate = "Select Date";
+  String documentNo = "Document No";
   List<MaterialReceipt> listMaterialReceipt = List();
 
   getMaterialReceipts() async {
@@ -33,8 +34,16 @@ abstract class MaterialReceiptViewModel extends State<MaterialReceiptScreen> {
       "status": StatusDocument(documentStatus).getName(),
       "page": page.toString(),
     };
-    if (startDate != "Select Date") myBody.addAll({"datefrom": startDate});
-    if (endDate != "Select Date") myBody.addAll({"dateto": endDate});
+    if (startDate != "Select Date" && startDate.isNotEmpty) {
+      myBody.addAll({"datefrom": startDate});
+    }
+    if (endDate != "Select Date" && endDate.isNotEmpty) {
+      myBody.addAll({"dateto": endDate});
+    }
+    if (documentNo != "Document No" && documentNo.isNotEmpty) {
+      myBody.addAll({"documentno": documentNo});
+      documentNo = "Document No";
+    }
     print(myBody);
     var response = await http
         .post("$url$MATERIAL_RECEIPT",

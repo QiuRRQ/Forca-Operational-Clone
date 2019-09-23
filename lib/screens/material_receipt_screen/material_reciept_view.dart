@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/models/material_receipt/material_receipt.dart';
-import 'package:forca_so/screens/material_receipt_screen/detail_receipt_screen/detail_receipt_screen.dart';
+//import 'package:forca_so/screens/material_receipt_screen/detail_receipt_screen/detail_receipt_screen.dart';
 import 'package:forca_so/screens/material_receipt_screen/material_reciept_view_model.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/add_material_receipt_screen.dart';
 import 'package:forca_so/utils/document_status.dart';
@@ -208,13 +208,14 @@ class MaterialReceiptView extends MaterialReceiptViewModel {
   _filter() {
     showModalBottomSheet(
         context: context,
-        builder: (c) => FilterDocument(documentStatus,startDate,endDate,(filterParam) {
+        builder: (c) => FilterDocument(documentStatus,startDate,endDate,documentNo,(filterParam) {
           Navigator.pop(context);
           page = 1;
           listMaterialReceipt.clear();
           documentStatus = filterParam.documentStatus;
           startDate = filterParam.startDate;
           endDate = filterParam.endDate;
+          documentNo = filterParam.documentNo;
           setState(() {
             isReq = true;
             isFilter = true;

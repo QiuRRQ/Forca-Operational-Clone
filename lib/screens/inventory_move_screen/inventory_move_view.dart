@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/filter_document.dart';
 import 'package:forca_so/models/inventory_move/inventory_move.dart';
-import 'package:forca_so/models/inventory_move/inventory_move_detail/inventorymove_detail.dart';
+//import 'package:forca_so/models/inventory_move/inventory_move_detail/inventorymove_detail.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/create_i_m_screen.dart';
 import 'package:forca_so/screens/inventory_move_screen/inventory_move_view_model.dart';
 import 'package:forca_so/utils/document_status.dart';
@@ -12,13 +12,14 @@ class InventoryMoveView extends InventoryMoveViewModel {
     showModalBottomSheet(
         context: context,
         builder: (c) =>
-           new FilterDocument(documentStatus, startDate, endDate, (filterParam) {
+           new FilterDocument(documentStatus, startDate, endDate, documentNo, (filterParam) {
               Navigator.pop(context);
               page = 1;
               listInventoryMove.clear();
               documentStatus = filterParam.documentStatus;
               startDate = filterParam.startDate;
               endDate = filterParam.endDate;
+              documentNo = filterParam.documentNo;
               setState(() {
                 isReq = true;
                 isFilter = true;

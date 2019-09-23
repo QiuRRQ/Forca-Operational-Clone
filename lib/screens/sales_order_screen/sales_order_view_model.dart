@@ -20,6 +20,7 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
   int page = 1;
   String startDate = "Select Date";
   String endDate = "Select Date";
+  String documentNo = "Document No";
   bool isFilter= false;
 
   getSOList() async {
@@ -37,6 +38,10 @@ abstract class SalesOrderViewModel extends State<SalesOrderScreen> {
     }
     if (endDate != "Select Date" && endDate.isNotEmpty) {
       myBody.addAll({"dateto": endDate});
+    }
+    if (documentNo != "Document No" && documentNo.isNotEmpty) {
+      myBody.addAll({"documentno": documentNo});
+      documentNo = "Document No";
     }
     print("myBody $myBody");
     var response = await http.post("$url$LIST_SO",

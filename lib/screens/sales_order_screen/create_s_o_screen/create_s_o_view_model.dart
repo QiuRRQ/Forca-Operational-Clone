@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:forca_so/models/document_type/doctype.dart';
 import 'package:forca_so/models/payment_rule/payment_rule.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
@@ -41,6 +42,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;
+  DocType docType;
   Product product;
   SaleRep saleRep;
   PaymentRule paymentRule;
@@ -260,6 +262,19 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
         this.bPartner = bPartner;
       });
       Navigator.pop(context);
+    });
+  }
+
+  getDocumentType() async {
+    Loading(context).show();
+    await reqDocType(docBaseType: "SOO", isSoTrx: "Y", docSubTypeSo: "N").then((listDocType) {
+      Navigator.pop(context);
+      selectDocType(context, listDocType, (docType) {
+        setState(() {
+          this.docType = docType;
+        });
+        Navigator.pop(context);
+      });
     });
   }
 

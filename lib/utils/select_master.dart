@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/select_bussines_partner.dart';
+import 'package:forca_so/master/select_doc_type.dart';
 import 'package:forca_so/master/select_order.dart';
 import 'package:forca_so/master/select_pricelist.dart';
 import 'package:forca_so/master/select_product.dart';
 import 'package:forca_so/master/select_productOrdered.dart';
 import 'package:forca_so/master/select_warehouse.dart';
+import 'package:forca_so/models/document_type/doctype.dart';
 import 'package:forca_so/models/payment_rule/payment_rule.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
 import 'package:forca_so/models/product/product.dart';
@@ -79,6 +81,46 @@ selectBPartner(BuildContext context,ValueChanged<BPartner> onSelected) {
       builder: (_) => AlertDialog(
             content: SelectBPartner(onSelected),
           ));
+}
+
+selectDocType(BuildContext context, List<DocType> documentType,ValueChanged<DocType> onSelected) {
+  showModalBottomSheet(
+      context: context,
+      builder: (c) => Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              height: 40.0,
+              color: Colors.blue,
+              child: Center(
+                child: forcaText("Select Payment Rule",
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+                child: ListView.builder(
+                  itemBuilder: (c, i) => Container(
+                    margin: EdgeInsets.only(right: 8.0, left: 8.0),
+                    width: MediaQuery.of(context).size.width,
+                    height: 30.0,
+                    color: i % 2 == 1 ? Colors.grey[300] : Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        onSelected(documentType[i]);
+                      },
+                      child: Center(
+                        child: forcaText(documentType[i].name),
+                      ),
+                    ),
+                  ),
+                  itemCount: documentType.length,
+                ))
+          ],
+        ),
+      ));
 }
 
 selectOrderItem(BuildContext context, Warehouse warehouse,

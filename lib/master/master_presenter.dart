@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:forca_so/models/document_type/doctype.dart';
+import 'package:forca_so/models/document_type/doctype_response.dart';
 import 'package:forca_so/models/locator/locator.dart';
 import 'package:forca_so/models/locator/locator_response.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
@@ -77,6 +79,32 @@ Future<List<BPartner>> reqBPartner(
     }
   }
   return bPartners;
+}
+
+Future<List<DocType>> reqDocType(
+    {String page, int perPage, String keyWord, String docBaseType, String isSoTrx, String docSubTypeSo}) async {
+  List<DocType> docType = List();
+  var myBody = {
+    "docbasetype": (docBaseType ?? "").toString(),
+    "issotrx": (isSoTrx ?? "").toString(),
+    "docsubtypeso": (docSubTypeSo ?? "").toString()
+  };
+  print("myBOdy ${myBody.toString()}");
+  var ref = await SharedPreferences.getInstance();
+  var user = User.fromJsonMap(jsonDecode(ref.getString(USER))) ?? null;
+  var url = "${ref.getString(BASE_URL)}$LIST_DOC_TYPE";
+  var response = await http.post(
+    url,
+    body: myBody,
+    headers: {"Forca-Token": user.token},
+  ).catchError((err) => print("error ${err.toString()}"));
+  if (response.statusCode == 200) {
+    Map res = jsonDecode(response.body);
+    if (res["codestatus"] == "S") {
+      return DocTypeResponse.fromJsonMap(res).docType;
+    }
+  }
+  return docType;
 }
 
 Future<List<Product>> reqProduct(

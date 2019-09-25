@@ -10,7 +10,7 @@ class SelectDocType extends StatefulWidget {
   final String isSoTrx;
   final String docSubTypeSo;
 
-  SelectDocType(this.onSelected, this.docBaseType, this.isSoTrx, this.docSubTypeSo);
+  SelectDocType(this.onSelected, {this.docBaseType, this.isSoTrx, this.docSubTypeSo});
 
   @override
   _SelectDocTypeState createState() => _SelectDocTypeState(onSelected, docBaseType, isSoTrx, docSubTypeSo);

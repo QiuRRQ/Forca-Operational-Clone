@@ -112,11 +112,7 @@ class HomeView extends HomeViewModel {
                         height: 80,
                       ),
                       Text(
-                        "Cong Fandi",
-                        style: TextStyle(fontFamily: "Title"),
-                      ),
-                      Text(
-                        "congfandi@gmail.com",
+                        user == null ? "" : user.userName,
                         style: TextStyle(fontFamily: "Title"),
                       ),
                     ],
@@ -132,6 +128,8 @@ class HomeView extends HomeViewModel {
               ),
               onTap: () {
                 Navigator.pop(context);
+                settingUrl();
+
               },
             ),
             ListTile(

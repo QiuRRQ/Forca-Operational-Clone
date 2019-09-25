@@ -7,6 +7,11 @@ import 'package:forca_so/utils/my_dialog.dart';
 
 class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
   _body() {
+    mrLine.clear();
+    mrParam.list_line.forEach((line) {
+      mrLine.add(_lineItem(line));
+    });
+
     return Container(
       child: ListView(
         children: <Widget>[
@@ -206,45 +211,99 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
             ],
           ),
           Container(
-            width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.only(top: 16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Doc. Status *",
-                  style: TextStyle(
-                      fontFamily: "Title",
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      width:
-                      MediaQuery.of(context).size.width -80,
-                      child: Text(
-                        selectedDocStatus == null
-                            ? 'Select Document status'
-                            : selectedDocStatus,
-                        style: TextStyle(
-                          fontFamily: "Title",
-                          fontSize: 14.0,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                      width: MediaQuery.of(context).size.width / 2 - 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Doc. Status *",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width / 2 - 70,
+                                child: Text(
+                                  selectedDocStatus == null
+                                      ? 'Select Document status'
+                                      : selectedDocStatus,
+                                  style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 14.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.expand_more),
+                                  onPressed: () {
+                                    getDocumentStatus();
+                                  }),
+                            ],
+                          ),
+                          Container(
+                            height: 1.0,
+                            color: Colors.grey[600],
+                          ),
+                        ],
                       ),
                     ),
-                    IconButton(
-                        icon: Icon(Icons.expand_more),
-                        onPressed: () {
-                          getDocumentStatus();
-                        }),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Doc. Type *",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width / 2 - 70,
+                                child: Text(
+                                  docType == null
+                                      ? 'Select Document Type'
+                                      : docType.name,
+                                  style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 14.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.expand_more),
+                                  onPressed: () {
+                                    getDocumentType();
+                                  }),
+                            ],
+                          ),
+                          Container(
+                            height: 1.0,
+                            color: Colors.grey[600],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
-                ),
-                Container(
-                  height: 1.0,
-                  color: Colors.grey[600],
                 ),
               ],
             ),
@@ -308,10 +367,9 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
                 ],
               ))
               : Container(
-            height: 1000,
-            child: ListView.builder(
-              itemBuilder: (c, i) => _lineItem(mrParam.list_line[i], index: i),
-              itemCount: mrParam.list_line.length,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: mrLine,
             ),
           ),
         ],

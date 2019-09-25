@@ -7,6 +7,11 @@ import 'package:forca_so/utils/my_dialog.dart';
 
 class CreateSOView extends CreateSOViewModel {
   _body() {
+    soLine.clear();
+    soParams.lines.forEach((line) {
+      soLine.add(_lineItem(line));
+    });
+
     return Container(
       child: ListView(
         children: <Widget>[
@@ -372,9 +377,9 @@ class CreateSOView extends CreateSOViewModel {
                                 width:
                                 MediaQuery.of(context).size.width / 2 - 70,
                                 child: Text(
-                                  paymentRule == null
+                                  docType == null
                                       ? 'Select Document Type'
-                                      : paymentRule.name,
+                                      : docType.name,
                                   style: TextStyle(
                                     fontFamily: "Title",
                                     fontSize: 14.0,
@@ -461,11 +466,15 @@ class CreateSOView extends CreateSOViewModel {
                 ],
               ))
               : Container(
-            height: 1000,
-            child: ListView.builder(
-              itemBuilder: (c, i) => _lineItem(soParams.lines[i], index: i),
-              itemCount: soParams.lines.length,
-            ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: soLine,
+              ),
+//            height: 1000,
+//            child: ListView.builder(
+//              itemBuilder: (c, i) => _lineItem(soParams.lines[i], index: i),
+//              itemCount: soParams.lines.length,
+//            ),
           ),
         ],
       ),

@@ -83,7 +83,7 @@ selectBPartner(BuildContext context,ValueChanged<BPartner> onSelected) {
           ));
 }
 
-selectDocType(BuildContext context, List<DocType> documentType,ValueChanged<DocType> onSelected) {
+selectDocType(BuildContext context,List<DocType> listDocType, ValueChanged<DocType> onSelected) {
   showModalBottomSheet(
       context: context,
       builder: (c) => Container(
@@ -94,7 +94,7 @@ selectDocType(BuildContext context, List<DocType> documentType,ValueChanged<DocT
               height: 40.0,
               color: Colors.blue,
               child: Center(
-                child: forcaText("Select Payment Rule",
+                child: forcaText("Select Sales Rep",
                     fontSize: 20.0,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
@@ -109,14 +109,14 @@ selectDocType(BuildContext context, List<DocType> documentType,ValueChanged<DocT
                     color: i % 2 == 1 ? Colors.grey[300] : Colors.white,
                     child: InkWell(
                       onTap: () {
-                        onSelected(documentType[i]);
+                        onSelected(listDocType[i]);
                       },
                       child: Center(
-                        child: forcaText(documentType[i].name),
+                        child: forcaText(listDocType[i].name),
                       ),
                     ),
                   ),
-                  itemCount: documentType.length,
+                  itemCount: listDocType.length,
                 ))
           ],
         ),

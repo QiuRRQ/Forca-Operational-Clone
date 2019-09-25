@@ -155,6 +155,8 @@ class DetailReceiptView extends DetailReceiptViewModel {
                 mainAxisSize: MainAxisSize.min,
                 children: linesWidget,
               ),
+              Divider(),
+              Padding(padding: EdgeInsets.only(bottom: 35.0)),
             ],
           ),
           docNumer.status == "Drafted" ? _buttonAction() : Container(height: 10,)

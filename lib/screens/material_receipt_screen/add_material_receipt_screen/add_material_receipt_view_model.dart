@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:forca_so/models/document_type/doctype.dart';
 import 'package:forca_so/models/locator/locator.dart';
 import 'package:forca_so/models/material_receipt/MR_param/mr_line.dart';
 import 'package:forca_so/models/material_receipt/detail_material_receipt/detail_material_receipt.dart';
@@ -21,11 +22,13 @@ import 'package:forca_so/utils/string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScreen> {
-  List<MrLine> lines =List();
+  List<MrLine> lines = List();
+  List<Widget> mrLine = List();
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Warehouse warehouse;
   BPartner bPartner;
+  DocType docType;
   SalesOrder selectedOrder;
   DetailMaterialReceipt editInfoMaterialReceipt;
 
@@ -113,6 +116,20 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
       Navigator.pop(context);
     });
   }
+
+  getDocumentType() async {
+    Loading(context).show();
+    await reqDocType(docBaseType: "MMR").then((listDocTypes) {
+      Navigator.pop(context);
+      selectDocType(context, listDocTypes, (docType) {
+        setState(() {
+          this.docType = docType;
+        });
+        Navigator.pop(context);
+      });
+    });
+  }
+
 
   _getBPartner() async{
     Loading(context).show();

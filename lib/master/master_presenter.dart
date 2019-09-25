@@ -82,7 +82,7 @@ Future<List<BPartner>> reqBPartner(
 }
 
 Future<List<DocType>> reqDocType(
-    {String page, int perPage, String keyWord, String docBaseType, String isSoTrx, String docSubTypeSo}) async {
+    {String keyWord, String docBaseType, String isSoTrx, String docSubTypeSo}) async {
   List<DocType> docType = List();
   var myBody = {
     "docbasetype": (docBaseType ?? "").toString(),

@@ -235,6 +235,8 @@ class DetailSOView extends DetailSOViewModel {
                 mainAxisSize: MainAxisSize.min,
                 children: linesWidget,
               ),
+              Divider(),
+              Padding(padding: EdgeInsets.only(bottom: 35.0)),
             ],
           ),
           salesOrder.status == "Drafted" ? _buttonAction() : Container(height: 10,)
@@ -242,6 +244,7 @@ class DetailSOView extends DetailSOViewModel {
       ),
     );
   }
+
   _buttonAction(){
     return Container(
       margin: EdgeInsets.only(top: 24.0),
@@ -266,6 +269,7 @@ class DetailSOView extends DetailSOViewModel {
       ),
     );
   }
+
   _lineItem(OrderLine orderLine) {
     return Container(
       height: 180,

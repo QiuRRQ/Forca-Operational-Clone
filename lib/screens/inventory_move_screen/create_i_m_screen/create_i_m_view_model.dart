@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/master_presenter.dart';
 import 'package:forca_so/models/bpartner/bpartner.dart';
+import 'package:forca_so/models/document_type/doctype.dart';
 import 'package:forca_so/models/inventory_move/create_inventory_move/create_iventory_move_param.dart';
 import 'package:forca_so/models/inventory_move/create_inventory_move/list_line.dart';
 import 'package:forca_so/models/inventory_move/inventory_move.dart';
@@ -24,9 +24,12 @@ import 'package:http/http.dart' as http;
 abstract class CreateIMViewModel extends State<CreateIMScreen> {
   // Add your state and logic here
   List<ListLine> temp = List();
+  List<Widget> imLine = List();
+
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   SaleRep saleRep;
   BPartner bpartner;
+  DocType docType;
   InventoryMoveDetail editInventoryMoveInfo;
   CreateIventoryMoveParam imParam = CreateIventoryMoveParam();
   bool checkTransit;
@@ -89,6 +92,19 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
         this.bpartner = bPartner;
       });
       Navigator.pop(context);
+    });
+  }
+
+  getDocumentType() async {
+    Loading(context).show();
+    await reqDocType(docBaseType: "MMM").then((listDocTypes) {
+      Navigator.pop(context);
+      selectDocType(context, listDocTypes, (docType) {
+        setState(() {
+          this.docType = docType;
+        });
+        Navigator.pop(context);
+      });
     });
   }
 

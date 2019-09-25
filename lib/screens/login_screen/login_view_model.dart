@@ -73,6 +73,7 @@ abstract class LoginViewModel extends State<LoginScreen> {
         if (res["codestatus"] == "S") {
           UserResponse userResponse = UserResponse.fromJsonMap(res);
           saveToken(userResponse.user);
+
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (c) => HomeScreen()));
         } else {
@@ -152,6 +153,7 @@ abstract class LoginViewModel extends State<LoginScreen> {
 
   @override
   void initState() {
+    saveUrl("https://qa.forca.id:8888");
     super.initState();
   }
 }

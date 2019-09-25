@@ -33,6 +33,7 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
 
   List<Line> poLines = List();
   List<SoLine> temp = List();
+  List<Widget> soLine = List();
 
   int lineNumber = 0; // this for MSC attribute
   int orderLineID = 0;
@@ -267,9 +268,9 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
 
   getDocumentType() async {
     Loading(context).show();
-    await reqDocType(docBaseType: "SOO", isSoTrx: "Y", docSubTypeSo: "N").then((listDocType) {
+    await reqDocType(docBaseType: "SOO", isSoTrx: "Y", docSubTypeSo: "N").then((listDocTypes) {
       Navigator.pop(context);
-      selectDocType(context, listDocType, (docType) {
+      selectDocType(context, listDocTypes, (docType) {
         setState(() {
           this.docType = docType;
         });

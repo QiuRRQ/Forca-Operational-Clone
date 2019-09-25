@@ -178,6 +178,8 @@ class DetailIMView extends DetailIMViewModel {
                     mainAxisSize: MainAxisSize.min,
                     children: linesWidget,
                   ),
+                  Divider(),
+                  Padding(padding: EdgeInsets.only(bottom: 35.0)),
                 ],
               ),
             inventoryMoveDetail.status == "Drafted" ? _buttonAction() : Container(height: 10,)

@@ -13,364 +13,369 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
     });
 
     return Container(
-      child: ListView(
+      margin: EdgeInsets.all(16.0),
+      child:
+      Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Warehouse *",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  warehouse == null
-                                      ? 'Select Warehouse'
-                                      : warehouse.name,
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {
-                                    getWarehouse();
-                                  }),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "BPartner *",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  bPartner == null
-                                      ? 'Select BPartner'
-                                      : bPartner.name,
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {
-                                    getBPartner();
-                                  }),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ListView(
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width / 2 - 20,
                 margin: EdgeInsets.only(top: 16.0),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Order Item *",
-                        style: TextStyle(
-                            fontFamily: "Title",
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2 - 70,
-                            child: Text(
-                              selectedOrder == null
-                                  ? 'Select Order Item'
-                                  : selectedOrder.documentNO ?? "",
-                              style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 14.0,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2 - 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Warehouse *",
+                                style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                    MediaQuery.of(context).size.width / 2 - 70,
+                                    child: Text(
+                                      warehouse == null
+                                          ? 'Select Warehouse'
+                                          : warehouse.name,
+                                      style: TextStyle(
+                                        fontFamily: "Title",
+                                        fontSize: 14.0,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(Icons.expand_more),
+                                      onPressed: () {
+                                        getWarehouse();
+                                      }),
+                                ],
+                              ),
+                              Container(
+                                height: 1.0,
+                                color: Colors.grey[600],
+                              ),
+                            ],
                           ),
-                          IconButton(
-                              icon: Icon(Icons.expand_more),
-                              onPressed: () {
-                                getOrder();
-                              }),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2 - 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "BPartner *",
+                                style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                    MediaQuery.of(context).size.width / 2 - 70,
+                                    child: Text(
+                                      bPartner == null
+                                          ? 'Select BPartner'
+                                          : bPartner.name,
+                                      style: TextStyle(
+                                        fontFamily: "Title",
+                                        fontSize: 14.0,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(Icons.expand_more),
+                                      onPressed: () {
+                                        getBPartner();
+                                      }),
+                                ],
+                              ),
+                              Container(
+                                height: 1.0,
+                                color: Colors.grey[600],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 20,
+                    margin: EdgeInsets.only(top: 16.0),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Order Item *",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2 - 70,
+                                child: Text(
+                                  selectedOrder == null
+                                      ? 'Select Order Item'
+                                      : selectedOrder.documentNO ?? "",
+                                  style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 14.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.expand_more),
+                                  onPressed: () {
+                                    getOrder();
+                                  }),
+                            ],
+                          ),
+                          Container(
+                            height: 1.0,
+                            color: Colors.grey[600],
+                          ),
                         ],
                       ),
-                      Container(
-                        height: 1.0,
-                        color: Colors.grey[600],
-                      ),
-                    ],
+                    ),
                   ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 20,
+                    margin: EdgeInsets.only(top: 16.0),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Movement Date *",
+                            style: TextStyle(
+                                fontFamily: "Title",
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2 - 70,
+                                child: Text(
+                                  mrParam.movementdate,
+                                  style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 14.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.expand_more),
+                                  onPressed: () {
+                                    selectDate(context, (date) {
+                                      setState(() {
+                                        mrParam.movementdate = date;
+                                      });
+                                    });
+                                  }),
+                            ],
+                          ),
+                          Container(
+                            height: 1.0,
+                            color: Colors.grey[600],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 16.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1 - 32,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Doc. Type *",
+                                style: TextStyle(
+                                    fontFamily: "Title",
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                    MediaQuery.of(context).size.width / 2 - 70,
+                                    child: Text(
+                                      docType == null
+                                          ? 'Select Document Type'
+                                          : docType.name,
+                                      style: TextStyle(
+                                        fontFamily: "Title",
+                                        fontSize: 14.0,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(Icons.expand_more),
+                                      onPressed: () {
+                                        getDocumentType();
+                                      }),
+                                ],
+                              ),
+                              Container(
+                                height: 1.0,
+                                color: Colors.grey[600],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width / 2 - 20,
+                width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 16.0),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Movement Date *",
-                        style: TextStyle(
-                            fontFamily: "Title",
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2 - 70,
-                            child: Text(
-                              mrParam.movementdate,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Description ",
+                      style: TextStyle(
+                          fontFamily: "Title",
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                            width: MediaQuery.of(context).size.width /1 -37,
+                            child: TextField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 3,
+                              controller: descriptionController,
                               style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 14.0,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                                  fontSize:  14.0,
+                                  color: Colors.black,
+                                  fontFamily: "Title"
+                              ),decoration: InputDecoration(
+                              hintText: mrParam.description == null ? "description" : mrParam.description,
                             ),
-                          ),
-                          IconButton(
-                              icon: Icon(Icons.expand_more),
-                              onPressed: () {
-                                selectDate(context, (date) {
-                                  setState(() {
-                                    mrParam.movementdate = date;
-                                  });
-                                });
-                              }),
-                        ],
-                      ),
-                      Container(
-                        height: 1.0,
-                        color: Colors.grey[600],
-                      ),
-                    ],
-                  ),
+
+                            )
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 1.0,
+                      color: Colors.grey[600],
+                    ),
+                  ],
                 ),
               ),
+              Container(
+                margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                width: MediaQuery.of(context).size.width,
+                child: forcaText("MR Line",
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.bold,
+                    align: TextAlign.center),
+              ),
+              mrParam.list_line.isEmpty
+                  ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      forcaText("MR Line is Empty", fontSize: 17.0),
+                    ],
+                  ))
+                  : Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: mrLine,
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 55.0)),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Doc. Status *",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  selectedDocStatus == null
-                                      ? 'Select Document status'
-                                      : selectedDocStatus,
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {
-                                    getDocumentStatus();
-                                  }),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Doc. Type *",
-                            style: TextStyle(
-                                fontFamily: "Title",
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 2 - 70,
-                                child: Text(
-                                  docType == null
-                                      ? 'Select Document Type'
-                                      : docType.name,
-                                  style: TextStyle(
-                                    fontFamily: "Title",
-                                    fontSize: 14.0,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.expand_more),
-                                  onPressed: () {
-                                    getDocumentType();
-                                  }),
-                            ],
-                          ),
-                          Container(
-                            height: 1.0,
-                            color: Colors.grey[600],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Description ",
-                  style: TextStyle(
-                      fontFamily: "Title",
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width /1 -37,
-                        child: TextField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 3,
-                          controller: descriptionController,
-                          style: TextStyle(
-                              fontSize:  14.0,
-                              color: Colors.black,
-                              fontFamily: "Title"
-                          ),decoration: InputDecoration(
-                          hintText: mrParam.description == null ? "description" : mrParam.description,
-                        ),
+          _buttonAction(),
+        ],
+      ),
+    );
+  }
 
-                        )
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 1.0,
-                  color: Colors.grey[600],
-                ),
-              ],
-            ),
+  _buttonAction(){
+    return Container(
+      margin: EdgeInsets.only(top: 24.0),
+      height: 50.0,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+              width: (MediaQuery.of(context).size.width / 2) - 30,
+              child:
+              forcaButton(forcaText( widget.materialReceipt == null ?"Create MR" : "Save MR", color: Colors.white), () {
+                if(widget.materialReceipt == null){
+                  if (mrParam.list_line.isNotEmpty) {
+                    showDialogDocStatus();
+//                    createMR();
+                  } else {
+                    MyDialog(context, "FAILED", "Please add line", Status.ERROR)
+                        .build(() {
+                      Navigator.pop(context);
+                    });
+                  }
+                }else{
+                  updateMR();
+                }
+              }, color: Colors.blue)
           ),
           Container(
-            margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
-            width: MediaQuery.of(context).size.width,
-            child: forcaText("MR Line",
-                fontSize: 17.0,
-                fontWeight: FontWeight.bold,
-                align: TextAlign.center),
-          ),
-          mrParam.list_line.isEmpty
-              ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  forcaText("MR Line is Empty", fontSize: 17.0),
-                  forcaText("Press '+' to add line", fontSize: 12.0),
-                ],
-              ))
-              : Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: mrLine,
-            ),
+              width: (MediaQuery.of(context).size.width / 2) - 30,
+              child:
+              forcaButton(forcaText("Add Line", color: Colors.white), () {
+                getMasterLine();
+              },
+                  color: Colors.blue)
           ),
         ],
       ),
@@ -646,52 +651,14 @@ class AddMaterialReceiptView extends AddMaterialReceiptViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
-      key: scaffoldKey,
-      appBar: AppBar(
-        centerTitle: true,
-        title: _title(),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.add,
-                size: 30.0,
-              ),
-              onPressed: () => getMasterLine())
-        ],
-      ),
-      body: Container(
-        margin: EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 9,
-              child: _body(),
-            ),
-            Expanded(
-              flex: 1,
-              child: forcaButton(forcaText( widget.materialReceipt == null ?"Create MR" : "Save MR", color: Colors.white), () {
-                if(widget.materialReceipt == null){
-                  if (mrParam.list_line.isNotEmpty) {
-                    createMR();
-                  } else {
-                    MyDialog(context, "FAILED", "Please add line", Status.ERROR)
-                        .build(() {
-                      Navigator.pop(context);
-                    });
-                  }
-                }else{
-                  updateMR();
-                }
-              },
-                  color: Colors.blue,
-                  height: 50.0,
-                  width: 200.0,
-                  margin: EdgeInsets.only(top: 20.0)),
-            )
-          ],
+        resizeToAvoidBottomPadding: true,
+        key: scaffoldKey,
+        appBar: AppBar(
+          centerTitle: true,
+          title: _title(),
         ),
-      ),
+        body:_body()
     );
   }
+
 }

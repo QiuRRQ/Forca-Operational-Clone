@@ -8,6 +8,7 @@ import 'package:forca_so/models/material_receipt/detail_material_receipt/receipt
 import 'package:forca_so/models/material_receipt/material_receipt.dart';
 import 'package:forca_so/models/sales_order/sales_order.dart';
 import 'package:forca_so/screens/material_receipt_screen/add_material_receipt_screen/create_mr_line.dart';
+import 'package:forca_so/utils/forca_assets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:forca_so/master/master_presenter.dart';
@@ -383,6 +384,8 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
         }
       }
     }
+
+    selectedDocStatus = null;
   }
 
   updateMR() async{
@@ -424,6 +427,54 @@ abstract class AddMaterialReceiptViewModel extends State<AddMaterialReceiptScree
         });
       }
     }
+  }
+
+  showDialogDocStatus(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+          content: Container(
+            padding: EdgeInsets.all(6.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: forcaText("Set document as complete?",
+                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child:
+                      forcaButton(
+                          forcaText("Yes", color: Colors.white), () => setSelectedDocStatus("Completed")),
+                    ),
+                    Container(
+                      child: forcaButton(forcaText("No", color: Colors.white), () => setSelectedDocStatus("Drafted"),
+                          color: Colors.red),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  setSelectedDocStatus(String s) {
+    Navigator.pop(context);
+    selectedDocStatus = s;
+    createMR();
   }
 
   delete(MrLine line){

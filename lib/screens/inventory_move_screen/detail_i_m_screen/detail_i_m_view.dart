@@ -517,21 +517,7 @@ class DetailIMView extends DetailIMViewModel {
         ),
       ),
       body:_body()
-//      Container(
-//        margin: EdgeInsets.only(bottom: 16.0),
-//        child: Column(
-//          children: <Widget>[
-//            Expanded(
-//              flex: 9,
-//              child: _body(),
-//            ),
-//            Expanded(
-//              flex: 1,
-//              child: inventoryMoveDetail.status == "Drafted" ? _buttonAction() : Container(height: 10,),
-//            )
-//          ],
-//        ),
-//      ),
     );
   }
+
 }

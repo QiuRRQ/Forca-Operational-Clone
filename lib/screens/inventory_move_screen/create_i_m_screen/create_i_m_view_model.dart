@@ -14,6 +14,7 @@ import 'package:forca_so/models/sale_rep/sale_rep.dart';
 import 'package:forca_so/models/user/user.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/create_i_m_line.dart';
 import 'package:forca_so/screens/inventory_move_screen/create_i_m_screen/create_i_m_screen.dart';
+import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/utils/my_dialog.dart';
 import 'package:forca_so/utils/select_master.dart';
 import 'package:forca_so/utils/string.dart';
@@ -307,6 +308,54 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
     }
   }
 
+  showDialogDocStatus(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+          content: Container(
+            padding: EdgeInsets.all(6.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: forcaText("Set document as complete?",
+                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child:
+                      forcaButton(
+                          forcaText("Yes", color: Colors.white), () => setSelectedDocStatus("Completed")),
+                    ),
+                    Container(
+                      child: forcaButton(forcaText("No", color: Colors.white), () => setSelectedDocStatus("Drafted"),
+                          color: Colors.red),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  setSelectedDocStatus(String s) {
+    Navigator.pop(context);
+    selectedDocStatus = s;
+    createImDraft();
+  }
+
   delete(ListLine line){
     setState(() {
       imParam.list_line.remove(line);
@@ -418,7 +467,9 @@ abstract class CreateIMViewModel extends State<CreateIMScreen> {
           }
         }
       }
-  }
+    }
+
+    selectedDocStatus = null;
   }
 
   getEditDetailInventoryMoveInfo(InventoryMove inventoryMove) async{

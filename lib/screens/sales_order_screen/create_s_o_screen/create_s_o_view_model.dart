@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:forca_so/utils/forca_assets.dart';
 import 'package:forca_so/models/document_type/doctype.dart';
 import 'package:forca_so/models/payment_rule/payment_rule.dart';
 import 'package:forca_so/models/price_list/price_list.dart';
@@ -506,6 +507,56 @@ abstract class CreateSOViewModel extends State<CreateSOScreen> {
         }
       }
     }
+
+    selectedDocStatus = null;
+  }
+
+  showDialogDocStatus(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+          content: Container(
+            padding: EdgeInsets.all(6.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: forcaText("Set document as complete?",
+                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Padding(padding: EdgeInsets.only(top: 16.0)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child:
+                      forcaButton(
+                          forcaText("Yes", color: Colors.white), () => setSelectedDocStatus("Completed")),
+                    ),
+                    Container(
+                      child: forcaButton(forcaText("No", color: Colors.white), () => setSelectedDocStatus("Drafted"),
+                          color: Colors.red),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  setSelectedDocStatus(String s) {
+    Navigator.pop(context);
+    selectedDocStatus = s;
+    createSO();
   }
 
   delete(SoLine line){

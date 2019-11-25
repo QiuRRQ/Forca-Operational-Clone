@@ -107,8 +107,8 @@ class HomeView extends HomeViewModel {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Image.network(
-                        'https://sisi.id/wp-content/uploads/6016/11/Logo-SISI-800x481-e1478515725941.png',
+                      Image.asset(
+                        'assets/images/logo_forca.png',
                         height: 80,
                       ),
                       Text(

@@ -26,7 +26,7 @@ class AboutAppView extends AboutAppViewModel {
                     color: Colors.blue),
               ),
               Text(
-                'Versi 1.0.0',
+                'Versi $versionName',
                 style: TextStyle(
                     fontFamily: "Title",
                     fontSize: 15.0,

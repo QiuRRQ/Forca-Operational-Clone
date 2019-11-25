@@ -19,7 +19,7 @@ class SplashScreenView extends SplashViewModel {
               ),
             ),
             Text(
-              APP_VERSION_NAME,
+              versionName,
               style: TITLE_STYLE,
             ),
           ],
